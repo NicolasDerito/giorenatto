@@ -184,6 +184,10 @@
   .modal-cat{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--salvia-dark);margin-bottom:10px}
   .modal-info h3{font-size:1.8rem;font-weight:500;color:var(--ink);line-height:1.1;margin-bottom:12px}
   .modal-price{font-family:'Fraunces';font-weight:600;font-size:2.1rem;color:var(--oso-deep);margin-bottom:18px}
+  .modal-colores{display:flex;gap:10px;margin-bottom:18px}
+  .color-thumb{width:56px;height:56px;border-radius:12px;overflow:hidden;border:2px solid var(--line);cursor:pointer;padding:0;background:var(--surface);transition:all .15s}
+  .color-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .color-thumb.on{border-color:var(--salvia-dark);box-shadow:0 0 0 2px var(--salvia)}
   .modal-meta{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;font-size:.92rem}
   .modal-meta .row{display:flex;gap:8px;color:var(--ink-2)}
   .modal-meta .row b{color:var(--ink);font-weight:700;min-width:70px}
@@ -366,7 +370,7 @@ const PRODUCTOS=[
   {id:"GIO-0015",nombre:"Vestido",cat:"Vestidos",talle:"6 a 36 M",precio:25900,stock:3,desc:"Vestido de bebé, tela suave y liviana."},
   {id:"GIO-0007",nombre:"Pantalón Cargo Ripstop",cat:"Pantalones",talle:"12/36",precio:23900,stock:1,desc:"Pantalón cargo ripstop, resistente y con estilo."},
   {id:"GIO-0008",nombre:"Remera Bebé/a",cat:"Remeras",talle:"12/36",precio:24900,stock:3,desc:"Remera de bebé unisex, algodón suave."},
-  {id:"GIO-0040",nombre:"Remera Positive and Happy",cat:"Remeras",talle:"T2 T4 T6",precio:0,stock:0,desc:"Remera niño algodón m/corta. Estampa con glitter \"Positive and Happy\" con flores. Colores: rosa, verde, amarillo.",img:"assets/products/remera-positive-happy.jpg"},
+  {id:"GIO-0040",nombre:"Remera Positive and Happy",cat:"Remeras",talle:"T2 T4 T6",precio:0,stock:0,desc:"Remera niño algodón m/corta. Estampa con glitter \"Positive and Happy\" con flores. Disponible en varios colores.",fotos:["assets/products/remera-positive-1.jpg","assets/products/remera-positive-2.jpg","assets/products/remera-positive-3.jpg"]},
   {id:"GIO-0009",nombre:"Campera Rústica Bebé Lisa",cat:"Camperas",talle:"3/6/9",precio:47900,stock:1,desc:"Campera rústica lisa, bien abrigada."},
   {id:"GIO-0021",nombre:"Enterito con Escarpín",cat:"Enteritos",talle:"",precio:24900,stock:1,desc:"Enterito con escarpín incorporado. Ideal recién nacido."},
   {id:"GIO-0020",nombre:"Set Pima x3 (0/1, gorro)",cat:"Sets",talle:"0/1",precio:24900,stock:4,desc:"Set de algodón pima x3 con gorrito. Suavísimo."},
@@ -447,7 +451,7 @@ function renderGrupos(){
 }
 function cardHTML(p,fav){
   const enCarrito=carrito[p.id]?.cantidad||0;const agotado=p.stock>0&&enCarrito>=p.stock;const low=p.stock>0&&p.stock<=2;
-  const img=p.img?`<img class="thumb-img" src="${p.img}" alt="${p.nombre}" loading="lazy">`:ICONOS[p.cat]||"🧸";
+  const img=p.fotos?`<img class="thumb-img" src="${p.fotos[0]}" alt="${p.nombre}" loading="lazy">`:(p.img?`<img class="thumb-img" src="${p.img}" alt="${p.nombre}" loading="lazy">`:ICONOS[p.cat]||"🧸");
   const stockTag=p.stock>0?`<span class="stock-tag ${low?'stock-low':'stock-ok'}">${low?'Últimas '+p.stock:'Disponible'}</span>`:`<span class="stock-tag stock-low">Consultar stock</span>`;
   const precio=p.precio>0?`<span class="precio">${fmt(p.precio)}</span>`:`<span class="precio consult">Consultar</span>`;
   return `<div class="card" onclick="abrirModal('${p.id}')">
@@ -469,10 +473,12 @@ function cardHTML(p,fav){
 function abrirModal(id){
   const p=PRODUCTOS.find(x=>x.id===id);if(!p)return;
   const enCarrito=carrito[p.id]?.cantidad||0;const agotado=p.stock>0&&enCarrito>=p.stock;const low=p.stock>0&&p.stock<=2;
-  const img=p.img?`<img class="modal-img-foto" src="${p.img}" alt="${p.nombre}">`:(ICONOS[p.cat]||"🧸");
+  const foto0=p.fotos?p.fotos[0]:(p.img||"");
+  const img=foto0?`<img class="modal-img-foto" id="modalFoto" src="${foto0}" alt="${p.nombre}">`:(ICONOS[p.cat]||"🧸");
   const stockTag=p.stock>0?`<span class="stock-tag ${low?'stock-low':'stock-ok'}" style="top:16px;left:16px">${low?'Últimas '+p.stock:'Disponible'}</span>`:`<span class="stock-tag stock-low" style="top:16px;left:16px">Consultar stock</span>`;
   const precio=p.precio>0?`<div class="modal-price">${fmt(p.precio)}</div>`:`<div class="modal-price consult">Consultar precio</div>`;
   const stockInfo=p.stock>0?`${p.stock} ${p.stock===1?'unidad':'unidades'} ${low?'· ¡Últimas!':''}`:'Consultar';
+  const selector=p.fotos&&p.fotos.length>1?`<div class="modal-colores">${p.fotos.map((f,i)=>`<button class="color-thumb ${i===0?'on':''}" onclick="elegirFoto('${p.id}',${i})"><img src="${f}" alt="Variante ${i+1}"></button>`).join("")}</div>`:"";
   document.getElementById("modalBox").innerHTML=`
     <button class="modal-close" onclick="cerrarModal()">×</button>
     <div class="modal-img">${img}${stockTag}</div>
@@ -480,6 +486,7 @@ function abrirModal(id){
       <div class="modal-cat">${p.cat}</div>
       <h3>${p.nombre}</h3>
       ${precio}
+      ${selector}
       <div class="modal-meta">
         <div class="row"><b>Talle</b> <span>${p.talle||"Consultar según edad del bebé"}</span></div>
         <div class="row"><b>Stock</b> <span>${stockInfo}</span></div>
@@ -488,6 +495,11 @@ function abrirModal(id){
       <button class="modal-add" onclick="agregar('${p.id}');cerrarModal()" ${agotado?'disabled':''}>${agotado?'Sin más stock':'Agregar al carrito'}</button>
     </div>`;
   document.getElementById("modalOv").classList.add("open");
+}
+function elegirFoto(id,idx){
+  const p=PRODUCTOS.find(x=>x.id===id);if(!p||!p.fotos)return;
+  const img=document.getElementById("modalFoto");if(img)img.src=p.fotos[idx];
+  document.querySelectorAll(".color-thumb").forEach((b,i)=>b.classList.toggle("on",i===idx));
 }
 function cerrarModal(e){if(e&&e.target!==document.getElementById("modalOv")&&e.type==="click"&&!e.target.classList.contains("modal-close"))return;document.getElementById("modalOv").classList.remove("open");}
 
