@@ -158,6 +158,18 @@
   .mp-btn:hover{filter:brightness(.93)}
   .mp-btn:disabled{opacity:.45;cursor:not-allowed;background:var(--ink-3)}
   .pago-nota{font-size:.78rem;color:var(--ink-3);text-align:center;margin-top:12px}
+  .datos{padding:18px 24px;border-top:1px solid var(--line);background:var(--surface)}
+  .datos h4{font-size:.85rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--oso-deep);margin-bottom:12px}
+  .datos .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .datos .full{grid-column:1/-1}
+  .datos label{display:block;font-size:.75rem;font-weight:700;color:var(--ink-2);margin-bottom:4px}
+  .datos input,.datos select{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 12px;font-family:'Manrope';font-size:.92rem;color:var(--ink);box-sizing:border-box}
+  .datos input:focus,.datos select:focus{outline:none;border-color:var(--salvia-dark)}
+  .entrega{display:flex;gap:8px;margin-bottom:10px}
+  .entrega button{flex:1;border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:9px;font-family:'Manrope';font-weight:700;font-size:.85rem;color:var(--ink-2);cursor:pointer;transition:all .15s}
+  .entrega button.on{border-color:var(--salvia-dark);background:var(--salvia);color:var(--ink)}
+  #campoDireccion{display:none}
+  #campoDireccion.show{display:block}
 
   /* MODAL PRODUCTO */
   .modal-ov{position:fixed;inset:0;background:rgba(70,58,45,.42);backdrop-filter:blur(4px);z-index:75;opacity:0;visibility:hidden;transition:opacity .28s;display:flex;align-items:center;justify-content:center;padding:20px}
@@ -299,6 +311,20 @@
 <aside class="drawer" id="drawer">
   <div class="drawer-head"><h3>Tu carrito</h3><button class="close" onclick="cerrarCarrito()">×</button></div>
   <div class="items" id="items"></div>
+  <div class="datos" id="datos">
+    <h4>Datos para la entrega</h4>
+    <div class="entrega">
+      <button type="button" id="btnEnvio" class="on" onclick="elegirEntrega('envio')">🚚 Envío</button>
+      <button type="button" id="btnRetiro" onclick="elegirEntrega('retiro')">🏠 Retiro</button>
+    </div>
+    <div class="grid">
+      <div><label>Nombre</label><input id="fNombre" placeholder="Tu nombre" autocomplete="given-name"></div>
+      <div><label>Apellido</label><input id="fApellido" placeholder="Tu apellido" autocomplete="family-name"></div>
+      <div class="full"><label>Teléfono</label><input id="fTelefono" type="tel" placeholder="11 2345-6789" autocomplete="tel"></div>
+      <div class="full"><label>Email</label><input id="fMail" type="email" placeholder="tu@mail.com" autocomplete="email"></div>
+      <div class="full" id="campoDireccion"><label>Dirección (para el envío)</label><input id="fDireccion" placeholder="Calle, número, ciudad"></div>
+    </div>
+  </div>
   <div class="drawer-foot">
     <div class="total-row"><span class="lbl">Total</span><span class="val" id="total">$0</span></div>
     <button class="checkout" id="checkout" onclick="finalizar()" disabled><svg viewBox="0 0 32 32" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg> Finalizar por WhatsApp</button>
@@ -475,12 +501,30 @@ function actualizar(){
 }
 function abrirCarrito(){document.getElementById("overlay").classList.add("open");document.getElementById("drawer").classList.add("open");}
 function cerrarCarrito(){document.getElementById("overlay").classList.remove("open");document.getElementById("drawer").classList.remove("open");}
+let entrega='envio';
+function elegirEntrega(t){
+  entrega=t;
+  document.getElementById("btnEnvio").classList.toggle("on",t==='envio');
+  document.getElementById("btnRetiro").classList.toggle("on",t==='retiro');
+  document.getElementById("campoDireccion").classList.toggle("show",t==='envio');
+}
 function finalizar(){
   const items=Object.values(carrito);if(!items.length)return;
+  const nombre=document.getElementById("fNombre").value.trim();
+  const apellido=document.getElementById("fApellido").value.trim();
+  const telefono=document.getElementById("fTelefono").value.trim();
+  const mail=document.getElementById("fMail").value.trim();
+  if(!nombre||!apellido||!telefono||!mail){toast("Completá tus datos para la entrega");return;}
+  const direccion=document.getElementById("fDireccion").value.trim();
   const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
   let msg="¡Hola Giorenatto! 🐻 Quiero hacer este pedido:%0A%0A";
   items.forEach(i=>{msg+=`• ${i.cantidad}x ${i.producto.nombre}${i.producto.talle?(' (T '+i.producto.talle+')'):''} — ${fmt(i.producto.precio*i.cantidad)}%0A`;});
-  msg+=`%0A*Total: ${fmt(total)}*`;
+  msg+=`%0A*Total: ${fmt(total)}*%0A%0A`;
+  msg+=`*Entrega:* ${entrega==='envio'?'🚚 Envío':'🏠 Retiro'}%0A`;
+  msg+=`*Nombre:* ${nombre} ${apellido}%0A`;
+  msg+=`*Teléfono:* ${telefono}%0A`;
+  msg+=`*Email:* ${mail}%0A`;
+  if(entrega==='envio'&&direccion)msg+=`*Dirección:* ${direccion}%0A`;
   window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,"_blank");
 }
 // Mercado Pago: link de pago configurable (se completa cuando Nicolas tenga su cuenta MP)
