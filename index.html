@@ -188,6 +188,11 @@
   .color-thumb{width:56px;height:56px;border-radius:12px;overflow:hidden;border:2px solid var(--line);cursor:pointer;padding:0;background:var(--surface);transition:all .15s}
   .color-thumb img{width:100%;height:100%;object-fit:cover;display:block}
   .color-thumb.on{border-color:var(--salvia-dark);box-shadow:0 0 0 2px var(--salvia)}
+  .var-block{margin-bottom:16px}
+  .var-label{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);margin-bottom:8px}
+  .modal-talles{display:flex;gap:8px;flex-wrap:wrap}
+  .talle-btn{border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 16px;font-family:'Manrope';font-weight:800;font-size:.9rem;color:var(--ink-2);cursor:pointer;transition:all .15s}
+  .talle-btn.on{border-color:var(--salvia-dark);background:var(--salvia);color:var(--ink)}
   .modal-meta{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;font-size:.92rem}
   .modal-meta .row{display:flex;gap:8px;color:var(--ink-2)}
   .modal-meta .row b{color:var(--ink);font-weight:700;min-width:70px}
@@ -370,7 +375,7 @@ const PRODUCTOS=[
   {id:"GIO-0015",nombre:"Vestido",cat:"Vestidos",talle:"6 a 36 M",precio:25900,stock:3,desc:"Vestido de bebé, tela suave y liviana."},
   {id:"GIO-0007",nombre:"Pantalón Cargo Ripstop",cat:"Pantalones",talle:"12/36",precio:23900,stock:1,desc:"Pantalón cargo ripstop, resistente y con estilo."},
   {id:"GIO-0008",nombre:"Remera Bebé/a",cat:"Remeras",talle:"12/36",precio:24900,stock:3,desc:"Remera de bebé unisex, algodón suave."},
-  {id:"GIO-0040",nombre:"Remera Positive and Happy",cat:"Remeras",talle:"T2 T4 T6",precio:0,stock:0,desc:"Remera niño algodón m/corta. Estampa con glitter \"Positive and Happy\" con flores. Disponible en varios colores.",fotos:["assets/products/remera-positive-1.jpg","assets/products/remera-positive-2.jpg","assets/products/remera-positive-3.jpg"]},
+  {id:"GIO-0040",nombre:"Remera Positive and Happy",cat:"Remeras",precio:0,stock:0,desc:"Remera niño algodón m/corta. Estampa con glitter \"Positive and Happy\" con flores.",talles:["T2","T4","T6"],colores:[{nombre:"Blanco",foto:"assets/products/remera-positive-1.jpg"},{nombre:"Rosa",foto:"assets/products/remera-positive-2.jpg"},{nombre:"Verde",foto:"assets/products/remera-positive-3.jpg"}]},
   {id:"GIO-0009",nombre:"Campera Rústica Bebé Lisa",cat:"Camperas",talle:"3/6/9",precio:47900,stock:1,desc:"Campera rústica lisa, bien abrigada."},
   {id:"GIO-0021",nombre:"Enterito con Escarpín",cat:"Enteritos",talle:"",precio:24900,stock:1,desc:"Enterito con escarpín incorporado. Ideal recién nacido."},
   {id:"GIO-0020",nombre:"Set Pima x3 (0/1, gorro)",cat:"Sets",talle:"0/1",precio:24900,stock:4,desc:"Set de algodón pima x3 con gorrito. Suavísimo."},
@@ -451,7 +456,7 @@ function renderGrupos(){
 }
 function cardHTML(p,fav){
   const enCarrito=carrito[p.id]?.cantidad||0;const agotado=p.stock>0&&enCarrito>=p.stock;const low=p.stock>0&&p.stock<=2;
-  const img=p.fotos?`<img class="thumb-img" src="${p.fotos[0]}" alt="${p.nombre}" loading="lazy">`:(p.img?`<img class="thumb-img" src="${p.img}" alt="${p.nombre}" loading="lazy">`:ICONOS[p.cat]||"🧸");
+  const img=p.colores?`<img class="thumb-img" src="${p.colores[0].foto}" alt="${p.nombre}" loading="lazy">`:(p.img?`<img class="thumb-img" src="${p.img}" alt="${p.nombre}" loading="lazy">`:ICONOS[p.cat]||"🧸");
   const stockTag=p.stock>0?`<span class="stock-tag ${low?'stock-low':'stock-ok'}">${low?'Últimas '+p.stock:'Disponible'}</span>`:`<span class="stock-tag stock-low">Consultar stock</span>`;
   const precio=p.precio>0?`<span class="precio">${fmt(p.precio)}</span>`:`<span class="precio consult">Consultar</span>`;
   return `<div class="card" onclick="abrirModal('${p.id}')">
@@ -473,12 +478,13 @@ function cardHTML(p,fav){
 function abrirModal(id){
   const p=PRODUCTOS.find(x=>x.id===id);if(!p)return;
   const enCarrito=carrito[p.id]?.cantidad||0;const agotado=p.stock>0&&enCarrito>=p.stock;const low=p.stock>0&&p.stock<=2;
-  const foto0=p.fotos?p.fotos[0]:(p.img||"");
+  const foto0=p.colores?p.colores[0].foto:(p.img||"");
   const img=foto0?`<img class="modal-img-foto" id="modalFoto" src="${foto0}" alt="${p.nombre}">`:(ICONOS[p.cat]||"🧸");
   const stockTag=p.stock>0?`<span class="stock-tag ${low?'stock-low':'stock-ok'}" style="top:16px;left:16px">${low?'Últimas '+p.stock:'Disponible'}</span>`:`<span class="stock-tag stock-low" style="top:16px;left:16px">Consultar stock</span>`;
   const precio=p.precio>0?`<div class="modal-price">${fmt(p.precio)}</div>`:`<div class="modal-price consult">Consultar precio</div>`;
   const stockInfo=p.stock>0?`${p.stock} ${p.stock===1?'unidad':'unidades'} ${low?'· ¡Últimas!':''}`:'Consultar';
-  const selector=p.fotos&&p.fotos.length>1?`<div class="modal-colores">${p.fotos.map((f,i)=>`<button class="color-thumb ${i===0?'on':''}" onclick="elegirFoto('${p.id}',${i})"><img src="${f}" alt="Variante ${i+1}"></button>`).join("")}</div>`:"";
+  const selectorColor=p.colores&&p.colores.length>1?`<div class="var-block"><div class="var-label">Color</div><div class="modal-colores">${p.colores.map((c,i)=>`<button class="color-thumb ${i===0?'on':''}" onclick="elegirFoto('${p.id}',${i})"><img src="${c.foto}" alt="${c.nombre}" title="${c.nombre}"></button>`).join("")}</div></div>`:"";
+  const selectorTalle=p.talles&&p.talles.length>1?`<div class="var-block"><div class="var-label">Talle</div><div class="modal-talles">${p.talles.map((t,i)=>`<button class="talle-btn ${i===0?'on':''}" onclick="elegirTalle('${p.id}',${i})">${t}</button>`).join("")}</div></div>`:"";
   document.getElementById("modalBox").innerHTML=`
     <button class="modal-close" onclick="cerrarModal()">×</button>
     <div class="modal-img">${img}${stockTag}</div>
@@ -486,20 +492,35 @@ function abrirModal(id){
       <div class="modal-cat">${p.cat}</div>
       <h3>${p.nombre}</h3>
       ${precio}
-      ${selector}
+      ${selectorColor}
+      ${selectorTalle}
       <div class="modal-meta">
-        <div class="row"><b>Talle</b> <span>${p.talle||"Consultar según edad del bebé"}</span></div>
         <div class="row"><b>Stock</b> <span>${stockInfo}</span></div>
         <div class="row"><b>Detalle</b> <span>${p.desc||""}</span></div>
       </div>
-      <button class="modal-add" onclick="agregar('${p.id}');cerrarModal()" ${agotado?'disabled':''}>${agotado?'Sin más stock':'Agregar al carrito'}</button>
+      <button class="modal-add" onclick="agregarVar('${p.id}');cerrarModal()" ${agotado?'disabled':''}>${agotado?'Sin más stock':'Agregar al carrito'}</button>
     </div>`;
   document.getElementById("modalOv").classList.add("open");
 }
 function elegirFoto(id,idx){
-  const p=PRODUCTOS.find(x=>x.id===id);if(!p||!p.fotos)return;
-  const img=document.getElementById("modalFoto");if(img)img.src=p.fotos[idx];
+  const p=PRODUCTOS.find(x=>x.id===id);if(!p||!p.colores)return;
+  const img=document.getElementById("modalFoto");if(img)img.src=p.colores[idx].foto;
   document.querySelectorAll(".color-thumb").forEach((b,i)=>b.classList.toggle("on",i===idx));
+}
+function elegirTalle(id,idx){
+  document.querySelectorAll(".talle-btn").forEach((b,i)=>b.classList.toggle("on",i===idx));
+}
+function agregarVar(id){
+  const p=PRODUCTOS.find(x=>x.id===id);if(!p)return;
+  const colorIdx=Array.from(document.querySelectorAll(".color-thumb")).findIndex(b=>b.classList.contains("on"));
+  const talleIdx=Array.from(document.querySelectorAll(".talle-btn")).findIndex(b=>b.classList.contains("on"));
+  const color=p.colores&&p.colores.length?p.colores[colorIdx>=0?colorIdx:0].nombre:"";
+  const talle=p.talles&&p.talles.length?p.talles[talleIdx>=0?talleIdx:0]:"";
+  const key=id+"|"+color+"|"+talle;
+  const a=carrito[key]?.cantidad||0;
+  if(p.stock>0&&a>=p.stock){toast("No hay más stock");return;}
+  carrito[key]={producto:p,color,talle,cantidad:a+1};
+  actualizar();toast(p.nombre+" agregado ✓");
 }
 function cerrarModal(e){if(e&&e.target!==document.getElementById("modalOv")&&e.type==="click"&&!e.target.classList.contains("modal-close"))return;document.getElementById("modalOv").classList.remove("open");}
 
@@ -511,7 +532,7 @@ function actualizar(){
   document.getElementById("total").textContent=fmt(total);document.getElementById("checkout").disabled=count===0;document.getElementById("mp-btn").disabled=count===0;
   const cont=document.getElementById("items");
   if(items.length===0){cont.innerHTML=`<div class="empty"><span class="emoji">🧺</span>Tu carrito está vacío<br>¡Sumá algo lindo!</div>`;}
-  else{cont.innerHTML=items.map(i=>`<div class="item"><div class="ico">${ICONOS[i.producto.cat]||"🧸"}</div><div class="info"><div class="n">${i.producto.nombre}</div><div class="p">${fmt(i.producto.precio)} c/u</div></div><div class="qty"><button onclick="cambiar('${i.producto.id}',-1)">−</button><span>${i.cantidad}</span><button onclick="cambiar('${i.producto.id}',1)">+</button></div></div>`).join("");}
+  else{cont.innerHTML=items.map(i=>`<div class="item"><div class="ico">${ICONOS[i.producto.cat]||"🧸"}</div><div class="info"><div class="n">${i.producto.nombre}${i.color?(' · '+i.color):''}${i.talle?(' · Talle '+i.talle):''}</div><div class="p">${fmt(i.producto.precio)} c/u</div></div><div class="qty"><button onclick="cambiar('${i.producto.id}|${i.color||''}|${i.talle||''}',-1)">−</button><span>${i.cantidad}</span><button onclick="cambiar('${i.producto.id}|${i.color||''}|${i.talle||''}',1)">+</button></div></div>`).join("");}
   renderDestacados();renderGrupos();
 }
 function abrirCarrito(){document.getElementById("overlay").classList.add("open");document.getElementById("drawer").classList.add("open");}
@@ -538,7 +559,7 @@ function finalizar(){
   const direccion=[calle,ciudad,provincia].filter(Boolean).join(", ");
   const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
   let msg="¡Hola Giorenatto! 🐻 Quiero hacer este pedido:%0A%0A";
-  items.forEach(i=>{msg+=`• ${i.cantidad}x ${i.producto.nombre}${i.producto.talle?(' (T '+i.producto.talle+')'):''} — ${fmt(i.producto.precio*i.cantidad)}%0A`;});
+  items.forEach(i=>{msg+=`• ${i.cantidad}x ${i.producto.nombre}${i.color?(' · '+i.color):''}${i.talle?(' (Talle '+i.talle+')'):''} — ${fmt(i.producto.precio*i.cantidad)}%0A`;});
   msg+=`%0A*Total: ${fmt(total)}*%0A%0A`;
   msg+=`*Entrega:* ${entrega==='envio'?'🚚 Envío':'🏠 Retiro'}%0A`;
   msg+=`*Nombre:* ${nombre} ${apellido}%0A`;
