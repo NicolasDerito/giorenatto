@@ -464,7 +464,7 @@ function cardHTML(p,fav){
     </div>
     <div class="body">
       <div class="name">${p.nombre}</div>
-      <div class="talle">${p.talle?('Talle '+p.talle):'Consultar talle'}</div>
+      <div class="talle">${p.talles?('Talles: '+p.talles.join(' · ')):(p.talle?('Talle '+p.talle):'Consultar talle')}</div>
       <div class="foot">${precio}
         <button class="add" onclick="event.stopPropagation();${p.talles||p.colores?`abrirModal('${p.id}')`:`agregar('${p.id}')`}" ${agotado?'disabled':''}>+</button>
       </div>
