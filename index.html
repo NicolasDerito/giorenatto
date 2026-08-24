@@ -154,6 +154,9 @@
   .checkout{width:100%;border:none;cursor:pointer;background:var(--wa);color:#fff;font-family:'Manrope';font-weight:800;font-size:1.05rem;padding:16px;border-radius:14px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:9px}
   .checkout:hover{filter:brightness(.95)}
   .checkout:disabled{opacity:.45;cursor:not-allowed;background:var(--ink-3)}
+  .mp-btn{width:100%;border:none;cursor:pointer;background:#009ee3;color:#fff;font-family:'Manrope';font-weight:800;font-size:1rem;padding:13px;border-radius:14px;transition:all .2s;margin-top:8px}
+  .mp-btn:hover{filter:brightness(.93)}
+  .mp-btn:disabled{opacity:.45;cursor:not-allowed;background:var(--ink-3)}
   .pago-nota{font-size:.78rem;color:var(--ink-3);text-align:center;margin-top:12px}
 
   /* MODAL PRODUCTO */
@@ -299,6 +302,7 @@
   <div class="drawer-foot">
     <div class="total-row"><span class="lbl">Total</span><span class="val" id="total">$0</span></div>
     <button class="checkout" id="checkout" onclick="finalizar()" disabled><svg viewBox="0 0 32 32" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg> Finalizar por WhatsApp</button>
+    <button class="mp-btn" id="mp-btn" onclick="pagarMercadoPago()" disabled>Pagar con Mercado Pago</button>
     <p class="pago-nota">Coordinás el pago por Mercado Pago o transferencia</p>
   </div>
 </aside>
@@ -463,7 +467,7 @@ function cambiar(id,d){if(!carrito[id])return;const n=carrito[id].cantidad+d;if(
 function actualizar(){
   const items=Object.values(carrito);const count=items.reduce((s,i)=>s+i.cantidad,0);const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
   const badge=document.getElementById("cartCount");badge.textContent=count;badge.style.display=count>0?"flex":"none";
-  document.getElementById("total").textContent=fmt(total);document.getElementById("checkout").disabled=count===0;
+  document.getElementById("total").textContent=fmt(total);document.getElementById("checkout").disabled=count===0;document.getElementById("mp-btn").disabled=count===0;
   const cont=document.getElementById("items");
   if(items.length===0){cont.innerHTML=`<div class="empty"><span class="emoji">🧺</span>Tu carrito está vacío<br>¡Sumá algo lindo!</div>`;}
   else{cont.innerHTML=items.map(i=>`<div class="item"><div class="ico">${ICONOS[i.producto.cat]||"🧸"}</div><div class="info"><div class="n">${i.producto.nombre}</div><div class="p">${fmt(i.producto.precio)} c/u</div></div><div class="qty"><button onclick="cambiar('${i.producto.id}',-1)">−</button><span>${i.cantidad}</span><button onclick="cambiar('${i.producto.id}',1)">+</button></div></div>`).join("");}
@@ -478,6 +482,15 @@ function finalizar(){
   items.forEach(i=>{msg+=`• ${i.cantidad}x ${i.producto.nombre}${i.producto.talle?(' (T '+i.producto.talle+')'):''} — ${fmt(i.producto.precio*i.cantidad)}%0A`;});
   msg+=`%0A*Total: ${fmt(total)}*`;
   window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,"_blank");
+}
+// Mercado Pago: link de pago configurable (se completa cuando Nicolas tenga su cuenta MP)
+const MP_LINK=""; // TODO: pegar acá el link de pago de Mercado Pago (ej: https://mpago.la/xxxxx)
+function pagarMercadoPago(){
+  const items=Object.values(carrito);if(!items.length)return;
+  if(!MP_LINK){toast("Aún no configuramos Mercado Pago, usá WhatsApp");return;}
+  const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
+  const sep=MP_LINK.includes("?")?"&":"?";
+  window.open(MP_LINK+sep+"quantity="+total,"_blank");
 }
 function waConsulta(){window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent("¡Hola Giorenatto! 🐻 Tengo una consulta")}`,"_blank");}
 let toastTimer;
