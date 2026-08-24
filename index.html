@@ -567,12 +567,20 @@ function finalizar(){
   window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,"_blank");
 }
 // Mercado Pago: link de pago configurable (se completa cuando Nicolas tenga su cuenta MP)
-const MP_LINK="https://link.mercadopago.com.ar/giorenatto"; // link de pago Mercado Pago (tienda Giorenatto)
+const MP_LINK="https://link.mercadopago.com.ar/giorenatto"; // fallback: link de tienda MP
+const BACKEND_URL=""; // ej: "https://giorenatto-backend.vercel.app" — cuando esté el backend, se usa Checkout Pro con monto exacto
 function pagarMercadoPago(){
   const items=Object.values(carrito);if(!items.length)return;
-  if(!MP_LINK){toast("Aún no configuramos Mercado Pago, usá WhatsApp");return;}
   const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
-  const sep=MP_LINK.includes("?")?"&":"?";
+  if(BACKEND_URL){
+    const payload={items:items.map(i=>({nombre:i.producto.nombre,cantidad:i.cantidad,precio:i.producto.precio,color:i.color||"",talle:i.talle||""})),total,nombre:document.getElementById("fNombre").value.trim(),email:document.getElementById("fMail").value.trim()};
+    fetch(BACKEND_URL+"/api/preference",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
+      .then(r=>r.json()).then(d=>{if(d.init_point){window.open(d.init_point,"_blank");}else{toast("No se pudo iniciar el pago, usá WhatsApp");}})
+      .catch(()=>toast("No se pudo iniciar el pago, usá WhatsApp"));
+    return;
+  }
+  if(!MP_LINK){toast("Aún no configuramos Mercado Pago, usá WhatsApp");return;}
+  const sep=MP_LINK.includes("?")?"?":"?";
   window.open(MP_LINK+sep+"quantity="+total,"_blank");
 }
 function waConsulta(){window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent("¡Hola Giorenatto! 🐻 Tengo una consulta")}`,"_blank");}
