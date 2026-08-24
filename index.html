@@ -484,7 +484,7 @@ function finalizar(){
   window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,"_blank");
 }
 // Mercado Pago: link de pago configurable (se completa cuando Nicolas tenga su cuenta MP)
-const MP_LINK="https://mpago.la/100005002020"; // link de pago Mercado Pago (Giorenatto)
+const MP_LINK="https://link.mercadopago.com.ar/giorenatto"; // link de pago Mercado Pago (tienda Giorenatto)
 function pagarMercadoPago(){
   const items=Object.values(carrito);if(!items.length)return;
   if(!MP_LINK){toast("Aún no configuramos Mercado Pago, usá WhatsApp");return;}
