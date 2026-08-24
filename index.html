@@ -565,6 +565,13 @@ function finalizar(){
   msg+=`*Email:* ${mail}%0A`;
   if(entrega==='envio'&&direccion)msg+=`*Dirección:* ${direccion}%0A`;
   window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,"_blank");
+  // mail de confirmación al cliente (si el backend está configurado)
+  if(BACKEND_URL&&mail){
+    fetch(BACKEND_URL+"/api/confirm",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
+      email:mail,nombre,apellido,telefono,entrega,direccion,total,
+      items:items.map(i=>({nombre:i.producto.nombre,cantidad:i.cantidad,precio:i.producto.precio,color:i.color||"",talle:i.talle||""}))
+    })}).catch(()=>{});
+  }
 }
 // Mercado Pago: link de pago configurable (se completa cuando Nicolas tenga su cuenta MP)
 const MP_LINK="https://link.mercadopago.com.ar/giorenatto"; // fallback: link de tienda MP
