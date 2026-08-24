@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giorenatto · Ropa de bebé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,0,600;9..144,1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --oso:#c9a57f;--oso-dark:#a9835f;--oso-deep:#7d5f42;
+    --salvia:#9caf88;--salvia-dark:#7f9269;
+    --celeste:#a8b8c8;--rosa:#e3969a;
+    --bg:#fbfaf7;--surface:#ffffff;--line:#efe9e0;
+    --ink:#463a2d;--ink-2:#7c6f60;--ink-3:#a99e8f;
+    --radio:18px;--radio-lg:28px;
+    --shadow-sm:0 1px 3px rgba(70,58,45,.05),0 6px 20px rgba(70,58,45,.05);
+    --shadow-md:0 4px 12px rgba(70,58,45,.06),0 16px 44px rgba(70,58,45,.09);
+    --wa:#25d366;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
+  h1,h2,h3,h4,.serif{font-family:'Fraunces',serif;letter-spacing:-.02em}
+  a{text-decoration:none;color:inherit}
+  ::selection{background:var(--oso);color:#fff}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.82);backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .3s}
+  header.scrolled{border-bottom-color:var(--line)}
+  .nav{max-width:1160px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:18px}
+  .brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
+  .brand img{width:64px;height:64px;border-radius:50%;object-fit:cover;box-shadow:var(--shadow-sm)}
+  .brand span{font-family:'Fraunces';font-weight:600;font-size:1.6rem;color:var(--oso-deep)}
+  .search{flex:1;max-width:420px;position:relative;margin:0 auto}
+  .search input{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:11px 18px 11px 42px;font-family:'Manrope';font-size:.92rem;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
+  .search input:focus{border-color:var(--oso);box-shadow:0 0 0 4px rgba(201,165,127,.12)}
+  .search::before{content:"🔍";position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:.9rem;opacity:.5}
+  .ig-btn{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;color:var(--oso-deep);background:var(--surface);border:1px solid var(--line);transition:all .2s}
+  .ig-btn:hover{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff;border-color:transparent;transform:translateY(-1px)}
+  .cart-btn{position:relative;border:none;cursor:pointer;background:var(--ink);color:#fff;font-family:'Manrope';font-weight:700;font-size:.9rem;padding:11px 22px;border-radius:999px;transition:transform .18s,opacity .2s;flex-shrink:0}
+  .cart-btn:hover{transform:translateY(-1px);opacity:.9}
+  .cart-count{position:absolute;top:-7px;right:-7px;background:var(--rosa);color:#fff;min-width:21px;height:21px;border-radius:50%;font-size:.73rem;font-weight:800;display:flex;align-items:center;justify-content:center;border:2.5px solid var(--bg)}
+
+  .hero{max-width:1160px;margin:0 auto;padding:64px 24px 40px;text-align:center}
+  .hero .eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:.8rem;font-weight:700;color:var(--salvia-dark);background:var(--surface);border:1px solid var(--line);padding:7px 16px;border-radius:999px;margin-bottom:26px;opacity:0;animation:fade .7s .1s forwards}
+  .hero .hero-logo{display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:18px;opacity:0;animation:fade .7s .15s forwards}
+  .hero .hero-logo img{width:120px;height:120px;border-radius:50%;object-fit:cover;box-shadow:var(--shadow-md)}
+  .hero .hero-logo .hero-name{font-family:'Fraunces';font-weight:600;font-size:clamp(2rem,5vw,3.2rem);color:var(--oso-deep);line-height:1}
+  .hero h1{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:500;line-height:1.1;color:var(--oso-dark);margin-bottom:14px;opacity:0;animation:fade .7s .2s forwards}
+  .hero h1 em{font-style:italic;color:var(--salvia-dark)}
+  .hero p{font-size:1.12rem;color:var(--ink-2);max-width:50ch;margin:0 auto 32px;opacity:0;animation:fade .7s .3s forwards}
+  .hero-cta{display:inline-flex;align-items:center;gap:9px;background:var(--oso-deep);color:#fff;font-weight:700;font-size:1rem;padding:15px 34px;border-radius:999px;transition:transform .18s,box-shadow .25s;box-shadow:var(--shadow-sm);opacity:0;animation:fade .7s .4s forwards}
+  .hero-cta:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+  .hero-cta .arrow{transition:transform .2s}.hero-cta:hover .arrow{transform:translateX(4px)}
+  @keyframes fade{to{opacity:1;transform:translateY(0)}}
+  .hero .eyebrow,.hero .hero-logo,.hero h1,.hero p,.hero-cta{transform:translateY(14px)}
+
+  /* PROMO banner */
+  .promo{max-width:1160px;margin:8px auto 0;padding:0 24px}
+  .promo-in{background:linear-gradient(100deg,var(--oso) 0%,var(--oso-dark) 100%);color:#fff;border-radius:var(--radio-lg);padding:22px 30px;display:flex;align-items:center;justify-content:center;gap:14px;text-align:center;box-shadow:var(--shadow-sm);flex-wrap:wrap}
+  .promo-in .big{font-family:'Fraunces';font-weight:600;font-size:1.25rem}
+  .promo-in .small{font-size:.92rem;opacity:.92}
+
+  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface);overflow:hidden;margin-top:28px}
+  .strip-inner{display:flex;gap:52px;padding:16px 24px;max-width:1160px;margin:0 auto;justify-content:center;flex-wrap:wrap}
+  .strip-item{display:flex;align-items:center;gap:9px;font-size:.9rem;font-weight:600;color:var(--ink-2);white-space:nowrap}
+  .strip-item b{color:var(--ink);font-weight:700}
+
+  .catbar{position:sticky;top:75px;z-index:40;background:rgba(251,250,247,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+  .catbar-inner{max-width:1160px;margin:0 auto;padding:12px 24px;display:flex;gap:9px;overflow-x:auto;scrollbar-width:none;align-items:center}
+  .catbar-inner::-webkit-scrollbar{display:none}
+  .pill{white-space:nowrap;font-size:.86rem;font-weight:700;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s}
+  .pill:hover{border-color:var(--oso)}
+  .pill.on{background:var(--oso-deep);color:#fff;border-color:var(--oso-deep)}
+  .talle-filter{margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0}
+  .talle-filter label{font-size:.82rem;font-weight:700;color:var(--ink-3)}
+  .talle-filter select{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-family:'Manrope';font-weight:600;font-size:.84rem;color:var(--ink);cursor:pointer;outline:none}
+
+  .section{max-width:1160px;margin:0 auto;padding:0 24px}
+  .destacados{padding-top:48px}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:24px}
+  .sec-head h2{font-size:1.9rem;font-weight:500;color:var(--oso-deep)}
+  .sec-head .star{font-size:1.3rem}
+  .sec-head .rule{flex:1;height:1px;background:var(--line)}
+  .destacados .grid{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+
+  .catalogo{max-width:1160px;margin:0 auto;padding:40px 24px 90px}
+  .cat-group{margin-bottom:60px;scroll-margin-top:150px}
+  .group-head{display:flex;align-items:baseline;gap:14px;margin-bottom:24px}
+  .group-head h2{font-size:1.7rem;font-weight:500;color:var(--oso-deep)}
+  .group-head .count{font-size:.85rem;font-weight:700;color:var(--ink-3);background:var(--surface);border:1px solid var(--line);padding:3px 11px;border-radius:999px}
+  .group-head .rule{flex:1;height:1px;background:var(--line)}
+  .no-results{text-align:center;padding:60px 20px;color:var(--ink-3)}
+  .no-results .e{font-size:3rem;display:block;margin-bottom:12px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
+  .card{background:var(--surface);border-radius:var(--radio-lg);overflow:hidden;display:flex;flex-direction:column;transition:transform .22s cubic-bezier(.2,.7,.3,1),box-shadow .22s;border:1px solid var(--line);cursor:pointer}
+  .card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
+  .thumb{aspect-ratio:1/1.1;background:radial-gradient(circle at 50% 40%,#fff,var(--bg));display:flex;align-items:center;justify-content:center;font-size:3.8rem;position:relative;transition:font-size .22s;overflow:hidden}
+  .thumb .thumb-img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:transform .35s}
+  .card:hover .thumb{font-size:4.2rem}
+  .card:hover .thumb-img{transform:scale(1.07)}
+  .stock-tag{position:absolute;top:14px;left:14px;font-size:.7rem;font-weight:800;padding:5px 11px;border-radius:999px;letter-spacing:.02em}
+  .stock-ok{background:#eef2e8;color:var(--salvia-dark)}
+  .stock-low{background:#fbe9ea;color:var(--rosa)}
+  .fav-tag{position:absolute;top:14px;right:14px;font-size:.9rem}
+  .body{padding:18px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .name{font-family:'Fraunces';font-weight:500;font-size:1.12rem;color:var(--ink);line-height:1.18}
+  .talle{font-size:.82rem;color:var(--ink-3);font-weight:600}
+  .foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:12px}
+  .precio{font-family:'Fraunces';font-weight:600;font-size:1.35rem;color:var(--oso-deep)}
+  .precio.consult{font-size:1rem;color:var(--ink-3);font-weight:600}
+  .add{border:none;cursor:pointer;background:var(--bg);color:var(--oso-deep);width:44px;height:44px;border-radius:13px;font-size:1.5rem;line-height:1;display:flex;align-items:center;justify-content:center;transition:all .18s;border:1px solid var(--line)}
+  .add:hover{background:var(--oso-deep);color:#fff;border-color:var(--oso-deep);transform:scale(1.05)}
+  .add:disabled{opacity:.4;cursor:not-allowed;transform:none;background:var(--bg);color:var(--ink-3)}
+
+  /* COMO COMPRAR */
+  .como{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:56px 24px}
+  .como-in{max-width:1160px;margin:0 auto}
+  .como h2{font-size:1.9rem;font-weight:500;color:var(--oso-deep);text-align:center;margin-bottom:8px}
+  .como .sub{text-align:center;color:var(--ink-2);margin-bottom:38px}
+  .pasos{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .paso{text-align:center;position:relative}
+  .paso .num{width:52px;height:52px;margin:0 auto 14px;border-radius:50%;background:var(--bg);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:'Fraunces';font-weight:600;font-size:1.4rem;color:var(--oso-deep)}
+  .paso .ico{font-size:1.6rem;margin-bottom:8px}
+  .paso h4{font-size:1.05rem;font-weight:600;color:var(--ink);margin-bottom:6px}
+  .paso p{font-size:.88rem;color:var(--ink-2);max-width:22ch;margin:0 auto}
+
+  /* DRAWER */
+  .overlay{position:fixed;inset:0;background:rgba(70,58,45,.32);backdrop-filter:blur(2px);z-index:60;opacity:0;visibility:hidden;transition:opacity .3s}
+  .overlay.open{opacity:1;visibility:visible}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:min(440px,100%);background:var(--bg);z-index:70;box-shadow:-20px 0 60px rgba(70,58,45,.18);transform:translateX(100%);transition:transform .32s cubic-bezier(.3,.8,.3,1);display:flex;flex-direction:column}
+  .drawer.open{transform:translateX(0)}
+  .drawer-head{padding:24px 24px 18px;display:flex;align-items:center;justify-content:space-between}
+  .drawer-head h3{font-size:1.5rem;font-weight:500;color:var(--oso-deep)}
+  .close{background:var(--surface);border:1px solid var(--line);width:36px;height:36px;border-radius:50%;font-size:1.3rem;cursor:pointer;color:var(--ink-2);line-height:1;display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .close:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .items{flex:1;overflow-y:auto;padding:8px 24px;display:flex;flex-direction:column;gap:12px}
+  .empty{text-align:center;color:var(--ink-3);margin-top:60px}
+  .empty .emoji{font-size:3.4rem;display:block;margin-bottom:14px;opacity:.7}
+  .item{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;gap:13px;align-items:center}
+  .item .ico{font-size:1.7rem;width:48px;height:48px;background:var(--bg);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .item .info{flex:1;min-width:0}
+  .item .info .n{font-family:'Fraunces';font-weight:500;font-size:.98rem;line-height:1.15}
+  .item .info .p{font-size:.83rem;color:var(--ink-3);font-weight:600}
+  .qty{display:flex;align-items:center;gap:6px;background:var(--bg);border-radius:999px;padding:3px}
+  .qty button{width:28px;height:28px;border-radius:50%;border:none;background:var(--surface);cursor:pointer;font-weight:800;color:var(--oso-deep);box-shadow:var(--shadow-sm)}
+  .qty span{min-width:20px;text-align:center;font-weight:800;font-size:.9rem}
+  .drawer-foot{padding:22px 24px;border-top:1px solid var(--line);background:var(--surface)}
+  .total-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px}
+  .total-row .lbl{font-size:1rem;color:var(--ink-2);font-weight:600}
+  .total-row .val{font-family:'Fraunces';font-weight:600;font-size:2rem;color:var(--oso-deep)}
+  .checkout{width:100%;border:none;cursor:pointer;background:var(--wa);color:#fff;font-family:'Manrope';font-weight:800;font-size:1.05rem;padding:16px;border-radius:14px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:9px}
+  .checkout:hover{filter:brightness(.95)}
+  .checkout:disabled{opacity:.45;cursor:not-allowed;background:var(--ink-3)}
+  .pago-nota{font-size:.78rem;color:var(--ink-3);text-align:center;margin-top:12px}
+
+  /* MODAL PRODUCTO */
+  .modal-ov{position:fixed;inset:0;background:rgba(70,58,45,.42);backdrop-filter:blur(4px);z-index:75;opacity:0;visibility:hidden;transition:opacity .28s;display:flex;align-items:center;justify-content:center;padding:20px}
+  .modal-ov.open{opacity:1;visibility:visible}
+  .modal{background:var(--surface);border-radius:var(--radio-lg);max-width:760px;width:100%;max-height:90vh;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;transform:scale(.94);transition:transform .28s cubic-bezier(.3,.8,.3,1)}
+  .modal-ov.open .modal{transform:scale(1)}
+  .modal-img{background:radial-gradient(circle at 50% 40%,#fff,var(--bg));display:flex;align-items:center;justify-content:center;font-size:7rem;min-height:320px;position:relative;overflow:hidden}
+  .modal-img .modal-img-foto{width:100%;height:100%;min-height:320px;object-fit:cover;position:absolute;inset:0}
+  .modal-price.consult{font-size:1.15rem;color:var(--ink-3);font-weight:600}
+  .modal-info{padding:34px 30px;display:flex;flex-direction:column}
+  .modal-close{position:absolute;top:16px;right:16px;background:var(--surface);border:1px solid var(--line);width:36px;height:36px;border-radius:50%;font-size:1.3rem;cursor:pointer;color:var(--ink-2);z-index:2;display:flex;align-items:center;justify-content:center}
+  .modal-cat{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--salvia-dark);margin-bottom:10px}
+  .modal-info h3{font-size:1.8rem;font-weight:500;color:var(--ink);line-height:1.1;margin-bottom:12px}
+  .modal-price{font-family:'Fraunces';font-weight:600;font-size:2.1rem;color:var(--oso-deep);margin-bottom:18px}
+  .modal-meta{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;font-size:.92rem}
+  .modal-meta .row{display:flex;gap:8px;color:var(--ink-2)}
+  .modal-meta .row b{color:var(--ink);font-weight:700;min-width:70px}
+  .modal-add{margin-top:auto;border:none;cursor:pointer;background:var(--oso-deep);color:#fff;font-family:'Manrope';font-weight:800;font-size:1.05rem;padding:15px;border-radius:14px;transition:all .2s}
+  .modal-add:hover{background:var(--oso-dark)}
+  .modal-add:disabled{opacity:.5;cursor:not-allowed}
+
+  footer{background:var(--surface);border-top:1px solid var(--line);padding:56px 24px 32px}
+  .foot-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px}
+  .foot-brand .fb{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+  .foot-brand .fb img{width:42px;height:42px;border-radius:50%}
+  .foot-brand .fb span{font-family:'Fraunces';font-weight:600;font-size:1.3rem;color:var(--oso-deep)}
+  .foot-brand p{font-size:.92rem;color:var(--ink-2);max-width:36ch}
+  .foot-col h4{font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin-bottom:14px}
+  .foot-col a{display:block;font-size:.92rem;color:var(--ink-2);font-weight:600;margin-bottom:10px;transition:color .2s;cursor:pointer}
+  .foot-col a:hover{color:var(--oso-deep)}
+  .social-link{display:flex;align-items:center;gap:9px}
+  .social-link svg{flex-shrink:0}
+  .foot-bottom{max-width:1160px;margin:36px auto 0;padding-top:22px;border-top:1px solid var(--line);font-size:.82rem;color:var(--ink-3);text-align:center}
+
+  /* WHATSAPP FLOAT */
+  .wa-float{position:fixed;bottom:26px;right:26px;z-index:55;background:var(--wa);color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.9rem;box-shadow:0 6px 24px rgba(37,211,102,.4);transition:transform .2s;animation:pulse 2.6s infinite}
+  .wa-float:hover{transform:scale(1.08)}
+  @keyframes pulse{0%{box-shadow:0 6px 24px rgba(37,211,102,.4),0 0 0 0 rgba(37,211,102,.4)}70%{box-shadow:0 6px 24px rgba(37,211,102,.4),0 0 0 16px rgba(37,211,102,0)}100%{box-shadow:0 6px 24px rgba(37,211,102,.4),0 0 0 0 rgba(37,211,102,0)}}
+
+  .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(24px);background:var(--ink);color:#fff;padding:13px 26px;border-radius:999px;font-weight:700;font-size:.92rem;box-shadow:var(--shadow-md);opacity:0;visibility:hidden;transition:all .28s cubic-bezier(.3,.8,.3,1);z-index:85}
+  .toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+
+  @media(max-width:760px){
+    .search{max-width:none}
+    .brand span{display:none}
+    .pasos{grid-template-columns:repeat(2,1fr);gap:28px}
+    .foot-inner{grid-template-columns:1fr;gap:28px}
+    .catbar{top:73px}.strip-inner{gap:26px}
+    .modal{grid-template-columns:1fr;max-height:88vh;overflow-y:auto}
+    .modal-img{min-height:200px;font-size:5rem}
+    .talle-filter label{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="nav">
+    <a href="#" class="brand"><img src="logo.jpg" alt="Giorenatto"><span>Giorenatto</span></a>
+    <div class="search"><input type="text" id="search" placeholder="Buscar prendas…" oninput="onSearch()"></div>
+    <a class="ig-btn" href="https://www.instagram.com/giorenatto" target="_blank" rel="noopener" title="Seguinos en Instagram @giorenatto">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07c-1.28.06-2.15.26-2.91.56-.79.31-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14c-.3.76-.5 1.63-.56 2.91C.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.28.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.67.66 1.34 1.07 2.13 1.38.76.3 1.63.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.28-.06 2.15-.26 2.91-.56.79-.31 1.46-.72 2.13-1.38.66-.67 1.07-1.34 1.38-2.13.3-.76.5-1.63.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.28-.26-2.15-.56-2.91-.31-.79-.72-1.46-1.38-2.13C21.32 1.35 20.65.94 19.86.63c-.76-.3-1.63-.5-2.91-.56C15.67.01 15.26 0 12 0Zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84Zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4Zm6.4-11.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44Z"/></svg>
+    </a>
+    <button class="cart-btn" onclick="abrirCarrito()">Carrito<span class="cart-count" id="cartCount" style="display:none">0</span></button>
+  </div>
+</header>
+
+<section class="hero">
+  <span class="eyebrow">🌞 Nueva temporada · Primavera-Verano</span>
+  <div class="hero-logo">
+    <img src="logo.jpg" alt="Giorenatto">
+    <div class="hero-name">Giorenatto</div>
+  </div>
+  <h1>Lo más tierno para<br>los <em>más chiquitos</em></h1>
+  <p>Bodies, buzos y prendas suaves pensadas para acompañar cada momento del bebé. Elegí lo que te guste y armá tu pedido en minutos.</p>
+  <a href="#catalogo" class="hero-cta">Descubrir el catálogo <span class="arrow">→</span></a>
+</section>
+
+<div class="promo">
+  <div class="promo-in">
+    <span class="big">🎉 Envío bonificado</span>
+    <span class="small">en compras superiores a $50.000 · consultanos por tu zona</span>
+  </div>
+</div>
+
+<div class="strip">
+  <div class="strip-inner">
+    <div class="strip-item">🚚 <b>Envíos</b> a todo el país</div>
+    <div class="strip-item">💳 <b>Mercado Pago</b> · todas las tarjetas</div>
+    <div class="strip-item">🧵 <b>Algodón</b> suave y premium</div>
+    <div class="strip-item">💬 <b>Atención</b> personalizada</div>
+  </div>
+</div>
+
+<nav class="catbar">
+  <div class="catbar-inner" id="catbar"></div>
+</nav>
+
+<section class="section destacados" id="destacados">
+  <div class="sec-head"><span class="star">⭐</span><h2>Destacados</h2><div class="rule"></div></div>
+  <div class="grid" id="grid-destacados"></div>
+</section>
+
+<section class="catalogo" id="catalogo"><div id="grupos"></div></section>
+
+<section class="como">
+  <div class="como-in">
+    <h2>Cómo comprar</h2>
+    <p class="sub">Es fácil y rápido — en 4 pasos tenés tu pedido</p>
+    <div class="pasos">
+      <div class="paso"><div class="num">1</div><div class="ico">🛍️</div><h4>Elegí</h4><p>Sumá al carrito lo que te guste</p></div>
+      <div class="paso"><div class="num">2</div><div class="ico">💬</div><h4>Enviá el pedido</h4><p>Se abre WhatsApp con todo listo</p></div>
+      <div class="paso"><div class="num">3</div><div class="ico">💳</div><h4>Coordiná el pago</h4><p>Mercado Pago o transferencia</p></div>
+      <div class="paso"><div class="num">4</div><div class="ico">📦</div><h4>Recibí</h4><p>Te lo enviamos o lo retirás</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <div class="fb"><img src="logo.jpg" alt=""><span>Giorenatto</span></div>
+      <p>Ropa de bebé y primera infancia, hecha con amor. Ezpeleta, Buenos Aires.</p>
+    </div>
+    <div class="foot-col"><h4>Tienda</h4><a href="#catalogo">Catálogo</a><a onclick="abrirCarrito()">Mi carrito</a><a href="#como">Cómo comprar</a></div>
+    <div class="foot-col"><h4>Seguinos</h4>
+      <a href="https://www.instagram.com/giorenatto" target="_blank" rel="noopener" class="social-link"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07c-1.28.06-2.15.26-2.91.56-.79.31-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14c-.3.76-.5 1.63-.56 2.91C.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.28.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.67.66 1.34 1.07 2.13 1.38.76.3 1.63.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.28-.06 2.15-.26 2.91-.56.79-.31 1.46-.72 2.13-1.38.66-.67 1.07-1.34 1.38-2.13.3-.76.5-1.63.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.28-.26-2.15-.56-2.91-.31-.79-.72-1.46-1.38-2.13C21.32 1.35 20.65.94 19.86.63c-.76-.3-1.63-.5-2.91-.56C15.67.01 15.26 0 12 0Zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84Zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4Zm6.4-11.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44Z"/></svg> Instagram</a>
+      <a onclick="waConsulta()" class="social-link"><svg viewBox="0 0 32 32" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg> WhatsApp</a>
+    </div>
+  </div>
+  <div class="foot-bottom">© 2026 Giorenatto · Hecho con amor en Argentina</div>
+</footer>
+
+<a class="wa-float" onclick="waConsulta()" title="Escribinos por WhatsApp">
+  <svg viewBox="0 0 32 32" width="30" height="30" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg>
+</a>
+
+<div class="overlay" id="overlay" onclick="cerrarCarrito()"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head"><h3>Tu carrito</h3><button class="close" onclick="cerrarCarrito()">×</button></div>
+  <div class="items" id="items"></div>
+  <div class="drawer-foot">
+    <div class="total-row"><span class="lbl">Total</span><span class="val" id="total">$0</span></div>
+    <button class="checkout" id="checkout" onclick="finalizar()" disabled><svg viewBox="0 0 32 32" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg> Finalizar por WhatsApp</button>
+    <p class="pago-nota">Coordinás el pago por Mercado Pago o transferencia</p>
+  </div>
+</aside>
+
+<div class="modal-ov" id="modalOv" onclick="cerrarModal(event)">
+  <div class="modal" id="modalBox"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const WHATSAPP="5491162705378";
+const PRODUCTOS=[
+  {id:"GIO-0001",nombre:"Buzo Beba Flores",cat:"Buzos",talle:"",precio:24900,stock:7,desc:"Buzo de beba con estampa de flores, friza suave por dentro."},
+  {id:"GIO-0002",nombre:"Buzo Animalitos",cat:"Buzos",talle:"12/36 M",precio:34900,stock:6,desc:"Buzo con animalitos, abrigado y súper tierno."},
+  {id:"GIO-0010",nombre:"Buzo Bebé Frisa Oso",cat:"Buzos",talle:"",precio:32900,stock:1,desc:"Buzo de frisa con carita de oso. Calentito."},
+  {id:"GIO-0011",nombre:"Buzo Rayado Rústico",cat:"Buzos",talle:"12/36",precio:38900,stock:2,desc:"Buzo rústico rayado, tela de primera."},
+  {id:"GIO-0012",nombre:"Buzo Bebé",cat:"Buzos",talle:"12/36 M",precio:32900,stock:2,desc:"Buzo básico de bebé, cómodo para todos los días."},
+  {id:"GIO-0013",nombre:"Buzo Rústico Estampado",cat:"Buzos",talle:"6-36",precio:24900,stock:3,desc:"Buzo rústico con estampa, liviano y abrigado."},
+  {id:"GIO-0003",nombre:"Babucha Rústica BB",cat:"Babuchas",talle:"",precio:16900,stock:8,desc:"Babucha rústica de bebé, cintura elastizada."},
+  {id:"GIO-0004",nombre:"Babucha Rúst. Estampada",cat:"Babuchas",talle:"6/36 M",precio:19900,stock:1,desc:"Babucha rústica estampada, muy cómoda."},
+  {id:"GIO-0005",nombre:"Babuchas Bebé Rústicas",cat:"Babuchas",talle:"3/36 M",precio:21900,stock:4,desc:"Babuchas rústicas para bebé, suaves al tacto."},
+  {id:"GIO-0006",nombre:"Babucha Rústica",cat:"Babuchas",talle:"12/36",precio:24900,stock:1,desc:"Babucha rústica, calce holgado y cómodo."},
+  {id:"GIO-0022",nombre:"Body Americano",cat:"Bodies",talle:"0-4",precio:10900,stock:2,desc:"Body americano de algodón, broches en la entrepierna."},
+  {id:"GIO-0023",nombre:"Body Mameluco",cat:"Bodies",talle:"0/4",precio:10900,stock:1,desc:"Body tipo mameluco, prácticro para el cambiado."},
+  {id:"GIO-0024",nombre:"Body Musculosa",cat:"Bodies",talle:"0/4",precio:8900,stock:1,desc:"Body musculosa de algodón, ideal para el calor."},
+  {id:"GIO-0025",nombre:"Body Aventura M/C",cat:"Bodies",talle:"",precio:12900,stock:1,desc:"Body manga corta con estampa aventura."},
+  {id:"GIO-0026",nombre:"Body c/Broche M/C Estamp.",cat:"Bodies",talle:"",precio:11900,stock:3,desc:"Body manga corta estampado, con broches."},
+  {id:"GIO-0027",nombre:"Body M/Corta",cat:"Bodies",talle:"5/6",precio:11900,stock:3,desc:"Body de manga corta, suave y fresco."},
+  {id:"GIO-0028",nombre:"Body c/Broche M/C Estamp.",cat:"Bodies",talle:"0-4",precio:10900,stock:1,desc:"Body manga corta con broches, estampado."},
+  {id:"GIO-0029",nombre:"Body M/C Liso Blanco",cat:"Bodies",talle:"0 al 4",precio:8900,stock:1,desc:"Body blanco liso manga corta, un básico."},
+  {id:"GIO-0014",nombre:"Vestido",cat:"Vestidos",talle:"",precio:24900,stock:1,desc:"Vestidito de bebé, ideal para ocasiones."},
+  {id:"GIO-0015",nombre:"Vestido",cat:"Vestidos",talle:"6 a 36 M",precio:25900,stock:3,desc:"Vestido de bebé, tela suave y liviana."},
+  {id:"GIO-0007",nombre:"Pantalón Cargo Ripstop",cat:"Pantalones",talle:"12/36",precio:23900,stock:1,desc:"Pantalón cargo ripstop, resistente y con estilo."},
+  {id:"GIO-0008",nombre:"Remera Bebé/a",cat:"Remeras",talle:"12/36",precio:24900,stock:3,desc:"Remera de bebé unisex, algodón suave."},
+  {id:"GIO-0009",nombre:"Campera Rústica Bebé Lisa",cat:"Camperas",talle:"3/6/9",precio:47900,stock:1,desc:"Campera rústica lisa, bien abrigada."},
+  {id:"GIO-0021",nombre:"Enterito con Escarpín",cat:"Enteritos",talle:"",precio:24900,stock:1,desc:"Enterito con escarpín incorporado. Ideal recién nacido."},
+  {id:"GIO-0020",nombre:"Set Pima x3 (0/1, gorro)",cat:"Sets",talle:"0/1",precio:24900,stock:4,desc:"Set de algodón pima x3 con gorrito. Suavísimo."},
+  {id:"GIO-0018",nombre:"Manta Tejida Algodón 90x70",cat:"Mantas",talle:"",precio:27900,stock:3,desc:"Manta tejida de algodón 90x70cm. Abrigo y ternura."},
+  {id:"GIO-0019",nombre:"Mantas Algodón Estampadas",cat:"Mantas",talle:"",precio:21900,stock:4,desc:"Manta de algodón estampada, liviana."},
+  {id:"GIO-0016",nombre:"Medias Antideslizantes x3",cat:"Medias",talle:"",precio:10900,stock:6,desc:"Pack x3 de medias antideslizantes. Primeros pasos."},
+  {id:"GIO-0017",nombre:"Babitas por 3",cat:"Babitas",talle:"",precio:3900,stock:6,desc:"Pack x3 de babitas de algodón absorbente."},
+  {id:"GIO-0030",nombre:"Promo Sorpresa",cat:"Promos",talle:"",precio:6900,stock:12,desc:"Promo sorpresa: prenda a precio especial. ¡Consultanos!"},
+  // Pijamas (fotos reales)
+  {id:"GIO-0031",nombre:"Pijama Elefante Rosa",cat:"Pijamas",talle:"6",precio:0,stock:0,desc:"Pijama de elefante rosa. Consultar precio y stock.",img:"assets/products/pijama-elefante-rosa.jpg"},
+  {id:"GIO-0032",nombre:"Pijama Perrito Bordo",cat:"Pijamas",talle:"3",precio:0,stock:0,desc:"Pijama de perrito color bordo. Consultar precio y stock.",img:"assets/products/pijama-perrito-bordo.jpg"},
+  {id:"GIO-0033",nombre:"Pijama Perrito Rosa Viejo",cat:"Pijamas",talle:"5",precio:0,stock:0,desc:"Pijama de perrito rosa viejo. Consultar precio y stock.",img:"assets/products/pijama-perrito-rosa-viejo.jpg"},
+  {id:"GIO-0034",nombre:"Pijama Perrito Verde Oliva",cat:"Pijamas",talle:"5",precio:0,stock:0,desc:"Pijama de perrito verde oliva. Consultar precio y stock.",img:"assets/products/pijama-perrito-verde-oliva.jpg"},
+  {id:"GIO-0035",nombre:"Pijama Conejito Crudo",cat:"Pijamas",talle:"6 y 3",precio:0,stock:0,desc:"Pijama de conejito color crudo. Consultar precio y stock.",img:"assets/products/pijama-conejito-crudo.jpg"},
+  {id:"GIO-0036",nombre:"Pijama Sonrisas Gris y Azul",cat:"Pijamas",talle:"2",precio:0,stock:0,desc:"Pijama de sonrisas gris y azul. Consultar precio y stock.",img:"assets/products/pijama-sonrisas-gris-azul.jpg"},
+  {id:"GIO-0037",nombre:"Pijama Conejito Rosa",cat:"Pijamas",talle:"4",precio:0,stock:0,desc:"Pijama de conejito rosa. Consultar precio y stock.",img:"assets/products/pijama-conejito-rosa.jpg"},
+  {id:"GIO-0038",nombre:"Pijama Dinos Azul y Verde",cat:"Pijamas",talle:"3",precio:0,stock:0,desc:"Pijama de dinosaurios azul y verde. Consultar precio y stock.",img:"assets/products/pijama-dinos-azul-verde.jpg"},
+  {id:"GIO-0039",nombre:"Pijama Elegante Crudo",cat:"Pijamas",talle:"6 y 5",precio:0,stock:0,desc:"Pijama elegante color crudo. Consultar precio y stock.",img:"assets/products/pijama-elegante-crudo.jpg"},
+];
+// Destacados elegidos por criterio de venta: buen stock, variedad de categorías, precios gancho
+const DESTACADOS=["GIO-0001","GIO-0003","GIO-0020","GIO-0018","GIO-0016","GIO-0002"];
+
+const ICONOS={Buzos:"🧥",Babuchas:"👖",Pantalones:"👖",Remeras:"👕",Camperas:"🧥",Vestidos:"👗",Medias:"🧦",Babitas:"🍼",Mantas:"🧣",Sets:"🎁",Enteritos:"👶",Bodies:"👕",Pijamas:"🌙",Promos:"⭐"};
+const fmt=n=>"$"+n.toLocaleString("es-AR");
+const carrito={};
+const CATS=[...new Set(PRODUCTOS.map(p=>p.cat))];
+let filtroTalle="", busqueda="";
+
+function slug(c){return "cat-"+c.toLowerCase().normalize("NFD").replace(/[^a-z]/g,"")}
+
+function tallesDisponibles(){
+  const set=new Set();
+  PRODUCTOS.forEach(p=>{if(p.talle)set.add(p.talle);});
+  return [...set];
+}
+function renderNav(){
+  document.getElementById("catbar").innerHTML=
+    `<div class="pill on" onclick="scrollTo0()">Todo</div>`+
+    CATS.map(c=>`<div class="pill" onclick="irA('${slug(c)}')">${c}</div>`).join("")+
+    `<div class="talle-filter"><label>Talle:</label><select id="selTalle" onchange="onTalle()"><option value="">Todos</option>${tallesDisponibles().map(t=>`<option value="${t}">${t}</option>`).join("")}</select></div>`;
+}
+function scrollTo0(){window.scrollTo({top:0,behavior:'smooth'})}
+function irA(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'})}
+function onTalle(){filtroTalle=document.getElementById("selTalle").value;renderGrupos();}
+function onSearch(){busqueda=document.getElementById("search").value.toLowerCase().trim();renderGrupos();}
+
+function pasaFiltro(p){
+  if(filtroTalle && p.talle!==filtroTalle)return false;
+  if(busqueda && !(p.nombre.toLowerCase().includes(busqueda)||p.cat.toLowerCase().includes(busqueda)))return false;
+  return true;
+}
+
+function renderDestacados(){
+  const cont=document.getElementById("grid-destacados");
+  cont.innerHTML=DESTACADOS.map(id=>{const p=PRODUCTOS.find(x=>x.id===id);return p?cardHTML(p,true):"";}).join("");
+}
+function renderGrupos(){
+  const cont=document.getElementById("grupos");
+  const hayFiltro=filtroTalle||busqueda;
+  let html="";
+  let total=0;
+  CATS.forEach(cat=>{
+    const items=PRODUCTOS.filter(p=>p.cat===cat && pasaFiltro(p));
+    if(items.length===0)return;
+    total+=items.length;
+    html+=`<div class="cat-group" id="${slug(cat)}"><div class="group-head"><h2>${cat}</h2><span class="count">${items.length}</span><div class="rule"></div></div><div class="grid">${items.map(p=>cardHTML(p)).join("")}</div></div>`;
+  });
+  if(total===0){html=`<div class="no-results"><span class="e">🔍</span>No encontramos prendas con ese filtro.<br>Probá con otra búsqueda o talle.</div>`;}
+  cont.innerHTML=html;
+  // destacados solo sin filtro
+  document.getElementById("destacados").style.display=hayFiltro?"none":"block";
+}
+function cardHTML(p,fav){
+  const enCarrito=carrito[p.id]?.cantidad||0;const agotado=p.stock>0&&enCarrito>=p.stock;const low=p.stock>0&&p.stock<=2;
+  const img=p.img?`<img class="thumb-img" src="${p.img}" alt="${p.nombre}" loading="lazy">`:ICONOS[p.cat]||"🧸";
+  const stockTag=p.stock>0?`<span class="stock-tag ${low?'stock-low':'stock-ok'}">${low?'Últimas '+p.stock:'Disponible'}</span>`:`<span class="stock-tag stock-low">Consultar stock</span>`;
+  const precio=p.precio>0?`<span class="precio">${fmt(p.precio)}</span>`:`<span class="precio consult">Consultar</span>`;
+  return `<div class="card" onclick="abrirModal('${p.id}')">
+    <div class="thumb">${img}
+      ${stockTag}
+      ${fav?'<span class="fav-tag">⭐</span>':''}
+    </div>
+    <div class="body">
+      <div class="name">${p.nombre}</div>
+      <div class="talle">${p.talle?('Talle '+p.talle):'Consultar talle'}</div>
+      <div class="foot">${precio}
+        <button class="add" onclick="event.stopPropagation();agregar('${p.id}')" ${agotado?'disabled':''}>+</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* MODAL producto */
+function abrirModal(id){
+  const p=PRODUCTOS.find(x=>x.id===id);if(!p)return;
+  const enCarrito=carrito[p.id]?.cantidad||0;const agotado=p.stock>0&&enCarrito>=p.stock;const low=p.stock>0&&p.stock<=2;
+  const img=p.img?`<img class="modal-img-foto" src="${p.img}" alt="${p.nombre}">`:(ICONOS[p.cat]||"🧸");
+  const stockTag=p.stock>0?`<span class="stock-tag ${low?'stock-low':'stock-ok'}" style="top:16px;left:16px">${low?'Últimas '+p.stock:'Disponible'}</span>`:`<span class="stock-tag stock-low" style="top:16px;left:16px">Consultar stock</span>`;
+  const precio=p.precio>0?`<div class="modal-price">${fmt(p.precio)}</div>`:`<div class="modal-price consult">Consultar precio</div>`;
+  const stockInfo=p.stock>0?`${p.stock} ${p.stock===1?'unidad':'unidades'} ${low?'· ¡Últimas!':''}`:'Consultar';
+  document.getElementById("modalBox").innerHTML=`
+    <button class="modal-close" onclick="cerrarModal()">×</button>
+    <div class="modal-img">${img}${stockTag}</div>
+    <div class="modal-info">
+      <div class="modal-cat">${p.cat}</div>
+      <h3>${p.nombre}</h3>
+      ${precio}
+      <div class="modal-meta">
+        <div class="row"><b>Talle</b> <span>${p.talle||"Consultar según edad del bebé"}</span></div>
+        <div class="row"><b>Stock</b> <span>${stockInfo}</span></div>
+        <div class="row"><b>Detalle</b> <span>${p.desc||""}</span></div>
+      </div>
+      <button class="modal-add" onclick="agregar('${p.id}');cerrarModal()" ${agotado?'disabled':''}>${agotado?'Sin más stock':'Agregar al carrito'}</button>
+    </div>`;
+  document.getElementById("modalOv").classList.add("open");
+}
+function cerrarModal(e){if(e&&e.target!==document.getElementById("modalOv")&&e.type==="click"&&!e.target.classList.contains("modal-close"))return;document.getElementById("modalOv").classList.remove("open");}
+
+function agregar(id){const p=PRODUCTOS.find(x=>x.id===id);const a=carrito[id]?.cantidad||0;if(a>=p.stock){toast("No hay más stock");return;}carrito[id]={producto:p,cantidad:a+1};actualizar();toast(p.nombre+" agregado ✓");}
+function cambiar(id,d){if(!carrito[id])return;const n=carrito[id].cantidad+d;if(n<=0)delete carrito[id];else if(n>carrito[id].producto.stock){toast("Llegaste al stock disponible");return;}else carrito[id].cantidad=n;actualizar();}
+function actualizar(){
+  const items=Object.values(carrito);const count=items.reduce((s,i)=>s+i.cantidad,0);const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
+  const badge=document.getElementById("cartCount");badge.textContent=count;badge.style.display=count>0?"flex":"none";
+  document.getElementById("total").textContent=fmt(total);document.getElementById("checkout").disabled=count===0;
+  const cont=document.getElementById("items");
+  if(items.length===0){cont.innerHTML=`<div class="empty"><span class="emoji">🧺</span>Tu carrito está vacío<br>¡Sumá algo lindo!</div>`;}
+  else{cont.innerHTML=items.map(i=>`<div class="item"><div class="ico">${ICONOS[i.producto.cat]||"🧸"}</div><div class="info"><div class="n">${i.producto.nombre}</div><div class="p">${fmt(i.producto.precio)} c/u</div></div><div class="qty"><button onclick="cambiar('${i.producto.id}',-1)">−</button><span>${i.cantidad}</span><button onclick="cambiar('${i.producto.id}',1)">+</button></div></div>`).join("");}
+  renderDestacados();renderGrupos();
+}
+function abrirCarrito(){document.getElementById("overlay").classList.add("open");document.getElementById("drawer").classList.add("open");}
+function cerrarCarrito(){document.getElementById("overlay").classList.remove("open");document.getElementById("drawer").classList.remove("open");}
+function finalizar(){
+  const items=Object.values(carrito);if(!items.length)return;
+  const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
+  let msg="¡Hola Giorenatto! 🐻 Quiero hacer este pedido:%0A%0A";
+  items.forEach(i=>{msg+=`• ${i.cantidad}x ${i.producto.nombre}${i.producto.talle?(' (T '+i.producto.talle+')'):''} — ${fmt(i.producto.precio*i.cantidad)}%0A`;});
+  msg+=`%0A*Total: ${fmt(total)}*`;
+  window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,"_blank");
+}
+function waConsulta(){window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent("¡Hola Giorenatto! 🐻 Tengo una consulta")}`,"_blank");}
+let toastTimer;
+function toast(t){const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),1700);}
+
+renderNav();renderDestacados();renderGrupos();actualizar();
+window.addEventListener("scroll",()=>{document.getElementById("header").classList.toggle("scrolled",window.scrollY>10);});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){cerrarModal();cerrarCarrito();}});
+</script>
+</body>
+</html>
