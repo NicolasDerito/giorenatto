@@ -168,8 +168,8 @@
   .entrega{display:flex;gap:8px;margin-bottom:10px}
   .entrega button{flex:1;border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:9px;font-family:'Manrope';font-weight:700;font-size:.85rem;color:var(--ink-2);cursor:pointer;transition:all .15s}
   .entrega button.on{border-color:var(--salvia-dark);background:var(--salvia);color:var(--ink)}
-  #campoDireccion{display:none}
-  #campoDireccion.show{display:block}
+  #campoDireccion,#campoCiudad,#campoProvincia{display:none}
+  #campoDireccion.show,#campoCiudad.show,#campoProvincia.show{display:block}
 
   /* MODAL PRODUCTO */
   .modal-ov{position:fixed;inset:0;background:rgba(70,58,45,.42);backdrop-filter:blur(4px);z-index:75;opacity:0;visibility:hidden;transition:opacity .28s;display:flex;align-items:center;justify-content:center;padding:20px}
@@ -322,7 +322,9 @@
       <div><label>Apellido</label><input id="fApellido" placeholder="Tu apellido" autocomplete="family-name"></div>
       <div class="full"><label>Teléfono</label><input id="fTelefono" type="tel" placeholder="11 2345-6789" autocomplete="tel"></div>
       <div class="full"><label>Email</label><input id="fMail" type="email" placeholder="tu@mail.com" autocomplete="email"></div>
-      <div class="full" id="campoDireccion"><label>Dirección (para el envío)</label><input id="fDireccion" placeholder="Calle, número, ciudad"></div>
+      <div class="full" id="campoDireccion"><label>Calle y número</label><input id="fCalle" placeholder="Av. Siempre Viva 123"></div>
+      <div class="full" id="campoCiudad"><label>Ciudad</label><input id="fCiudad" placeholder="Ciudad"></div>
+      <div class="full" id="campoProvincia"><label>Provincia</label><input id="fProvincia" placeholder="Provincia"></div>
     </div>
   </div>
   <div class="drawer-foot">
@@ -507,6 +509,8 @@ function elegirEntrega(t){
   document.getElementById("btnEnvio").classList.toggle("on",t==='envio');
   document.getElementById("btnRetiro").classList.toggle("on",t==='retiro');
   document.getElementById("campoDireccion").classList.toggle("show",t==='envio');
+  document.getElementById("campoCiudad").classList.toggle("show",t==='envio');
+  document.getElementById("campoProvincia").classList.toggle("show",t==='envio');
 }
 function finalizar(){
   const items=Object.values(carrito);if(!items.length)return;
@@ -515,7 +519,10 @@ function finalizar(){
   const telefono=document.getElementById("fTelefono").value.trim();
   const mail=document.getElementById("fMail").value.trim();
   if(!nombre||!apellido||!telefono||!mail){toast("Completá tus datos para la entrega");return;}
-  const direccion=document.getElementById("fDireccion").value.trim();
+  const calle=document.getElementById("fCalle").value.trim();
+  const ciudad=document.getElementById("fCiudad").value.trim();
+  const provincia=document.getElementById("fProvincia").value.trim();
+  const direccion=[calle,ciudad,provincia].filter(Boolean).join(", ");
   const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
   let msg="¡Hola Giorenatto! 🐻 Quiero hacer este pedido:%0A%0A";
   items.forEach(i=>{msg+=`• ${i.cantidad}x ${i.producto.nombre}${i.producto.talle?(' (T '+i.producto.talle+')'):''} — ${fmt(i.producto.precio*i.cantidad)}%0A`;});
