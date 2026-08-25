@@ -202,7 +202,9 @@
   .modal-talles{display:flex;gap:8px;flex-wrap:wrap}
   .talle-btn{border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 16px;font-family:'Manrope';font-weight:800;font-size:.9rem;color:var(--ink-2);cursor:pointer;transition:all .15s}
   .talle-btn.on{border-color:var(--salvia-dark);background:var(--salvia);color:var(--ink)}
-  .modal-meta{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;font-size:.92rem}
+  .card-colores{display:flex;gap:6px;margin:9px 0 3px}
+  .c-dot{width:20px;height:20px;border-radius:50%;background-size:cover;background-position:center;border:1.5px solid var(--line);box-shadow:0 1px 3px rgba(0,0,0,.08);flex-shrink:0}
+  .card:hover .c-dot{border-color:var(--salvia-dark)}
   .modal-meta .row{display:flex;gap:8px;color:var(--ink-2)}
   .modal-meta .row b{color:var(--ink);font-weight:700;min-width:70px}
   .modal-add{margin-top:auto;border:none;cursor:pointer;background:var(--oso-deep);color:#fff;font-family:'Manrope';font-weight:800;font-size:1.05rem;padding:15px;border-radius:14px;transition:all .2s}
@@ -476,6 +478,7 @@ function cardHTML(p,fav){
     </div>
     <div class="body">
       <div class="name">${p.nombre}</div>
+      ${p.colores&&p.colores.length>1?`<div class="card-colores">${p.colores.map(c=>`<span class="c-dot" style="background-image:url('${c.foto}')" title="${c.nombre}"></span>`).join("")}</div>`:""}
       <div class="talle">${p.talles?('Talles: '+p.talles.join(' · ')):(p.talle?('Talle '+p.talle):'Consultar talle')}</div>
       <div class="foot">${precio}
         <button class="add" onclick="event.stopPropagation();${p.talles||p.colores?`abrirModal('${p.id}')`:`agregar('${p.id}')`}" ${agotado?'disabled':''}>+</button>
