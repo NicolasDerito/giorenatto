@@ -505,12 +505,12 @@ function abrirModal(id){
       <div class="modal-cat">${p.cat}</div>
       <h3>${p.nombre}</h3>
       ${precio}
-      ${selectorColor}
-      ${selectorTalle}
       <div class="modal-meta">
         <div class="row"><b>Stock</b> <span>${stockInfo}</span></div>
         <div class="row"><b>Detalle</b> <span>${p.desc||""}</span></div>
       </div>
+      ${selectorColor}
+      ${selectorTalle}
       <button class="modal-add" onclick="agregarVar('${p.id}');cerrarModal()" ${agotado?'disabled':''}>${agotado?'Sin más stock':'Agregar al carrito'}</button>
     </div>`;
   document.getElementById("modalOv").classList.add("open");
