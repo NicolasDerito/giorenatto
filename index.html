@@ -197,6 +197,8 @@
   .color-thumb{width:56px;height:56px;border-radius:12px;overflow:hidden;border:2px solid var(--line);cursor:pointer;padding:0;background:var(--surface);transition:all .15s}
   .color-thumb img{width:100%;height:100%;object-fit:cover;display:block}
   .color-thumb.on{border-color:var(--salvia-dark);box-shadow:0 0 0 2px var(--salvia)}
+  .color-thumb.off,.talle-btn.off{opacity:.35;cursor:not-allowed;filter:grayscale(.6)}
+  .color-thumb.off img{filter:grayscale(.6)}
   .var-block{margin-bottom:16px}
   .var-label{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);margin-bottom:8px}
   .modal-talles{display:flex;gap:8px;flex-wrap:wrap}
@@ -488,16 +490,56 @@ function cardHTML(p,fav){
 }
 
 /* MODAL producto */
+let varSel={}; // {id:{ci,ti}} selección actual color/talle por producto
+function stockCombo(p,color,talle){
+  if(p.stockVar&&color!=null&&talle!=null) return p.stockVar[color+"|"+talle]||0;
+  return p.stock;
+}
+function stockTotal(p){
+  if(p.stockVar) return Object.values(p.stockVar).reduce((a,b)=>a+b,0);
+  return p.stock;
+}
+function comboKey(p,i,j){const c=p.colores&&p.colores.length?p.colores[i].nombre:"";const t=p.talles&&p.talles.length?p.talles[j]:"";return c+"|"+t;}
+function selInit(p){
+  let s=varSel[p.id]||{ci:0,ti:0};
+  const nC=p.colores?p.colores.length:0;
+  const nT=p.talles?p.talles.length:0;
+  let ci=Math.min(s.ci,Math.max(nC-1,0)), ti=Math.min(s.ti,Math.max(nT-1,0));
+  if(p.stockVar&&nC){
+    const ok=(i,j)=>p.stockVar[comboKey(p,i,j)]>0;
+    if(!ok(ci,ti)){
+      let found=false;
+      const jmax=Math.max(nT,1);
+      for(let i=0;i<nC&&!found;i++)for(let j=0;j<jmax;j++){if(ok(i,j)){ci=i;ti=j;found=true;break;}}
+    }
+  }
+  varSel[p.id]={ci,ti};
+  return varSel[p.id];
+}
 function abrirModal(id){
   const p=PRODUCTOS.find(x=>x.id===id);if(!p)return;
-  const enCarrito=carrito[p.id]?.cantidad||0;const agotado=p.stock>0&&enCarrito>=p.stock;const low=p.stock>0&&p.stock<=2;
-  const foto0=p.colores?p.colores[0].foto:(p.img||"");
+  const sel=selInit(p);
+  const ci=sel.ci,ti=sel.ti;
+  const colorSel=p.colores&&p.colores.length?p.colores[ci].nombre:"";
+  const talleSel=p.talles&&p.talles.length?p.talles[ti]:"";
+  const st=stockCombo(p,colorSel,talleSel);
+  const enCarrito=carrito[id+"|"+colorSel+"|"+talleSel]?.cantidad||0;
+  const agotado=st>0&&enCarrito>=st;
+  const total=stockTotal(p);const low=total>0&&total<=2;
+  const foto0=p.colores&&p.colores.length?p.colores[ci].foto:(p.img||"");
   const img=foto0?`<img class="modal-img-foto" id="modalFoto" src="${foto0}" alt="${p.nombre}">`:(ICONOS[p.cat]||"🧸");
-  const stockTag=p.stock>0?`<span class="stock-tag ${low?'stock-low':'stock-ok'}" style="top:16px;left:16px">${low?'Últimas '+p.stock:'Disponible'}</span>`:`<span class="stock-tag stock-low" style="top:16px;left:16px">Consultar stock</span>`;
+  const stockTag=total>0?`<span class="stock-tag ${low?'stock-low':'stock-ok'}" style="top:16px;left:16px">${low?'Últimas '+total:'Disponible'}</span>`:`<span class="stock-tag stock-low" style="top:16px;left:16px">Consultar stock</span>`;
   const precio=p.precio>0?`<div class="modal-price">${fmt(p.precio)}</div>`:`<div class="modal-price consult">Consultar precio</div>`;
-  const stockInfo=p.stock>0?`${p.stock} ${p.stock===1?'unidad':'unidades'} ${low?'· ¡Últimas!':''}`:'Consultar';
-  const selectorColor=p.colores&&p.colores.length>1?`<div class="var-block"><div class="var-label">Color</div><div class="modal-colores">${p.colores.map((c,i)=>`<button class="color-thumb ${i===0?'on':''}" onclick="elegirFoto('${p.id}',${i})"><img src="${c.foto}" alt="${c.nombre}" title="${c.nombre}"></button>`).join("")}</div></div>`:"";
-  const selectorTalle=p.talles&&p.talles.length>1?`<div class="var-block"><div class="var-label">Talle</div><div class="modal-talles">${p.talles.map((t,i)=>`<button class="talle-btn ${i===0?'on':''}" onclick="elegirTalle('${p.id}',${i})">${t}</button>`).join("")}</div></div>`:"";
+  const stockInfo=p.stockVar?(st>0?`${st} ${st===1?'unidad':'unidades'} de ${colorSel}${talleSel?(' · Talle '+talleSel):''}`:'Combinación sin stock'):(p.stock>0?`${p.stock} ${p.stock===1?'unidad':'unidades'} ${low?'· ¡Últimas!':''}`:'Consultar');
+  const selectorColor=p.colores&&p.colores.length>1?`<div class="var-block"><div class="var-label">Color</div><div class="modal-colores">${p.colores.map((c,i)=>{
+    const combos=p.talles&&p.talles.length?p.talles:[null];
+    const disp=!p.stockVar||combos.some(t=>p.stockVar[c.nombre+"|"+(t||"")]>0);
+    return `<button class="color-thumb ${i===ci?'on':''} ${disp?'':'off'}" onclick="elegirFoto('${p.id}',${i})" ${disp?'':'disabled'}><img src="${c.foto}" alt="${c.nombre}" title="${c.nombre}"></button>`;
+  }).join("")}</div></div>`:"";
+  const selectorTalle=p.talles&&p.talles.length>1?`<div class="var-block"><div class="var-label">Talle</div><div class="modal-talles">${p.talles.map((t,i)=>{
+    const disp=!p.stockVar||p.stockVar[colorSel+"|"+t]>0;
+    return `<button class="talle-btn ${i===ti?'on':''} ${disp?'':'off'}" onclick="elegirTalle('${p.id}',${i})" ${disp?'':'disabled'}>${t}</button>`;
+  }).join("")}</div></div>`:"";
   document.getElementById("modalBox").innerHTML=`
     <button class="modal-close" onclick="cerrarModal()">×</button>
     <div class="modal-img">${img}${stockTag}</div>
@@ -511,34 +553,46 @@ function abrirModal(id){
       </div>
       ${selectorColor}
       ${selectorTalle}
-      <button class="modal-add" onclick="agregarVar('${p.id}');cerrarModal()" ${agotado?'disabled':''}>${agotado?'Sin más stock':'Agregar al carrito'}</button>
+      <button class="modal-add" onclick="agregarVar('${p.id}');cerrarModal()" ${(st<=0||agotado)?'disabled':''}>${st<=0?'Sin stock en ese color/talle':(agotado?'Sin más stock':'Agregar al carrito')}</button>
     </div>`;
   document.getElementById("modalOv").classList.add("open");
 }
 function elegirFoto(id,idx){
   const p=PRODUCTOS.find(x=>x.id===id);if(!p||!p.colores)return;
-  const img=document.getElementById("modalFoto");if(img)img.src=p.colores[idx].foto;
-  document.querySelectorAll(".color-thumb").forEach((b,i)=>b.classList.toggle("on",i===idx));
+  const s=varSel[id]||{ci:0,ti:0};
+  s.ci=idx;
+  if(p.stockVar&&p.colores&&p.colores.length){
+    if(!(p.stockVar[comboKey(p,idx,s.ti)]>0)){
+      const jmax=Math.max(p.talles?p.talles.length:1,1);
+      let alt=-1;
+      for(let j=0;j<jmax;j++){if(p.stockVar[comboKey(p,idx,j)]>0){alt=j;break;}}
+      if(alt>=0)s.ti=alt;
+    }
+  }
+  varSel[id]=s;abrirModal(id);
 }
 function elegirTalle(id,idx){
-  document.querySelectorAll(".talle-btn").forEach((b,i)=>b.classList.toggle("on",i===idx));
+  const p=PRODUCTOS.find(x=>x.id===id);if(!p)return;
+  const s=varSel[id]||{ci:0,ti:0};
+  s.ti=idx;varSel[id]=s;abrirModal(id);
 }
 function agregarVar(id){
   const p=PRODUCTOS.find(x=>x.id===id);if(!p)return;
-  const colorIdx=Array.from(document.querySelectorAll(".color-thumb")).findIndex(b=>b.classList.contains("on"));
-  const talleIdx=Array.from(document.querySelectorAll(".talle-btn")).findIndex(b=>b.classList.contains("on"));
-  const color=p.colores&&p.colores.length?p.colores[colorIdx>=0?colorIdx:0].nombre:"";
-  const talle=p.talles&&p.talles.length?p.talles[talleIdx>=0?talleIdx:0]:"";
+  const s=varSel[id]||{ci:0,ti:0};
+  const color=p.colores&&p.colores.length?p.colores[s.ci].nombre:"";
+  const talle=p.talles&&p.talles.length?p.talles[s.ti]:"";
+  const st=stockCombo(p,color,talle);
+  if(st<=0){toast("Esa combinación no tiene stock");return;}
   const key=id+"|"+color+"|"+talle;
   const a=carrito[key]?.cantidad||0;
-  if(p.stock>0&&a>=p.stock){toast("No hay más stock");return;}
+  if(a>=st){toast("No hay más stock de esa combinación");return;}
   carrito[key]={producto:p,color,talle,cantidad:a+1};
   actualizar();toast(p.nombre+" agregado ✓");
 }
 function cerrarModal(e){if(e&&e.target!==document.getElementById("modalOv")&&e.type==="click"&&!e.target.classList.contains("modal-close"))return;document.getElementById("modalOv").classList.remove("open");}
 
 function agregar(id){const p=PRODUCTOS.find(x=>x.id===id);const a=carrito[id]?.cantidad||0;if(a>=p.stock){toast("No hay más stock");return;}carrito[id]={producto:p,cantidad:a+1};actualizar();toast(p.nombre+" agregado ✓");}
-function cambiar(id,d){if(!carrito[id])return;const n=carrito[id].cantidad+d;if(n<=0)delete carrito[id];else if(n>carrito[id].producto.stock){toast("Llegaste al stock disponible");return;}else carrito[id].cantidad=n;actualizar();}
+function cambiar(id,d){if(!carrito[id])return;const it=carrito[id];const st=stockCombo(it.producto,it.color||null,it.talle||null);const n=it.cantidad+d;if(n<=0)delete carrito[id];else if(n>st){toast("Llegaste al stock disponible");return;}else it.cantidad=n;actualizar();}
 function actualizar(){
   const items=Object.values(carrito);const count=items.reduce((s,i)=>s+i.cantidad,0);const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
   const badge=document.getElementById("cartCount");badge.textContent=count;badge.style.display=count>0?"flex":"none";
