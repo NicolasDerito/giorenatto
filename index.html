@@ -470,6 +470,7 @@ function renderGrupos(){
 }
 function cardHTML(p,fav){
   const enCarrito=carrito[p.id]?.cantidad||0;const agotado=p.stock>0&&enCarrito>=p.stock;const low=p.stock>0&&p.stock<=2;
+  const total=stockTotal(p);const stockTag=total>0?`<span class="stock-tag ${total<=2?'stock-low':'stock-ok'}" style="top:16px;left:16px">${total<=2?'Últimas '+total:'Disponible'}</span>`:`<span class="stock-tag stock-low" style="top:16px;left:16px">Consultar stock</span>`;
   const img=p.colores?`<img class="thumb-img" src="${p.colores[0].foto}" alt="${p.nombre}" loading="lazy">`:(p.img?`<img class="thumb-img" src="${p.img}" alt="${p.nombre}" loading="lazy">`:ICONOS[p.cat]||"🧸");
   const COLOR_HEX={rosa:'#f2b8c6',celeste:'#a8d8ea',blanco:'#f7f4ef',azul:'#8db3d9',verde:'#b5cc9e','verde oliva':'#a9a083',bordo:'#8e3b3b',gris:'#b9b4ac',crudo:'#ede3d0',beige:'#e8dcc5',amarillo:'#f4d67a',naranja:'#f2a65a',lila:'#c9b8e0',negro:'#3a3a3a'};
   const precio=p.precio>0?`<span class="precio">${fmt(p.precio)}</span>`:`<span class="precio consult">Consultar</span>`;
