@@ -561,7 +561,7 @@ function finalizar(){
   const direccion=[calle,ciudad,provincia].filter(Boolean).join(", ");
   const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
   let msg="¡Hola Giorenatto! 🐻 Quiero hacer este pedido:%0A%0A";
-  items.forEach(i=>{msg+=`• ${i.cantidad}x ${i.producto.nombre}${i.color?(' · '+i.color):''}${i.talle?(' (Talle '+i.talle+')'):''} — ${fmt(i.producto.precio*i.cantidad)}%0A`;});
+  items.forEach(i=>{const importe=i.producto.precio>0?fmt(i.producto.precio*i.cantidad):"Consultar";msg+=`• ${i.cantidad}x ${i.producto.nombre}${i.color?(' · '+i.color):''}${i.talle?(' (Talle '+i.talle+')'):''} — ${importe}%0A`;});
   msg+=`%0A*Total: ${fmt(total)}*%0A%0A`;
   msg+=`*Entrega:* ${entrega==='envio'?'🚚 Envío':'🏠 Retiro'}%0A`;
   msg+=`*Nombre:* ${nombre} ${apellido}%0A`;
