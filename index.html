@@ -469,7 +469,7 @@ function renderGrupos(){
 function cardHTML(p,fav){
   const enCarrito=carrito[p.id]?.cantidad||0;const agotado=p.stock>0&&enCarrito>=p.stock;const low=p.stock>0&&p.stock<=2;
   const img=p.colores?`<img class="thumb-img" src="${p.colores[0].foto}" alt="${p.nombre}" loading="lazy">`:(p.img?`<img class="thumb-img" src="${p.img}" alt="${p.nombre}" loading="lazy">`:ICONOS[p.cat]||"🧸");
-  const stockTag=p.stock>0?`<span class="stock-tag ${low?'stock-low':'stock-ok'}">${low?'Últimas '+p.stock:'Disponible'}</span>`:`<span class="stock-tag stock-low">Consultar stock</span>`;
+  const COLOR_HEX={rosa:'#f2b8c6',celeste:'#a8d8ea',blanco:'#f7f4ef',azul:'#8db3d9',verde:'#b5cc9e','verde oliva':'#a9a083',bordo:'#8e3b3b',gris:'#b9b4ac',crudo:'#ede3d0',beige:'#e8dcc5',amarillo:'#f4d67a',naranja:'#f2a65a',lila:'#c9b8e0',negro:'#3a3a3a'};
   const precio=p.precio>0?`<span class="precio">${fmt(p.precio)}</span>`:`<span class="precio consult">Consultar</span>`;
   return `<div class="card" onclick="abrirModal('${p.id}')">
     <div class="thumb">${img}
@@ -478,7 +478,7 @@ function cardHTML(p,fav){
     </div>
     <div class="body">
       <div class="name">${p.nombre}</div>
-      ${p.colores&&p.colores.length>1?`<div class="card-colores">${p.colores.map(c=>`<span class="c-dot" style="background-image:url('${c.foto}')" title="${c.nombre}"></span>`).join("")}</div>`:""}
+      ${p.colores&&p.colores.length>1?`<div class="card-colores">${p.colores.map(c=>{const hex=COLOR_HEX[(c.nombre||'').toLowerCase()];return `<span class="c-dot" ${hex?`style="background:${hex}"`:`style="background-image:url('${c.foto}')"`} title="${c.nombre}"></span>`;}).join("")}</div>`:""}
       <div class="talle">${p.talles?('Talles: '+p.talles.join(' · ')):(p.talle?('Talle '+p.talle):'Consultar talle')}</div>
       <div class="foot">${precio}
         <button class="add" onclick="event.stopPropagation();${p.talles||p.colores?`abrirModal('${p.id}')`:`agregar('${p.id}')`}" ${agotado?'disabled':''}>+</button>
