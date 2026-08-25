@@ -416,7 +416,7 @@ function tallesDisponibles(){
   return [...set];
 }
 function renderNav(){
-  const catsConFoto=CATS.filter(cat=>PRODUCTOS.some(p=>p.cat===cat && p.img));
+  const catsConFoto=CATS.filter(cat=>PRODUCTOS.some(p=>p.cat===cat && (p.img||(p.colores&&p.colores.length))));
   document.getElementById("catbar").innerHTML=
     `<div class="pill on" onclick="scrollTo0()">Todo</div>`+
     catsConFoto.map(c=>`<div class="pill" onclick="irA('${slug(c)}')">${c}</div>`).join("")+
@@ -435,7 +435,7 @@ function pasaFiltro(p){
 
 function renderDestacados(){
   const cont=document.getElementById("grid-destacados");
-  const destacados=DESTACADOS.map(id=>{const p=PRODUCTOS.find(x=>x.id===id);return p&&p.img?cardHTML(p,true):"";}).join("");
+  const destacados=DESTACADOS.map(id=>{const p=PRODUCTOS.find(x=>x.id===id);return p&&(p.img||(p.colores&&p.colores.length))?cardHTML(p,true):"";}).join("");
   cont.innerHTML=destacados;
   document.getElementById("destacados").style.display=destacados?"block":"none";
 }
@@ -446,7 +446,7 @@ function renderGrupos(){
   let total=0;
   CATS.forEach(cat=>{
     // Solo productos con foto (ya tienen precio y stock); los que no tienen nada no se muestran
-    const items=PRODUCTOS.filter(p=>p.cat===cat && p.img && pasaFiltro(p));
+    const items=PRODUCTOS.filter(p=>p.cat===cat && (p.img||(p.colores&&p.colores.length)) && pasaFiltro(p));
     if(items.length===0)return;
     total+=items.length;
     html+=`<div class="cat-group" id="${slug(cat)}"><div class="group-head"><h2>${cat}</h2><span class="count">${items.length}</span><div class="rule"></div></div><div class="grid">${items.map(p=>cardHTML(p)).join("")}</div></div>`;
