@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://giorenatto.com.ar/
+Sitemap: https://giorenatto.com.ar/sitemap.xml
