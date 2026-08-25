@@ -532,8 +532,7 @@ function abrirModal(id){
   const precio=p.precio>0?`<div class="modal-price">${fmt(p.precio)}</div>`:`<div class="modal-price consult">Consultar precio</div>`;
   const stockInfo=p.stockVar?(st>0?`${st} ${st===1?'unidad':'unidades'} de ${colorSel}${talleSel?(' · Talle '+talleSel):''}`:'Combinación sin stock'):(p.stock>0?`${p.stock} ${p.stock===1?'unidad':'unidades'} ${low?'· ¡Últimas!':''}`:'Consultar');
   const selectorColor=p.colores&&p.colores.length>1?`<div class="var-block"><div class="var-label">Color</div><div class="modal-colores">${p.colores.map((c,i)=>{
-    const combos=p.talles&&p.talles.length?p.talles:[null];
-    const disp=!p.stockVar||combos.some(t=>p.stockVar[c.nombre+"|"+(t||"")]>0);
+    const disp=!p.stockVar||p.stockVar[c.nombre+"|"+talleSel]>0;
     return `<button class="color-thumb ${i===ci?'on':''} ${disp?'':'off'}" onclick="elegirFoto('${p.id}',${i})" ${disp?'':'disabled'}><img src="${c.foto}" alt="${c.nombre}" title="${c.nombre}"></button>`;
   }).join("")}</div></div>`:"";
   const selectorTalle=p.talles&&p.talles.length>1?`<div class="var-block"><div class="var-label">Talle</div><div class="modal-talles">${p.talles.map((t,i)=>{
@@ -574,7 +573,16 @@ function elegirFoto(id,idx){
 function elegirTalle(id,idx){
   const p=PRODUCTOS.find(x=>x.id===id);if(!p)return;
   const s=varSel[id]||{ci:0,ti:0};
-  s.ti=idx;varSel[id]=s;abrirModal(id);
+  s.ti=idx;
+  if(p.stockVar&&p.colores&&p.colores.length){
+    if(!(p.stockVar[comboKey(p,s.ci,idx)]>0)){
+      const nC=p.colores.length;
+      let alt=-1;
+      for(let i=0;i<nC;i++){if(p.stockVar[comboKey(p,i,idx)]>0){alt=i;break;}}
+      if(alt>=0)s.ci=alt;
+    }
+  }
+  varSel[id]=s;abrirModal(id);
 }
 function agregarVar(id){
   const p=PRODUCTOS.find(x=>x.id===id);if(!p)return;
