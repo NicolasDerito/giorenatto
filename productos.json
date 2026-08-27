@@ -582,5 +582,23 @@
    "|24M": 1
   },
   "img": "assets/products/campera-rustica.webp"
+ },
+ {
+  "id": "GIO-0055",
+  "nombre": "Buzo Rústico Dinos Celeste",
+  "cat": "Buzos",
+  "precio": 34900,
+  "desc": "Buzo rústico celeste con estampa de dinosaurios, tela suave y abrigada.",
+  "talles": [
+   "12-18M",
+   "24M",
+   "36M"
+  ],
+  "stockVar": {
+   "|12-18M": 1,
+   "|24M": 1,
+   "|36M": 1
+  },
+  "img": "assets/products/buzo-rustico-dinos-celeste.webp"
  }
 ]
