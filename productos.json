@@ -742,5 +742,19 @@
    "|24M": 1
   },
   "img": "assets/products/conjunto-flores-beige.webp"
+ },
+ {
+  "id": "GIO-0065",
+  "nombre": "Babucha Rústica Celeste",
+  "cat": "Babuchas",
+  "precio": 35900,
+  "desc": "Babucha rústica celeste, tela suave y cómoda.",
+  "talles": [
+   "24M"
+  ],
+  "stockVar": {
+   "|24M": 1
+  },
+  "img": "assets/products/babucha-rustica-celeste.webp"
  }
 ]
