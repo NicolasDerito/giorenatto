@@ -510,5 +510,19 @@
    "|36M": 1
   },
   "img": "assets/products/buzo-rustico-elefante-oliva.webp"
+ },
+ {
+  "id": "GIO-0050",
+  "nombre": "Buzo Frizado Ositos",
+  "cat": "Buzos",
+  "precio": 32900,
+  "desc": "Buzo frizado con ositos, calentito y súper cómodo.",
+  "talles": [
+   "24M"
+  ],
+  "stockVar": {
+   "|24M": 1
+  },
+  "img": "assets/products/buzo-frizado-ositos.webp"
  }
 ]
