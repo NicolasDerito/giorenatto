@@ -728,5 +728,19 @@
    "|24M": 1
   },
   "img": "assets/products/conjunto-flores-beige.webp"
+ },
+ {
+  "id": "GIO-0064",
+  "nombre": "Conjunto Rústico Florcitas",
+  "cat": "Conjuntos",
+  "precio": 39900,
+  "desc": "Conjunto rústico con florcitas, tela suave y cómoda.",
+  "talles": [
+   "24M"
+  ],
+  "stockVar": {
+   "|24M": 1
+  },
+  "img": "assets/products/conjunto-rustico-florcitas.webp"
  }
 ]
