@@ -812,5 +812,19 @@
    "|18M": 1
   },
   "img": "assets/products/remera-camion.webp"
+ },
+ {
+  "id": "GIO-0070",
+  "nombre": "Remera Blanca Dino",
+  "cat": "Remeras",
+  "precio": 19900,
+  "desc": "Remera blanca con dinosaurio, tela suave.",
+  "talles": [
+   "18M"
+  ],
+  "stockVar": {
+   "|18M": 1
+  },
+  "img": "assets/products/remera-blanca-dino.webp"
  }
 ]
