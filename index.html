@@ -705,6 +705,10 @@ let toastTimer;
 function toast(t){const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),1700);}
 
 renderNav();renderDestacados();renderGrupos();actualizar();
+// Catálogo dinámico: si existe productos.json (editado desde el Admin), se usa en vez del array fijo.
+fetch("productos.json").then(r=>r.ok?r.json():null).then(lista=>{
+  if(lista&&Array.isArray(lista)&&lista.length){PRODUCTOS.splice(0,PRODUCTOS.length,...lista);renderNav();renderDestacados();renderGrupos();actualizar();}
+}).catch(()=>{});
 window.addEventListener("scroll",()=>{document.getElementById("header").classList.toggle("scrolled",window.scrollY>10);});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){cerrarModal();cerrarCarrito();}});
 </script>

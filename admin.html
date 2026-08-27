@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Giorenatto — Web</title>
+<style>
+  :root{--salvia:#7d9b76;--salvia-dark:#5c7a56;--rosa:#d98a94;--crema:#faf6ef;--tinta:#3a3a38}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--crema);color:var(--tinta);padding-bottom:120px}
+  header{background:var(--salvia);color:#fff;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:10}
+  header h1{font-size:1.2rem;font-weight:800}
+  header .sub{font-size:.75rem;opacity:.85}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;padding:14px 24px;align-items:center}
+  .toolbar input[type=search]{flex:1;min-width:200px;padding:10px 14px;border:1px solid #ddd;border-radius:10px;font-size:.95rem}
+  .btn{padding:10px 16px;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:.9rem}
+  .btn-primario{background:var(--salvia);color:#fff}
+  .btn-primario:hover{background:var(--salvia-dark)}
+  .btn-rosa{background:var(--rosa);color:#fff}
+  .btn-rosa:hover{background:#c4707c}
+  .btn-claro{background:#fff;border:1px solid #ddd;color:var(--tinta)}
+  .btn-claro:hover{background:#f0ece4}
+  .btn-peligro{background:#fff;border:1px solid #e5b4b4;color:#b04848}
+  .btn-peligro:hover{background:#fdeeee}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;padding:14px 24px}
+  .card{background:#fff;border:1px solid #eee;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px}
+  .card .foto{width:100%;height:150px;object-fit:cover;border-radius:10px;background:#f5f1e9;display:flex;align-items:center;justify-content:center;font-size:2.5rem}
+  .card .nombre{font-weight:800;font-size:.95rem}
+  .card .meta{font-size:.8rem;color:#666;display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px}
+  .card .precio{font-weight:800;color:var(--salvia-dark);font-size:1rem}
+  .card .stock{display:flex;align-items:center;gap:6px}
+  .card .stock input{width:56px;padding:5px 8px;border:1px solid #ddd;border-radius:8px;text-align:center;font-size:.9rem}
+  .card .acciones{display:flex;gap:6px;margin-top:auto}
+  .card .acciones .btn{flex:1;padding:8px;font-size:.8rem}
+  .badge{border-radius:999px;padding:3px 10px;font-size:.7rem;font-weight:700}
+  .badge-stock{background:#eef2e8;color:var(--salvia-dark)}
+  .badge-agotado{background:#fbe9ea;color:#b04848}
+  .filtro-cat{display:flex;gap:6px;padding:0 24px 6px;flex-wrap:wrap}
+  .filtro-cat .chip{padding:6px 12px;border-radius:999px;background:#fff;border:1px solid #ddd;font-size:.8rem;cursor:pointer}
+  .filtro-cat .chip.on{background:var(--salvia);color:#fff;border-color:var(--salvia)}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+  .overlay.open{display:flex}
+  .modal{background:#fff;border-radius:16px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;padding:22px}
+  .modal h2{font-size:1.1rem;margin-bottom:16px}
+  .campo{margin-bottom:12px}
+  .campo label{display:block;font-size:.8rem;font-weight:700;margin-bottom:4px}
+  .campo input,.campo select,.campo textarea{width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:10px;font-size:.95rem;font-family:inherit}
+  .campo textarea{min-height:70px;resize:vertical}
+  .fila{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .fila3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .drop{border:2px dashed #ccc;border-radius:12px;padding:18px;text-align:center;color:#888;font-size:.85rem;cursor:pointer;background:#fafaf8}
+  .drop.over{border-color:var(--salvia);background:#f0f5ee}
+  .drop img{max-height:120px;border-radius:8px;margin-top:8px}
+  .modal .acciones{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--tinta);color:#fff;padding:12px 20px;border-radius:10px;font-size:.9rem;z-index:100;display:none;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+  .barra-guardar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;padding:12px 24px;display:flex;gap:10px;align-items:center;justify-content:flex-end;z-index:20}
+  .barra-guardar .estado{font-size:.8rem;color:#888;margin-right:auto}
+  .aviso{background:#fdf6e3;border:1px solid #e8d9a8;color:#8a6d1a;padding:8px 12px;border-radius:8px;font-size:.8rem;margin-bottom:12px}
+  /* login */
+  #login{position:fixed;inset:0;background:var(--crema);display:flex;align-items:center;justify-content:center;z-index:100}
+  #login .caja{background:#fff;border-radius:16px;padding:32px;max-width:360px;width:100%;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.1)}
+  #login h1{font-size:1.3rem;margin-bottom:6px}
+  #login p{font-size:.85rem;color:#888;margin-bottom:20px}
+  #login input{width:100%;padding:12px 14px;border:1px solid #ddd;border-radius:10px;font-size:1rem;margin-bottom:12px}
+  .hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <div class="caja">
+    <h1>🛍️ Admin Giorenatto</h1>
+    <p>Ingresá la contraseña para editar el catálogo</p>
+    <input type="password" id="loginPass" placeholder="Contraseña" onkeydown="if(event.key==='Enter')login()">
+    <button class="btn btn-primario" style="width:100%" onclick="login()">Entrar</button>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+<header>
+  <div>
+    <h1>🛍️ Admin Giorenatto</h1>
+    <div class="sub">Edición web · <span id="gitInfo">…</span></div>
+  </div>
+  <div>
+    <button class="btn btn-claro" onclick="recargar()">↻ Recargar</button>
+    <button class="btn btn-primario" onclick="nuevoProducto()">+ Nuevo producto</button>
+  </div>
+</header>
+
+<div class="toolbar">
+  <input type="search" id="busqueda" placeholder="Buscar producto…" oninput="render()">
+  <button class="btn btn-rosa" onclick="guardar()">🚀 Guardar y publicar</button>
+</div>
+<div class="filtro-cat" id="filtrosCat"></div>
+<div class="stats" style="padding:0 24px;font-size:.8rem;color:#777" id="stats"></div>
+<div class="grid" id="grid"></div>
+
+<div class="barra-guardar">
+  <span class="estado" id="estado">Sin cambios</span>
+  <button class="btn btn-claro" onclick="descartar()">Descartar</button>
+  <button class="btn btn-primario" onclick="guardar()">💾 Guardar catálogo</button>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2 id="modalTitulo">Nuevo producto</h2>
+    <div class="aviso" id="avisoVariantes" style="display:none">Este producto tiene variantes (colores/talles con stock propio).</div>
+    <input type="hidden" id="f_id">
+    <div class="fila">
+      <div class="campo"><label>Nombre *</label><input id="f_nombre" placeholder="Ej: Buzo Beba Flores"></div>
+      <div class="campo"><label>Categoría *</label><input id="f_cat" list="catsList" placeholder="Ej: Buzos"><datalist id="catsList"></datalist></div>
+    </div>
+    <div class="fila3">
+      <div class="campo"><label>Precio ($) *</label><input id="f_precio" type="number" min="0" placeholder="24900"></div>
+      <div class="campo"><label>Stock *</label><input id="f_stock" type="number" min="0" placeholder="5"></div>
+      <div class="campo"><label>Talle</label><input id="f_talle" placeholder="Ej: 12/36 M"></div>
+    </div>
+    <div class="campo"><label>Descripción</label><textarea id="f_desc" placeholder="Descripción corta del producto…"></textarea></div>
+    <div class="campo">
+      <label>Foto</label>
+      <div class="drop" id="drop" onclick="document.getElementById('f_file').click()">
+        <span id="dropText">📷 Hacé clic o arrastrá una foto (JPG/PNG/WebP)</span>
+        <img id="fotoPreview" style="display:none">
+        <input type="file" id="f_file" accept="image/*" style="display:none" onchange="seleccionarFoto(this)">
+      </div>
+      <input type="hidden" id="f_img">
+    </div>
+    <div class="acciones">
+      <button class="btn btn-claro" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn btn-peligro" id="btnEliminar" style="display:none" onclick="eliminarProducto()">🗑 Eliminar</button>
+      <button class="btn btn-primario" onclick="guardarProducto()">Guardar producto</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ====== CONFIG ======
+// URL del backend en Vercel (cambiar si el deploy queda en otra URL)
+const API_BASE = (localStorage.getItem("adminApi") || "https://giorenatto-backend.vercel.app/api/admin").replace(/\/$/, "");
+// ====================
+
+let PRODUCTOS = [];
+let ORIGINAL = [];
+let TOKEN = localStorage.getItem("adminToken") || "";
+let categoriaFiltro = "";
+let fotoNueva = null;   // {filename, dataBase64} pendiente de subir
+let fotoSubida = null;  // path final asignado
+
+const $ = id => document.getElementById(id);
+
+function toast(msg) { const t = $("toast"); t.textContent = msg; t.style.display = "block"; clearTimeout(t._h); t._h = setTimeout(() => t.style.display = "none", 3000); }
+
+async function api(path, opts) {
+  const r = await fetch(API_BASE + path, opts);
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok && !data.ok) throw new Error(data.error || ("Error " + r.status));
+  return data;
+}
+
+async function login() {
+  const pass = $("loginPass").value;
+  if (!pass) return toast("Escribí la contraseña");
+  try {
+    const r = await api("/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: pass }) });
+    TOKEN = r.token;
+    localStorage.setItem("adminToken", TOKEN);
+    $("login").classList.add("hidden");
+    $("app").classList.remove("hidden");
+    toast("¡Bienvenido! 👋");
+    recargar();
+  } catch (e) { toast("Error: " + e.message); }
+}
+
+async function recargar() {
+  try {
+    const r = await api("/load");
+    PRODUCTOS = r.productos || [];
+    ORIGINAL = JSON.parse(JSON.stringify(PRODUCTOS));
+    renderCats();
+    render();
+    toast("Catálogo cargado: " + PRODUCTOS.length + " productos");
+  } catch (e) {
+    toast("No se pudo cargar: " + e.message + " — ¿el backend está desplegado?");
+  }
+}
+
+function renderCats() {
+  const cats = [...new Set(PRODUCTOS.map(p => p.cat))].sort();
+  const cont = $("filtrosCat");
+  cont.innerHTML = `<span class="chip ${categoriaFiltro === "" ? "on" : ""}" onclick="categoriaFiltro='';renderCats();render()">Todas</span>` +
+    cats.map(c => `<span class="chip ${categoriaFiltro === c ? "on" : ""}" onclick="categoriaFiltro='${c.replace(/'/g, "\\'")}';renderCats();render()">${c}</span>`).join("");
+  $("catsList").innerHTML = cats.map(c => `<option value="${c}">`).join("");
+}
+
+function render() {
+  const q = $("busqueda").value.toLowerCase();
+  const lista = PRODUCTOS.filter(p =>
+    (!categoriaFiltro || p.cat === categoriaFiltro) &&
+    (!q || (p.nombre + " " + p.cat + " " + (p.talle || "")).toLowerCase().includes(q))
+  );
+  $("stats").textContent = `${lista.length} de ${PRODUCTOS.length} productos · cambios: ${hayCambios() ? "SÍ" : "no"} · fotos nuevas: ${fotoNueva ? 1 : 0}`;
+  $("grid").innerHTML = lista.map(p => card(p)).join("");
+  $("estado").textContent = hayCambios() ? "⚠️ Hay cambios sin guardar" : "Sin cambios";
+}
+
+function card(p) {
+  const foto = p.img || (p.colores && p.colores[0] && p.colores[0].foto) || "";
+  const agotado = p.stock <= 0;
+  return `<div class="card">
+    <div class="foto">${foto ? `<img src="${foto}" style="width:100%;height:100%;object-fit:cover;border-radius:10px" onerror="this.outerHTML='📦'">` : "📦"}</div>
+    <div class="nombre">${p.nombre} <span style="font-weight:400;color:#aaa;font-size:.7rem">${p.id}</span></div>
+    <div class="meta"><span>${p.cat}${p.talle ? " · " + p.talle : ""}</span><span class="precio">${fmt(p.precio)}</span></div>
+    <div class="meta"><span class="badge ${agotado ? "badge-agotado" : "badge-stock"}">${agotado ? "AGOTADO" : "stock: " + p.stock}</span></div>
+    <div class="stock">Stock: <input type="number" min="0" value="${p.stock}" onchange="cambiarStock('${p.id}', this.value)">
+      <button class="btn btn-claro" style="padding:5px 8px" onclick="cambiarStock('${p.id}', ${p.stock} - 1)">−1</button>
+      <button class="btn btn-claro" style="padding:5px 8px" onclick="cambiarStock('${p.id}', ${p.stock} + 1)">+1</button>
+    </div>
+    <div class="acciones">
+      <button class="btn btn-claro" onclick="editarProducto('${p.id}')">✏️ Editar</button>
+      <button class="btn btn-claro" onclick="duplicarProducto('${p.id}')">⧉ Duplicar</button>
+      <button class="btn btn-peligro" onclick="borrarRapido('${p.id}')">🗑</button>
+    </div>
+  </div>`;
+}
+
+function fmt(n) { return "$" + Number(n || 0).toLocaleString("es-AR"); }
+function hayCambios() { return JSON.stringify(PRODUCTOS) !== JSON.stringify(ORIGINAL); }
+function cambiarStock(id, v) { const p = PRODUCTOS.find(x => x.id === id); if (!p) return; p.stock = Math.max(0, parseInt(v) || 0); render(); }
+
+function nuevoProducto() {
+  fotoNueva = null; fotoSubida = null;
+  ["f_id", "f_nombre", "f_cat", "f_talle", "f_desc", "f_img"].forEach(i => $(i).value = "");
+  $("f_precio").value = ""; $("f_stock").value = "1";
+  $("modalTitulo").textContent = "Nuevo producto";
+  $("btnEliminar").style.display = "none";
+  $("avisoVariantes").style.display = "none";
+  $("fotoPreview").style.display = "none"; $("dropText").style.display = "";
+  $("overlay").classList.add("open");
+}
+
+function editarProducto(id) {
+  const p = PRODUCTOS.find(x => x.id === id);
+  if (!p) return;
+  fotoNueva = null; fotoSubida = null;
+  $("f_id").value = p.id;
+  $("f_nombre").value = p.nombre || "";
+  $("f_cat").value = p.cat || "";
+  $("f_precio").value = p.precio ?? "";
+  $("f_stock").value = p.stock ?? 0;
+  $("f_talle").value = p.talle || (p.talles ? p.talles.join(", ") : "");
+  $("f_desc").value = p.desc || "";
+  $("f_img").value = p.img || "";
+  $("modalTitulo").textContent = "Editar " + p.id;
+  $("btnEliminar").style.display = "";
+  $("avisoVariantes").style.display = (p.colores && p.colores.length) ? "" : "none";
+  const foto = p.img || (p.colores && p.colores[0] && p.colores[0].foto) || "";
+  if (foto) { $("fotoPreview").src = foto; $("fotoPreview").style.display = ""; $("dropText").style.display = "none"; }
+  else { $("fotoPreview").style.display = "none"; $("dropText").style.display = ""; }
+  $("overlay").classList.add("open");
+}
+
+function duplicarProducto(id) {
+  const p = PRODUCTOS.find(x => x.id === id);
+  if (!p) return;
+  const copia = JSON.parse(JSON.stringify(p));
+  copia.id = nuevoId();
+  copia.nombre = p.nombre + " (copia)";
+  PRODUCTOS.push(copia);
+  render();
+  toast("Duplicado como " + copia.id);
+}
+
+function borrarRapido(id) { if (!confirm("¿Eliminar " + id + "?")) return; PRODUCTOS = PRODUCTOS.filter(x => x.id !== id); renderCats(); render(); }
+function eliminarProducto() {
+  const id = $("f_id").value;
+  if (!id) return;
+  if (!confirm("¿Eliminar " + id + " definitivamente?")) return;
+  PRODUCTOS = PRODUCTOS.filter(x => x.id !== id);
+  cerrarModal(); renderCats(); render();
+}
+
+function nuevoId() {
+  let max = 0;
+  PRODUCTOS.forEach(p => { const n = parseInt((p.id || "").replace(/\D/g, "")); if (n > max) max = n; });
+  return "GIO-" + String(max + 1).padStart(4, "0");
+}
+
+function guardarProducto() {
+  const nombre = $("f_nombre").value.trim();
+  const cat = $("f_cat").value.trim();
+  if (!nombre || !cat) { toast("Nombre y categoría son obligatorios"); return; }
+  const id = $("f_id").value || nuevoId();
+  const existente = PRODUCTOS.find(x => x.id === id);
+  const obj = existente ? JSON.parse(JSON.stringify(existente)) : { id };
+  obj.nombre = nombre; obj.cat = cat;
+  obj.precio = parseInt($("f_precio").value) || 0;
+  obj.stock = Math.max(0, parseInt($("f_stock").value) || 0);
+  const talle = $("f_talle").value.trim();
+  if (talle) obj.talle = talle; else delete obj.talle;
+  obj.desc = $("f_desc").value.trim();
+  if (fotoSubida) obj.img = fotoSubida;
+  else if ($("f_img").value) obj.img = $("f_img").value;
+  if (!existente) PRODUCTOS.push(obj);
+  else { const i = PRODUCTOS.findIndex(x => x.id === id); PRODUCTOS[i] = obj; }
+  cerrarModal(); renderCats(); render();
+  toast("Producto guardado: " + nombre);
+}
+
+function seleccionarFoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 15 * 1024 * 1024) { toast("Foto muy grande (máx 15MB)"); return; }
+  const reader = new FileReader();
+  reader.onload = () => {
+    const b64 = String(reader.result).split(",")[1];
+    const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+    fotoNueva = { filename: "prod-" + Date.now() + "." + ext, dataBase64: b64 };
+    $("fotoPreview").src = reader.result;
+    $("fotoPreview").style.display = "";
+    $("dropText").style.display = "none";
+    toast("Foto lista — se sube al guardar");
+  };
+  reader.readAsDataURL(file);
+}
+
+async function guardar() {
+  try {
+    $("estado").textContent = "Guardando…";
+    const r = await api("/save", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: TOKEN, productos: PRODUCTOS, fotos: fotoNueva ? [fotoNueva] : [] })
+    });
+    if (r.ok) {
+      ORIGINAL = JSON.parse(JSON.stringify(PRODUCTOS));
+      fotoNueva = null;
+      render();
+      toast("✅ Publicado. La web se actualiza en ~1 min");
+    }
+  } catch (e) {
+    toast("Error: " + e.message + (String(e.message).includes("Sesión") ? " — recargá la página y volvé a entrar." : ""));
+  }
+}
+
+function descartar() { if (!confirm("¿Descartar todos los cambios?")) return; PRODUCTOS = JSON.parse(JSON.stringify(ORIGINAL)); renderCats(); render(); }
+function cerrarModal() { $("overlay").classList.remove("open"); fotoNueva = null; }
+
+const drop = $("drop");
+drop.addEventListener("dragover", e => { e.preventDefault(); drop.classList.add("over"); });
+drop.addEventListener("dragleave", () => drop.classList.remove("over"));
+drop.addEventListener("drop", e => {
+  e.preventDefault();
+  drop.classList.remove("over");
+  const f = e.dataTransfer.files[0];
+  if (f) { const input = $("f_file"); input.files = e.dataTransfer.files; seleccionarFoto(input); }
+});
+
+// auto-login si ya hay token
+(async () => {
+  if (TOKEN) {
+    try {
+      const r = await api("/load");
+      if (r.ok) { $("login").classList.add("hidden"); $("app").classList.remove("hidden"); recargar(); return; }
+    } catch { localStorage.removeItem("adminToken"); }
+  }
+  $("login").classList.remove("hidden");
+})();
+</script>
+</body>
+</html>
