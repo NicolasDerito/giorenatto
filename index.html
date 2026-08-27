@@ -174,12 +174,6 @@
   .qty button{width:28px;height:28px;border-radius:50%;border:none;background:var(--surface);cursor:pointer;font-weight:800;color:var(--oso-deep);box-shadow:var(--shadow-sm)}
   .qty span{min-width:20px;text-align:center;font-weight:800;font-size:.9rem}
   .drawer-foot{padding:22px 24px;border-top:1px solid var(--line);background:var(--surface)}
-  .envio-bar{margin-bottom:16px}
-  .envio-bar .lbl{font-size:.8rem;font-weight:700;color:var(--ink-2);margin-bottom:6px}
-  .envio-bar .track{height:8px;background:var(--line);border-radius:999px;overflow:hidden}
-  .envio-bar .fill{height:100%;background:var(--salvia-dark);border-radius:999px;transition:width .35s ease;width:0}
-  .envio-bar .fill.ok{background:var(--wa)}
-  .envio-bar .lbl b{color:var(--oso-deep)}
   .total-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px}
   .total-row .lbl{font-size:1rem;color:var(--ink-2);font-weight:600}
   .total-row .val{font-family:'Fraunces';font-weight:600;font-size:2rem;color:var(--oso-deep)}
@@ -273,12 +267,6 @@
 
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "416a53950d4141e0ad17f852937c1c21"}'></script><!-- End Cloudflare Web Analytics -->
 
-<div class="promo">
-  <div class="promo-in">
-    <span class="big">🎉 Envío bonificado</span>
-    <span class="small">en compras superiores a $50.000 · consultanos por tu zona</span>
-  </div>
-</div>
 
 <header id="header">
   <div class="nav">
@@ -375,7 +363,6 @@
     </div>
   </div>
   <div class="drawer-foot">
-    <div class="envio-bar" id="envioBar" style="display:none"><div class="lbl" id="envioLbl"></div><div class="track"><div class="fill" id="envioFill"></div></div></div>
     <div class="total-row"><span class="lbl">Total</span><span class="val" id="total">$0</span></div>
     <button class="checkout" id="checkout" onclick="finalizar()" disabled><svg viewBox="0 0 32 32" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg> Finalizar por WhatsApp</button>
     <button class="mp-btn" id="mp-btn" onclick="pagarMercadoPago()" disabled>Pagar con Mercado Pago</button>
@@ -633,11 +620,6 @@ function actualizar(){
   const items=Object.values(carrito);const count=items.reduce((s,i)=>s+i.cantidad,0);const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
   const badge=document.getElementById("cartCount");badge.textContent=count;badge.style.display=count>0?"flex":"none";
   document.getElementById("total").textContent=total>0?fmt(total):"Consultar";document.getElementById("checkout").disabled=count===0;document.getElementById("mp-btn").disabled=count===0||total===0;
-  // Barra de envío gratis: $50.000
-  const MIN=50000;const bar=document.getElementById("envioBar");
-  if(count>0&&total>0&&total<MIN){bar.style.display="block";document.getElementById("envioLbl").innerHTML=`Faltan <b>${fmt(MIN-total)}</b> para el envío bonificado 🚚`;document.getElementById("envioFill").style.width=(total/MIN*100)+"%";document.getElementById("envioFill").classList.remove("ok");}
-  else if(count>0&&total>=MIN){bar.style.display="block";document.getElementById("envioLbl").innerHTML=`🎉 Tenés <b>envío bonificado</b> incluido`;document.getElementById("envioFill").style.width="100%";document.getElementById("envioFill").classList.add("ok");}
-  else{bar.style.display="none";}
   const cont=document.getElementById("items");
   if(items.length===0){cont.innerHTML=`<div class="empty"><span class="emoji">🧺</span>Tu carrito está vacío<br>¡Sumá algo lindo!</div>`;}
   else{cont.innerHTML=items.map(i=>`<div class="item"><div class="ico">${ICONOS[i.producto.cat]||"🧸"}</div><div class="info"><div class="n">${i.producto.nombre}${i.color?(' · '+i.color):''}${i.talle?(' · Talle '+i.talle):''}</div><div class="p">${i.producto.precio>0?fmt(i.producto.precio)+" c/u":"Consultar"}</div></div><div class="qty"><button onclick="cambiar('${i.producto.id}|${i.color||''}|${i.talle||''}',-1)">−</button><span>${i.cantidad}</span><button onclick="cambiar('${i.producto.id}|${i.color||''}|${i.talle||''}',1)">+</button></div></div>`).join("");}
