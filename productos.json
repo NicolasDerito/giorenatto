@@ -600,5 +600,23 @@
    "|36M": 1
   },
   "img": "assets/products/buzo-rustico-dinos-celeste.webp"
+ },
+ {
+  "id": "GIO-0056",
+  "nombre": "Buzo Rústico Cocodrilo Celeste",
+  "cat": "Buzos",
+  "precio": 34900,
+  "desc": "Buzo rústico celeste con estampa de cocodrilo, tela suave y abrigada.",
+  "talles": [
+   "12M",
+   "18M",
+   "36M"
+  ],
+  "stockVar": {
+   "|12M": 1,
+   "|18M": 1,
+   "|36M": 1
+  },
+  "img": "assets/products/buzo-rustico-cocodrilo-celeste.webp"
  }
 ]
