@@ -554,5 +554,19 @@
    "|36M": 1
   },
   "img": "assets/products/buzo-rustico-rayas-gris.webp"
+ },
+ {
+  "id": "GIO-0053",
+  "nombre": "Buzo Rústico Rayas",
+  "cat": "Buzos",
+  "precio": 34900,
+  "desc": "Buzo rústico a rayas, tela de primera.",
+  "talles": [
+   "24M"
+  ],
+  "stockVar": {
+   "|24M": 1
+  },
+  "img": "assets/products/buzo-rustico-rayas-24.webp"
  }
 ]
