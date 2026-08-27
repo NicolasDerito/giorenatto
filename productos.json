@@ -618,5 +618,23 @@
    "|36M": 1
   },
   "img": "assets/products/buzo-rustico-cocodrilo-celeste.webp"
+ },
+ {
+  "id": "GIO-0057",
+  "nombre": "Buzo Rústico Florcitas",
+  "cat": "Buzos",
+  "precio": 34900,
+  "desc": "Buzo rústico con estampa de florcitas, hermoso para nena.",
+  "talles": [
+   "12-18M",
+   "24M",
+   "36M"
+  ],
+  "stockVar": {
+   "|12-18M": 1,
+   "|24M": 1,
+   "|36M": 1
+  },
+  "img": "assets/products/buzo-rustico-florcitas.webp"
  }
 ]
