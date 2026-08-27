@@ -698,5 +698,19 @@
    "|25M": 1
   },
   "img": "assets/products/vestido-blanco-rosas.webp"
+ },
+ {
+  "id": "GIO-0062",
+  "nombre": "Conjunto Rústico Flores",
+  "cat": "Conjuntos",
+  "precio": 39900,
+  "desc": "Conjunto rústico con flores, tela suave y cómoda.",
+  "talles": [
+   "12-18M"
+  ],
+  "stockVar": {
+   "|12-18M": 1
+  },
+  "img": "assets/products/conjunto-rustico-flores.webp"
  }
 ]
