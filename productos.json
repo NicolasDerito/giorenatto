@@ -654,5 +654,21 @@
    "|36M": 1
   },
   "img": "assets/products/buzo-rustico-florcitas-rosa.webp"
+ },
+ {
+  "id": "GIO-0059",
+  "nombre": "Vestido Rosa Flores",
+  "cat": "Vestidos",
+  "precio": 25900,
+  "desc": "Vestido rosa con flores, tela suave y liviana.",
+  "talles": [
+   "18M",
+   "12-18M"
+  ],
+  "stockVar": {
+   "|18M": 1,
+   "|12-18M": 1
+  },
+  "img": "assets/products/vestido-rosa-flores.webp"
  }
 ]
