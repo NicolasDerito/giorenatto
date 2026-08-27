@@ -524,5 +524,21 @@
    "|24M": 1
   },
   "img": "assets/products/buzo-frizado-ositos.webp"
+ },
+ {
+  "id": "GIO-0051",
+  "nombre": "Buzo Rústico Zorritos",
+  "cat": "Buzos",
+  "precio": 34900,
+  "desc": "Buzo rústico con estampa de zorritos, tela suave y abrigada.",
+  "talles": [
+   "18M",
+   "36M"
+  ],
+  "stockVar": {
+   "|18M": 1,
+   "|36M": 1
+  },
+  "img": "assets/products/buzo-rustico-zorritos.webp"
  }
 ]
