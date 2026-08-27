@@ -756,5 +756,19 @@
    "|24M": 1
   },
   "img": "assets/products/babucha-rustica-celeste.webp"
+ },
+ {
+  "id": "GIO-0066",
+  "nombre": "Conjunto Rústico Florcitas",
+  "cat": "Conjuntos",
+  "precio": 39900,
+  "desc": "Conjunto rústico con florcitas, tela suave y cómoda.",
+  "talles": [
+   "24M"
+  ],
+  "stockVar": {
+   "|24M": 1
+  },
+  "img": "assets/products/conjunto-rustico-florcitas.webp"
  }
 ]
