@@ -49,6 +49,16 @@
   h1,h2,h3,h4,.serif{font-family:'Fraunces',serif;letter-spacing:-.02em}
   a{text-decoration:none;color:inherit}
   ::selection{background:var(--oso);color:#fff}
+  /* ==== MODO MANTENIMIENTO ==== */
+  #mante{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--bg) 0%,#f3efe6 100%);text-align:center;padding:24px}
+  #mante .m-in{max-width:560px}
+  #mante .m-logo{font-family:'Fraunces',serif;font-size:2.6rem;font-weight:600;color:var(--oso-deep);letter-spacing:-.02em;margin-bottom:6px}
+  #mante .m-sub{font-size:.95rem;color:var(--ink-2);letter-spacing:.22em;text-transform:uppercase;margin-bottom:34px}
+  #mante .m-fecha{font-family:'Fraunces',serif;font-size:clamp(2.6rem,8vw,4.6rem);font-weight:600;color:var(--oso);line-height:1.05;margin-bottom:22px}
+  #mante .m-frase{font-size:1.05rem;color:var(--ink);max-width:420px;margin:0 auto 30px;line-height:1.7}
+  #mante .m-redes{font-size:.9rem;color:var(--ink-2)}
+  #mante .m-redes a{color:var(--oso-dark);font-weight:700}
+  #mante .m-emoji{font-size:2.2rem;margin-bottom:16px}
 
   header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.82);backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .3s}
   header.scrolled{border-bottom-color:var(--line)}
@@ -264,6 +274,17 @@
 </style>
 </head>
 <body>
+
+<div id="mante">
+  <div class="m-in">
+    <div class="m-emoji">🧸</div>
+    <div class="m-logo">Giorenatto</div>
+    <div class="m-sub">Ropa de bebé y primera infancia</div>
+    <div class="m-fecha">APERTURA<br>04 · 09 · 2026</div>
+    <div class="m-frase">Estamos preparando un mundo de suavidad y ternura para los más chiquitos. Muy pronto vas a poder conocer todo lo que preparamos con amor.</div>
+    <div class="m-redes">Seguinos en <a href="https://www.instagram.com/giorenatto" target="_blank" rel="noopener">@giorenatto</a> 💛</div>
+  </div>
+</div>
 
 <div class="promo">
   <div class="promo-in">
