@@ -784,5 +784,19 @@
    "|24M": 1
   },
   "img": "assets/products/babucha-rustica-mostaza.webp"
+ },
+ {
+  "id": "GIO-0068",
+  "nombre": "Pantalón Cargo Verde",
+  "cat": "Pantalones",
+  "precio": 29900,
+  "desc": "Pantalón cargo verde, cómodo y resistente.",
+  "talles": [
+   "12M"
+  ],
+  "stockVar": {
+   "|12M": 1
+  },
+  "img": "assets/products/pantalon-cargo-verde.webp"
  }
 ]
