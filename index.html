@@ -730,9 +730,9 @@ renderNav();renderDestacados();renderGrupos();actualizar();
 fetch("productos.json").then(r=>r.ok?r.json():null).then(lista=>{
   if(lista&&Array.isArray(lista)&&lista.length){PRODUCTOS.splice(0,PRODUCTOS.length,...lista);CATS.length=0;CATS.push(...new Set(PRODUCTOS.map(p=>p.cat)));renderNav();renderDestacados();renderGrupos();actualizar();}
 }).catch(()=>{});
-// Cuenta regresiva hasta la apertura (04/09/2026 09:00 ART)
+// Cuenta regresiva hasta la apertura (04/09/2026 00:00 ART)
 (function(){
-  const target=new Date("2026-09-04T09:00:00-03:00").getTime();
+  const target=new Date("2026-09-04T00:00:00-03:00").getTime();
   const pad=n=>String(n).padStart(2,"0");
   let timer;
   function tick(){
