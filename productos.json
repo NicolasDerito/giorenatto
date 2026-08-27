@@ -636,5 +636,23 @@
    "|36M": 1
   },
   "img": "assets/products/buzo-rustico-florcitas.webp"
+ },
+ {
+  "id": "GIO-0058",
+  "nombre": "Buzo Rústico Florcitas Rosa",
+  "cat": "Buzos",
+  "precio": 34900,
+  "desc": "Buzo rústico rosa con estampa de florcitas, hermoso para nena.",
+  "talles": [
+   "12-18M",
+   "24M",
+   "36M"
+  ],
+  "stockVar": {
+   "|12-18M": 1,
+   "|24M": 1,
+   "|36M": 1
+  },
+  "img": "assets/products/buzo-rustico-florcitas-rosa.webp"
  }
 ]
