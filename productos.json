@@ -670,5 +670,19 @@
    "|12-18M": 1
   },
   "img": "assets/products/vestido-rosa-flores.webp"
+ },
+ {
+  "id": "GIO-0060",
+  "nombre": "Vestido Rosa Frutillita",
+  "cat": "Vestidos",
+  "precio": 25900,
+  "desc": "Vestido rosa con frutillita, tela suave y liviana.",
+  "talles": [
+   "36M"
+  ],
+  "stockVar": {
+   "|36M": 1
+  },
+  "img": "assets/products/vestido-rosa-frutillita.webp"
  }
 ]
