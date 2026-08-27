@@ -698,5 +698,21 @@
    "|12-18M": 1
   },
   "img": "assets/products/conjunto-rustico-flores.webp"
+ },
+ {
+  "id": "GIO-0062",
+  "nombre": "Conjunto Rústico Dino",
+  "cat": "Conjuntos",
+  "precio": 39900,
+  "desc": "Conjunto rústico con dinosaurios, tela suave y cómoda.",
+  "talles": [
+   "24M",
+   "36M"
+  ],
+  "stockVar": {
+   "|24M": 1,
+   "|36M": 1
+  },
+  "img": "assets/products/conjunto-rustico-dino.webp"
  }
 ]
