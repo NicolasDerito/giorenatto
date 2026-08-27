@@ -798,5 +798,19 @@
    "|36M": 1
   },
   "img": "assets/products/babucha-celeste-pastel.webp"
+ },
+ {
+  "id": "GIO-0069",
+  "nombre": "Remera Camión",
+  "cat": "Remeras",
+  "precio": 19900,
+  "desc": "Remera con estampa de camión off-road, tela suave.",
+  "talles": [
+   "18M"
+  ],
+  "stockVar": {
+   "|18M": 1
+  },
+  "img": "assets/products/remera-camion.webp"
  }
 ]
