@@ -540,5 +540,19 @@
    "|36M": 1
   },
   "img": "assets/products/buzo-rustico-zorritos.webp"
+ },
+ {
+  "id": "GIO-0052",
+  "nombre": "Buzo Rústico Rayas Gris",
+  "cat": "Buzos",
+  "precio": 34900,
+  "desc": "Buzo rústico a rayas gris, tela de primera.",
+  "talles": [
+   "36M"
+  ],
+  "stockVar": {
+   "|36M": 1
+  },
+  "img": "assets/products/buzo-rustico-rayas-gris.webp"
  }
 ]
