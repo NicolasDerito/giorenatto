@@ -492,5 +492,23 @@
    "|6": 2
   },
   "img": "assets/products/pijama-elegante-crudo.webp"
+ },
+ {
+  "id": "GIO-0049",
+  "nombre": "Buzo Rústico Elefante Oliva",
+  "cat": "Buzos",
+  "precio": 34900,
+  "desc": "Buzo rústico oliva con estampa de elefante, tela suave y abrigada.",
+  "talles": [
+   "12M",
+   "18M",
+   "36M"
+  ],
+  "stockVar": {
+   "|12M": 1,
+   "|18M": 1,
+   "|36M": 1
+  },
+  "img": "assets/products/buzo-rustico-elefante-oliva.webp"
  }
 ]
