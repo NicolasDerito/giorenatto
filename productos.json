@@ -4,7 +4,7 @@
   "nombre": "Buzo Beba Flores",
   "cat": "Buzos",
   "talle": "",
-  "precio": 24900,
+  "precio": 0,
   "stock": 7,
   "desc": "Buzo de beba con estampa de flores, friza suave por dentro."
  },
@@ -13,7 +13,7 @@
   "nombre": "Buzo Animalitos",
   "cat": "Buzos",
   "talle": "12/36 M",
-  "precio": 34900,
+  "precio": 0,
   "stock": 6,
   "desc": "Buzo con animalitos, abrigado y súper tierno."
  },
@@ -22,7 +22,7 @@
   "nombre": "Buzo Bebé Frisa Oso",
   "cat": "Buzos",
   "talle": "",
-  "precio": 32900,
+  "precio": 0,
   "stock": 1,
   "desc": "Buzo de frisa con carita de oso. Calentito."
  },
@@ -31,7 +31,7 @@
   "nombre": "Buzo Rayado Rústico",
   "cat": "Buzos",
   "talle": "12/36",
-  "precio": 38900,
+  "precio": 0,
   "stock": 2,
   "desc": "Buzo rústico rayado, tela de primera."
  },
@@ -40,7 +40,7 @@
   "nombre": "Buzo Bebé",
   "cat": "Buzos",
   "talle": "12/36 M",
-  "precio": 32900,
+  "precio": 0,
   "stock": 2,
   "desc": "Buzo básico de bebé, cómodo para todos los días."
  },
@@ -49,7 +49,7 @@
   "nombre": "Buzo Rústico Estampado",
   "cat": "Buzos",
   "talle": "6-36",
-  "precio": 24900,
+  "precio": 0,
   "stock": 3,
   "desc": "Buzo rústico con estampa, liviano y abrigado."
  },
@@ -58,7 +58,7 @@
   "nombre": "Babucha Rústica BB",
   "cat": "Babuchas",
   "talle": "",
-  "precio": 16900,
+  "precio": 0,
   "stock": 8,
   "desc": "Babucha rústica de bebé, cintura elastizada."
  },
@@ -67,7 +67,7 @@
   "nombre": "Babucha Rúst. Estampada",
   "cat": "Babuchas",
   "talle": "6/36 M",
-  "precio": 19900,
+  "precio": 0,
   "stock": 1,
   "desc": "Babucha rústica estampada, muy cómoda."
  },
@@ -76,7 +76,7 @@
   "nombre": "Babuchas Bebé Rústicas",
   "cat": "Babuchas",
   "talle": "3/36 M",
-  "precio": 21900,
+  "precio": 0,
   "stock": 4,
   "desc": "Babuchas rústicas para bebé, suaves al tacto."
  },
@@ -85,7 +85,7 @@
   "nombre": "Babucha Rústica",
   "cat": "Babuchas",
   "talle": "12/36",
-  "precio": 24900,
+  "precio": 0,
   "stock": 1,
   "desc": "Babucha rústica, calce holgado y cómodo."
  },
@@ -94,7 +94,7 @@
   "nombre": "Body Americano",
   "cat": "Bodies",
   "talle": "0-4",
-  "precio": 10900,
+  "precio": 0,
   "stock": 2,
   "desc": "Body americano de algodón, broches en la entrepierna."
  },
@@ -103,7 +103,7 @@
   "nombre": "Body Mameluco",
   "cat": "Bodies",
   "talle": "0/4",
-  "precio": 10900,
+  "precio": 0,
   "stock": 1,
   "desc": "Body tipo mameluco, prácticro para el cambiado."
  },
@@ -112,7 +112,7 @@
   "nombre": "Body Musculosa",
   "cat": "Bodies",
   "talle": "0/4",
-  "precio": 8900,
+  "precio": 0,
   "stock": 1,
   "desc": "Body musculosa de algodón, ideal para el calor."
  },
@@ -121,7 +121,7 @@
   "nombre": "Body Aventura M/C",
   "cat": "Bodies",
   "talle": "",
-  "precio": 12900,
+  "precio": 0,
   "stock": 1,
   "desc": "Body manga corta con estampa aventura."
  },
@@ -130,7 +130,7 @@
   "nombre": "Body c/Broche M/C Estamp.",
   "cat": "Bodies",
   "talle": "",
-  "precio": 11900,
+  "precio": 0,
   "stock": 3,
   "desc": "Body manga corta estampado, con broches."
  },
@@ -139,7 +139,7 @@
   "nombre": "Body M/Corta",
   "cat": "Bodies",
   "talle": "5/6",
-  "precio": 11900,
+  "precio": 0,
   "stock": 3,
   "desc": "Body de manga corta, suave y fresco."
  },
@@ -148,7 +148,7 @@
   "nombre": "Body c/Broche M/C Estamp.",
   "cat": "Bodies",
   "talle": "0-4",
-  "precio": 10900,
+  "precio": 0,
   "stock": 1,
   "desc": "Body manga corta con broches, estampado."
  },
@@ -157,7 +157,7 @@
   "nombre": "Body M/C Liso Blanco",
   "cat": "Bodies",
   "talle": "0 al 4",
-  "precio": 8900,
+  "precio": 0,
   "stock": 1,
   "desc": "Body blanco liso manga corta, un básico."
  },
@@ -166,7 +166,7 @@
   "nombre": "Vestido",
   "cat": "Vestidos",
   "talle": "",
-  "precio": 24900,
+  "precio": 0,
   "stock": 1,
   "desc": "Vestidito de bebé, ideal para ocasiones."
  },
@@ -175,7 +175,7 @@
   "nombre": "Vestido",
   "cat": "Vestidos",
   "talle": "6 a 36 M",
-  "precio": 25900,
+  "precio": 0,
   "stock": 3,
   "desc": "Vestido de bebé, tela suave y liviana."
  },
@@ -184,7 +184,7 @@
   "nombre": "Pantalón Cargo Ripstop",
   "cat": "Pantalones",
   "talle": "12/36",
-  "precio": 23900,
+  "precio": 0,
   "stock": 1,
   "desc": "Pantalón cargo ripstop, resistente y con estilo."
  },
@@ -193,7 +193,7 @@
   "nombre": "Remera Bebé/a",
   "cat": "Remeras",
   "talle": "12/36",
-  "precio": 24900,
+  "precio": 0,
   "stock": 3,
   "desc": "Remera de bebé unisex, algodón suave."
  },
@@ -265,7 +265,7 @@
   "id": "GIO-0043",
   "nombre": "Pack x3 Medias Bebé Dibujos",
   "cat": "Medias",
-  "precio": 9900,
+  "precio": 0,
   "stock": 1,
   "desc": "Pack x3 de medias de bebé azul, blanco y beige con dibujos.",
   "talles": [
@@ -277,7 +277,7 @@
   "id": "GIO-0044",
   "nombre": "Pack x3 Medias Bebé",
   "cat": "Medias",
-  "precio": 9900,
+  "precio": 0,
   "stock": 2,
   "desc": "Pack x3 de medias de bebé, algodón suave y elastizado.",
   "talles": [
@@ -294,7 +294,7 @@
   "id": "GIO-0041",
   "nombre": "Pack x3 Medias Naranja Nena",
   "cat": "Medias",
-  "precio": 9900,
+  "precio": 0,
   "stock": 2,
   "desc": "Pack x3 de medias color naranja para nena. Suaves y cómodas.",
   "img": "assets/products/medias-naranja-pack3.webp"
@@ -304,7 +304,7 @@
   "nombre": "Campera Rústica Bebé Lisa",
   "cat": "Camperas",
   "talle": "3/6/9",
-  "precio": 47900,
+  "precio": 0,
   "stock": 1,
   "desc": "Campera rústica lisa, bien abrigada."
  },
@@ -313,7 +313,7 @@
   "nombre": "Enterito con Escarpín",
   "cat": "Enteritos",
   "talle": "",
-  "precio": 24900,
+  "precio": 0,
   "stock": 1,
   "desc": "Enterito con escarpín incorporado. Ideal recién nacido."
  },
@@ -322,7 +322,7 @@
   "nombre": "Set Pima x3 (0/1, gorro)",
   "cat": "Sets",
   "talle": "0/1",
-  "precio": 24900,
+  "precio": 0,
   "stock": 4,
   "desc": "Set de algodón pima x3 con gorrito. Suavísimo."
  },
@@ -358,7 +358,7 @@
   "nombre": "Mantas Algodón Estampadas",
   "cat": "Mantas",
   "talle": "",
-  "precio": 21900,
+  "precio": 0,
   "stock": 4,
   "desc": "Manta de algodón estampada, liviana."
  },
@@ -367,7 +367,7 @@
   "nombre": "Medias Antideslizantes x3",
   "cat": "Medias",
   "talle": "",
-  "precio": 10900,
+  "precio": 0,
   "stock": 6,
   "desc": "Pack x3 de medias antideslizantes. Primeros pasos."
  },
@@ -376,7 +376,7 @@
   "nombre": "Babitas por 3",
   "cat": "Babitas",
   "talle": "",
-  "precio": 3900,
+  "precio": 0,
   "stock": 6,
   "desc": "Pack x3 de babitas de algodón absorbente."
  },
@@ -385,7 +385,7 @@
   "nombre": "Promo Sorpresa",
   "cat": "Promos",
   "talle": "",
-  "precio": 6900,
+  "precio": 0,
   "stock": 12,
   "desc": "Promo sorpresa: prenda a precio especial. ¡Consultanos!"
  },
@@ -394,7 +394,7 @@
   "nombre": "Pijama Elefante Rosa",
   "cat": "Pijamas",
   "talle": "6",
-  "precio": 20900,
+  "precio": 0,
   "stock": 1,
   "desc": "Pijama de elefante rosa. Algodón suave, talle bebé.",
   "img": "assets/products/pijama-elefante-rosa.webp"
@@ -404,7 +404,7 @@
   "nombre": "Pijama Perrito Bordo",
   "cat": "Pijamas",
   "talle": "3",
-  "precio": 20900,
+  "precio": 0,
   "stock": 1,
   "desc": "Pijama de perrito color bordo. Algodón suave, talle bebé.",
   "img": "assets/products/pijama-perrito-bordo.webp"
@@ -414,7 +414,7 @@
   "nombre": "Pijama Perrito Rosa Viejo",
   "cat": "Pijamas",
   "talle": "5",
-  "precio": 20900,
+  "precio": 0,
   "stock": 1,
   "desc": "Pijama de perrito rosa viejo. Algodón suave, talle bebé.",
   "img": "assets/products/pijama-perrito-rosa-viejo.webp"
@@ -424,7 +424,7 @@
   "nombre": "Pijama Perrito Verde Oliva",
   "cat": "Pijamas",
   "talle": "5",
-  "precio": 20900,
+  "precio": 0,
   "stock": 1,
   "desc": "Pijama de perrito verde oliva. Algodón suave, talle bebé.",
   "img": "assets/products/pijama-perrito-verde-oliva.webp"
@@ -433,7 +433,7 @@
   "id": "GIO-0035",
   "nombre": "Pijama Conejito Crudo",
   "cat": "Pijamas",
-  "precio": 20900,
+  "precio": 0,
   "stock": 4,
   "desc": "Pijama de conejito color crudo. Algodón suave.",
   "talles": [
@@ -451,7 +451,7 @@
   "nombre": "Pijama Sonrisas Gris y Azul",
   "cat": "Pijamas",
   "talle": "2",
-  "precio": 20900,
+  "precio": 0,
   "stock": 1,
   "desc": "Pijama de sonrisas gris y azul. Algodón suave, talle bebé.",
   "img": "assets/products/pijama-sonrisas-gris-azul.webp"
@@ -461,7 +461,7 @@
   "nombre": "Pijama Conejito Rosa",
   "cat": "Pijamas",
   "talle": "4",
-  "precio": 20900,
+  "precio": 0,
   "stock": 1,
   "desc": "Pijama de conejito rosa. Algodón suave, talle bebé.",
   "img": "assets/products/pijama-conejito-rosa.webp"
@@ -471,7 +471,7 @@
   "nombre": "Pijama Dinos Azul y Verde",
   "cat": "Pijamas",
   "talle": "3",
-  "precio": 20900,
+  "precio": 0,
   "stock": 1,
   "desc": "Pijama de dinosaurios azul y verde. Algodón suave, talle bebé.",
   "img": "assets/products/pijama-dinos-azul-verde.webp"
@@ -480,7 +480,7 @@
   "id": "GIO-0039",
   "nombre": "Pijama Elegante Crudo",
   "cat": "Pijamas",
-  "precio": 20900,
+  "precio": 0,
   "stock": 4,
   "desc": "Pijama elegante color crudo. Algodón suave.",
   "talles": [
@@ -497,7 +497,7 @@
   "id": "GIO-0049",
   "nombre": "Buzo Rústico Elefante Oliva",
   "cat": "Buzos",
-  "precio": 34900,
+  "precio": 0,
   "desc": "Buzo rústico oliva con estampa de elefante, tela suave y abrigada.",
   "talles": [
    "12M",
@@ -515,7 +515,7 @@
   "id": "GIO-0050",
   "nombre": "Buzo Frizado Ositos",
   "cat": "Buzos",
-  "precio": 32900,
+  "precio": 0,
   "desc": "Buzo frizado con ositos, calentito y súper cómodo.",
   "talles": [
    "24M"
@@ -529,7 +529,7 @@
   "id": "GIO-0051",
   "nombre": "Buzo Rústico Zorritos",
   "cat": "Buzos",
-  "precio": 34900,
+  "precio": 0,
   "desc": "Buzo rústico con estampa de zorritos, tela suave y abrigada.",
   "talles": [
    "18M",
@@ -545,7 +545,7 @@
   "id": "GIO-0052",
   "nombre": "Buzo Rústico Rayas Gris",
   "cat": "Buzos",
-  "precio": 34900,
+  "precio": 0,
   "desc": "Buzo rústico a rayas gris, tela de primera.",
   "talles": [
    "36M"
@@ -559,7 +559,7 @@
   "id": "GIO-0053",
   "nombre": "Buzo Rústico Rayas",
   "cat": "Buzos",
-  "precio": 34900,
+  "precio": 0,
   "desc": "Buzo rústico a rayas, tela de primera.",
   "talles": [
    "24M"
@@ -573,7 +573,7 @@
   "id": "GIO-0054",
   "nombre": "Campera Rústica",
   "cat": "Camperas",
-  "precio": 47900,
+  "precio": 0,
   "desc": "Campera rústica, bien abrigada.",
   "talles": [
    "24M"
@@ -587,7 +587,7 @@
   "id": "GIO-0055",
   "nombre": "Buzo Rústico Dinos Celeste",
   "cat": "Buzos",
-  "precio": 34900,
+  "precio": 0,
   "desc": "Buzo rústico celeste con estampa de dinosaurios, tela suave y abrigada.",
   "talles": [
    "12-18M",
@@ -605,7 +605,7 @@
   "id": "GIO-0056",
   "nombre": "Buzo Rústico Cocodrilo Celeste",
   "cat": "Buzos",
-  "precio": 34900,
+  "precio": 0,
   "desc": "Buzo rústico celeste con estampa de cocodrilo, tela suave y abrigada.",
   "talles": [
    "12M",
@@ -623,7 +623,7 @@
   "id": "GIO-0057",
   "nombre": "Buzo Rústico Florcitas",
   "cat": "Buzos",
-  "precio": 34900,
+  "precio": 0,
   "desc": "Buzo rústico con estampa de florcitas, hermoso para nena.",
   "talles": [
    "12-18M",
@@ -641,7 +641,7 @@
   "id": "GIO-0058",
   "nombre": "Buzo Rústico Florcitas Rosa",
   "cat": "Buzos",
-  "precio": 34900,
+  "precio": 0,
   "desc": "Buzo rústico rosa con estampa de florcitas, hermoso para nena.",
   "talles": [
    "12-18M",
@@ -659,7 +659,7 @@
   "id": "GIO-0059",
   "nombre": "Vestido Rosa Flores",
   "cat": "Vestidos",
-  "precio": 25900,
+  "precio": 0,
   "desc": "Vestido rosa con flores, tela suave y liviana.",
   "talles": [
    "18M",
@@ -675,7 +675,7 @@
   "id": "GIO-0060",
   "nombre": "Vestido Rosa Frutillita",
   "cat": "Vestidos",
-  "precio": 25900,
+  "precio": 0,
   "desc": "Vestido rosa con frutillita, tela suave y liviana.",
   "talles": [
    "36M"
@@ -689,7 +689,7 @@
   "id": "GIO-0061",
   "nombre": "Vestido Blanco Rosas",
   "cat": "Vestidos",
-  "precio": 25900,
+  "precio": 0,
   "desc": "Vestido blanco con rosas, tela suave y liviana.",
   "talles": [
    "25M"
@@ -703,7 +703,7 @@
   "id": "GIO-0062",
   "nombre": "Conjunto Rústico Flores",
   "cat": "Conjuntos",
-  "precio": 39900,
+  "precio": 0,
   "desc": "Conjunto rústico con flores, tela suave y cómoda.",
   "talles": [
    "12-18M"
@@ -717,7 +717,7 @@
   "id": "GIO-0063",
   "nombre": "Conjunto Rústico Dino",
   "cat": "Conjuntos",
-  "precio": 39900,
+  "precio": 0,
   "desc": "Conjunto rústico con dinosaurios, tela suave y cómoda.",
   "talles": [
    "24M",
@@ -733,7 +733,7 @@
   "id": "GIO-0064",
   "nombre": "Conjunto Flores Beige",
   "cat": "Conjuntos",
-  "precio": 39900,
+  "precio": 0,
   "desc": "Conjunto beige con flores, tela suave y cómoda.",
   "talles": [
    "24M"
@@ -747,7 +747,7 @@
   "id": "GIO-0065",
   "nombre": "Babucha Rústica Celeste",
   "cat": "Babuchas",
-  "precio": 35900,
+  "precio": 0,
   "desc": "Babucha rústica celeste, tela suave y cómoda.",
   "talles": [
    "24M"
@@ -761,7 +761,7 @@
   "id": "GIO-0066",
   "nombre": "Conjunto Rústico Florcitas",
   "cat": "Conjuntos",
-  "precio": 39900,
+  "precio": 0,
   "desc": "Conjunto rústico con florcitas, tela suave y cómoda.",
   "talles": [
    "24M"
@@ -775,7 +775,7 @@
   "id": "GIO-0067",
   "nombre": "Babucha Rústica Mostaza",
   "cat": "Babuchas",
-  "precio": 35900,
+  "precio": 0,
   "desc": "Babucha rústica mostaza, tela suave y cómoda.",
   "talles": [
    "24M"
@@ -789,7 +789,7 @@
   "id": "GIO-0068",
   "nombre": "Pantalón Cargo Verde",
   "cat": "Pantalones",
-  "precio": 29900,
+  "precio": 0,
   "desc": "Pantalón cargo verde, cómodo y resistente.",
   "talles": [
    "12M"
@@ -803,7 +803,7 @@
   "id": "GIO-0069",
   "nombre": "Babucha Celeste Pastel",
   "cat": "Babuchas",
-  "precio": 35900,
+  "precio": 0,
   "desc": "Babucha celeste pastel, tela suave y cómoda.",
   "talles": [
    "36M"
@@ -817,7 +817,7 @@
   "id": "GIO-0070",
   "nombre": "Remera Blanca Dino",
   "cat": "Remeras",
-  "precio": 19900,
+  "precio": 0,
   "desc": "Remera blanca con dinosaurio, tela suave.",
   "talles": [
    "18M"
