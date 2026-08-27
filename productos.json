@@ -684,5 +684,19 @@
    "|36M": 1
   },
   "img": "assets/products/vestido-rosa-frutillita.webp"
+ },
+ {
+  "id": "GIO-0061",
+  "nombre": "Vestido Blanco Rosas",
+  "cat": "Vestidos",
+  "precio": 25900,
+  "desc": "Vestido blanco con rosas, tela suave y liviana.",
+  "talles": [
+   "25M"
+  ],
+  "stockVar": {
+   "|25M": 1
+  },
+  "img": "assets/products/vestido-blanco-rosas.webp"
  }
 ]
