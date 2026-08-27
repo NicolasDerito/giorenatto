@@ -734,9 +734,13 @@ fetch("productos.json").then(r=>r.ok?r.json():null).then(lista=>{
 (function(){
   const target=new Date("2026-09-04T09:00:00-03:00").getTime();
   const pad=n=>String(n).padStart(2,"0");
+  let timer;
   function tick(){
     const diff=target-Date.now();
-    if(diff<=0){document.getElementById("cdD").textContent="00";document.getElementById("cdH").textContent="00";document.getElementById("cdM").textContent="00";document.getElementById("cdS").textContent="00";return;}
+    if(diff<=0){// Apertura: sacar la pantalla de mantenimiento y dejar entrar a la web
+      document.getElementById("mante").style.display="none";
+      clearInterval(timer);
+      return;}
     const d=Math.floor(diff/86400000);
     const h=Math.floor(diff%86400000/3600000);
     const m=Math.floor(diff%3600000/60000);
@@ -746,7 +750,7 @@ fetch("productos.json").then(r=>r.ok?r.json():null).then(lista=>{
     document.getElementById("cdM").textContent=pad(m);
     document.getElementById("cdS").textContent=pad(s);
   }
-  tick();setInterval(tick,1000);
+  tick();timer=setInterval(tick,1000);
 })();
 window.addEventListener("scroll",()=>{document.getElementById("header").classList.toggle("scrolled",window.scrollY>10);});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){cerrarModal();cerrarCarrito();}});
