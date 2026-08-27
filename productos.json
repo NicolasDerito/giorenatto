@@ -568,5 +568,19 @@
    "|24M": 1
   },
   "img": "assets/products/buzo-rustico-rayas-24.webp"
+ },
+ {
+  "id": "GIO-0054",
+  "nombre": "Campera Rústica",
+  "cat": "Camperas",
+  "precio": 47900,
+  "desc": "Campera rústica, bien abrigada.",
+  "talles": [
+   "24M"
+  ],
+  "stockVar": {
+   "|24M": 1
+  },
+  "img": "assets/products/campera-rustica.webp"
  }
 ]
