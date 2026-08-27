@@ -798,5 +798,19 @@
    "|12M": 1
   },
   "img": "assets/products/pantalon-cargo-verde.webp"
+ },
+ {
+  "id": "GIO-0069",
+  "nombre": "Babucha Celeste Pastel",
+  "cat": "Babuchas",
+  "precio": 35900,
+  "desc": "Babucha celeste pastel, tela suave y cómoda.",
+  "talles": [
+   "36M"
+  ],
+  "stockVar": {
+   "|36M": 1
+  },
+  "img": "assets/products/babucha-celeste-pastel.webp"
  }
 ]
