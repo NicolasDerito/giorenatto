@@ -770,5 +770,19 @@
    "|24M": 1
   },
   "img": "assets/products/conjunto-rustico-florcitas.webp"
+ },
+ {
+  "id": "GIO-0067",
+  "nombre": "Babucha Rústica Mostaza",
+  "cat": "Babuchas",
+  "precio": 35900,
+  "desc": "Babucha rústica mostaza, tela suave y cómoda.",
+  "talles": [
+   "24M"
+  ],
+  "stockVar": {
+   "|24M": 1
+  },
+  "img": "assets/products/babucha-rustica-mostaza.webp"
  }
 ]
