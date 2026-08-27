@@ -714,5 +714,19 @@
    "|36M": 1
   },
   "img": "assets/products/conjunto-rustico-dino.webp"
+ },
+ {
+  "id": "GIO-0063",
+  "nombre": "Conjunto Flores Beige",
+  "cat": "Conjuntos",
+  "precio": 39900,
+  "desc": "Conjunto beige con flores, tela suave y cómoda.",
+  "talles": [
+   "24M"
+  ],
+  "stockVar": {
+   "|24M": 1
+  },
+  "img": "assets/products/conjunto-flores-beige.webp"
  }
 ]
