@@ -1447,5 +1447,24 @@
     "stockVar": {
       "|24 meses": 1
     }
+  },
+  {
+    "id": "GIO-0108",
+    "nombre": "Buzo Rústico Cocodrilo Celeste",
+    "cat": "Buzos",
+    "precio": 0,
+    "stock": 3,
+    "desc": "Buzo rústico celeste con estampa de cocodrilo, algodón suave.",
+    "talles": [
+      "12 meses",
+      "18 meses",
+      "36 meses"
+    ],
+    "img": "assets/products/buzo-rustico-cocodrilo-celeste.webp",
+    "stockVar": {
+      "|12 meses": 1,
+      "|18 meses": 1,
+      "|36 meses": 1
+    }
   }
 ]
