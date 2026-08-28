@@ -1432,5 +1432,20 @@
       "|24 meses": 1,
       "|36 meses": 1
     }
+  },
+  {
+    "id": "GIO-0107",
+    "nombre": "Vestido Blanco con Rosas",
+    "cat": "Vestidos",
+    "precio": 0,
+    "stock": 1,
+    "desc": "Vestido blanco con estampa de rosas, algodón suave.",
+    "talles": [
+      "24 meses"
+    ],
+    "img": "assets/products/vestido-blanco-rosas.webp",
+    "stockVar": {
+      "|24 meses": 1
+    }
   }
 ]
