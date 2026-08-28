@@ -1326,5 +1326,20 @@
       "|24 meses": 1,
       "|36 meses": 1
     }
+  },
+  {
+    "id": "GIO-0101",
+    "nombre": "Conjunto Flores Beige",
+    "cat": "Sets",
+    "precio": 0,
+    "stock": 1,
+    "desc": "Conjunto beige con estampa de flores y pantalón, algodón suave.",
+    "talles": [
+      "24 meses"
+    ],
+    "img": "assets/products/conjunto-flores-beige.webp",
+    "stockVar": {
+      "|24 meses": 1
+    }
   }
 ]
