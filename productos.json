@@ -1394,5 +1394,24 @@
       "|24 meses": 1,
       "|36 meses": 1
     }
+  },
+  {
+    "id": "GIO-0105",
+    "nombre": "Buzo Rústico Elefante Oliva",
+    "cat": "Buzos",
+    "precio": 0,
+    "stock": 3,
+    "desc": "Buzo rústico oliva con estampa de elefante, algodón suave.",
+    "talles": [
+      "12 meses",
+      "18 meses",
+      "36 meses"
+    ],
+    "img": "assets/products/buzo-rustico-elefante-oliva.webp",
+    "stockVar": {
+      "|12 meses": 1,
+      "|18 meses": 1,
+      "|36 meses": 1
+    }
   }
 ]
