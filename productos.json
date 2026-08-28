@@ -1356,5 +1356,24 @@
     "stockVar": {
       "|12-18 meses": 1
     }
+  },
+  {
+    "id": "GIO-0103",
+    "nombre": "Buzo Rústico Dinos Celeste",
+    "cat": "Buzos",
+    "precio": 0,
+    "stock": 3,
+    "desc": "Buzo rústico celeste con estampa de dinosaurios, algodón suave.",
+    "talles": [
+      "12-18 meses",
+      "24 meses",
+      "36 meses"
+    ],
+    "img": "assets/products/buzo-rustico-dinos-celeste.webp",
+    "stockVar": {
+      "|12-18 meses": 1,
+      "|24 meses": 1,
+      "|36 meses": 1
+    }
   }
 ]
