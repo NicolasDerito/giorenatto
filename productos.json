@@ -1341,5 +1341,20 @@
     "stockVar": {
       "|24 meses": 1
     }
+  },
+  {
+    "id": "GIO-0102",
+    "nombre": "Conjunto Rústico Flores",
+    "cat": "Sets",
+    "precio": 0,
+    "stock": 1,
+    "desc": "Conjunto rústico beige con estampa de flores y botones en el pantalón, algodón suave.",
+    "talles": [
+      "12-18 meses"
+    ],
+    "img": "assets/products/conjunto-rustico-flores.webp",
+    "stockVar": {
+      "|12-18 meses": 1
+    }
   }
 ]
