@@ -1309,5 +1309,22 @@
     "stockVar": {
       "|24 meses": 1
     }
+  },
+  {
+    "id": "GIO-0100",
+    "nombre": "Conjunto Rústico Dino",
+    "cat": "Sets",
+    "precio": 0,
+    "stock": 2,
+    "desc": "Conjunto rústico con estampa de dinosaurio, algodón suave.",
+    "talles": [
+      "24 meses",
+      "36 meses"
+    ],
+    "img": "assets/products/conjunto-rustico-dino.webp",
+    "stockVar": {
+      "|24 meses": 1,
+      "|36 meses": 1
+    }
   }
 ]
