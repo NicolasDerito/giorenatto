@@ -1413,5 +1413,24 @@
       "|18 meses": 1,
       "|36 meses": 1
     }
+  },
+  {
+    "id": "GIO-0106",
+    "nombre": "Buzo Rústico Florcitas",
+    "cat": "Buzos",
+    "precio": 0,
+    "stock": 3,
+    "desc": "Buzo rústico beige con estampa de florcitas, algodón suave.",
+    "talles": [
+      "12-18 meses",
+      "24 meses",
+      "36 meses"
+    ],
+    "img": "assets/products/buzo-rustico-florcitas.webp",
+    "stockVar": {
+      "|12-18 meses": 1,
+      "|24 meses": 1,
+      "|36 meses": 1
+    }
   }
 ]
