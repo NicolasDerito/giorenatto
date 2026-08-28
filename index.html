@@ -261,6 +261,27 @@
   /* WHATSAPP FLOAT */
   .wa-float{position:fixed;bottom:26px;right:26px;z-index:55;background:var(--wa);color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.9rem;box-shadow:0 6px 24px rgba(37,211,102,.4);transition:transform .2s;animation:pulse 2.6s infinite}
   .wa-float:hover{transform:scale(1.08)}
+  /* TALLES FLOAT (encima del de WhatsApp) */
+  .talles-float{position:fixed;bottom:98px;right:26px;z-index:55;width:60px;height:60px;border-radius:50%;background:var(--surface);border:2px solid var(--salvia-dark);box-shadow:0 6px 20px rgba(70,58,45,.25);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;transition:transform .2s;padding:0}
+  .talles-float img{width:100%;height:100%;object-fit:cover;display:block}
+  .talles-float:hover{transform:scale(1.08)}
+  .talles-float .talles-badge{position:absolute;bottom:-2px;right:-2px;background:var(--oso-deep);color:#fff;font-size:.62rem;font-weight:800;padding:3px 7px;border-radius:999px;letter-spacing:.02em;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+  /* MODAL TALLES */
+  .talles-ov{position:fixed;inset:0;background:rgba(70,58,45,.42);backdrop-filter:blur(4px);z-index:76;opacity:0;visibility:hidden;transition:opacity .28s;display:flex;align-items:center;justify-content:center;padding:20px}
+  .talles-ov.open{opacity:1;visibility:visible}
+  .talles-modal{background:var(--surface);border-radius:var(--radio-lg);max-width:520px;width:100%;max-height:90vh;overflow:auto;padding:30px 28px 26px;transform:scale(.94);transition:transform .28s cubic-bezier(.3,.8,.3,1);position:relative}
+  .talles-ov.open .talles-modal{transform:scale(1)}
+  .talles-head{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+  .talles-head img{width:56px;height:56px;border-radius:50%;object-fit:cover;box-shadow:var(--shadow-sm,0 2px 10px rgba(0,0,0,.12))}
+  .talles-head h3{font-family:'Fraunces';font-weight:600;font-size:1.5rem;color:var(--oso-deep);margin:0;line-height:1.1}
+  .talles-head p{margin:4px 0 0;font-size:.82rem;color:var(--ink-3);font-weight:600}
+  .talles-tabla{width:100%;border-collapse:collapse;font-size:.9rem}
+  .talles-tabla th{background:var(--salvia);color:var(--ink);font-weight:800;text-align:left;padding:10px 12px;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em}
+  .talles-tabla td{padding:10px 12px;border-bottom:1px solid var(--line);color:var(--ink-2);font-weight:600}
+  .talles-tabla td:first-child{font-weight:800;color:var(--oso-deep)}
+  .talles-tabla tr:last-child td{border-bottom:none}
+  .talles-nota{margin-top:16px;font-size:.78rem;color:var(--ink-3);font-weight:600;line-height:1.5}
+  .talles-close{position:absolute;top:14px;right:14px;background:var(--surface);border:1px solid var(--line);width:34px;height:34px;border-radius:50%;font-size:1.2rem;cursor:pointer;color:var(--ink-2);display:flex;align-items:center;justify-content:center;line-height:1}
   @keyframes pulse{0%{box-shadow:0 6px 24px rgba(37,211,102,.4),0 0 0 0 rgba(37,211,102,.4)}70%{box-shadow:0 6px 24px rgba(37,211,102,.4),0 0 0 16px rgba(37,211,102,0)}100%{box-shadow:0 6px 24px rgba(37,211,102,.4),0 0 0 0 rgba(37,211,102,0)}}
 
   .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(24px);background:var(--ink);color:#fff;padding:13px 26px;border-radius:999px;font-weight:700;font-size:.92rem;box-shadow:var(--shadow-md);opacity:0;visibility:hidden;transition:all .28s cubic-bezier(.3,.8,.3,1);z-index:85}
@@ -377,9 +398,35 @@
   <div class="foot-bottom">© 2026 Giorenatto · Hecho con amor en Argentina</div>
 </footer>
 
+<button class="talles-float" onclick="abrirTalles()" title="Guía de talles de bebé">
+  <img src="logo.webp" alt="Giorenatto - Guía de talles">
+  <span class="talles-badge">TALLES</span>
+</button>
+
 <a class="wa-float" onclick="waConsulta()" title="Escribinos por WhatsApp">
   <svg viewBox="0 0 32 32" width="30" height="30" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg>
 </a>
+
+<div class="talles-ov" id="tallesOv" onclick="cerrarTalles(event)">
+  <div class="talles-modal">
+    <button class="talles-close" onclick="cerrarTalles()">×</button>
+    <div class="talles-head">
+      <img src="logo.webp" alt="Giorenatto">
+      <div><h3>Guía de talles</h3><p>Ropa de bebé · medidas orientativas</p></div>
+    </div>
+    <table class="talles-tabla">
+      <thead><tr><th>Talle</th><th>Edad</th><th>Altura</th><th>Peso aprox.</th></tr></thead>
+      <tbody>
+        <tr><td>RN</td><td>0-3 meses</td><td>50-60 cm</td><td>3-6 kg</td></tr>
+        <tr><td>T1</td><td>3-6 meses</td><td>60-67 cm</td><td>6-8 kg</td></tr>
+        <tr><td>T2</td><td>6-12 meses</td><td>67-75 cm</td><td>8-10 kg</td></tr>
+        <tr><td>T3</td><td>12-18 meses</td><td>75-83 cm</td><td>10-12 kg</td></tr>
+        <tr><td>T4</td><td>18-24 meses</td><td>83-90 cm</td><td>12-14 kg</td></tr>
+      </tbody>
+    </table>
+    <p class="talles-nota">💡 Cada prenda puede variar según el modelo y la tela. Si dudás entre dos talles, te recomendamos elegir el más grande.</p>
+  </div>
+</div>
 
 <div class="overlay" id="overlay" onclick="cerrarCarrito()"></div>
 <aside class="drawer" id="drawer">
@@ -805,7 +852,9 @@ if(new URLSearchParams(location.search).has("preview")){document.getElementById(
   tick();timer=setInterval(tick,1000);
 })();
 window.addEventListener("scroll",()=>{document.getElementById("header").classList.toggle("scrolled",window.scrollY>10);});
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){cerrarModal();cerrarCarrito();}});
+function abrirTalles(){document.getElementById("tallesOv").classList.add("open");}
+function cerrarTalles(e){if(e&&e.target!==document.getElementById("tallesOv")&&e.type==="click"&&!e.target.classList.contains("talles-close"))return;document.getElementById("tallesOv").classList.remove("open");}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){cerrarModal();cerrarTalles();cerrarCarrito();}});
 </script>
 </body>
 </html>
