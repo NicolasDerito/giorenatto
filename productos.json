@@ -1406,5 +1406,20 @@
   "stockVar": {
    "|24M": 1
   }
+ },
+ {
+  "id": "GIO-0118",
+  "nombre": "Pantalón Cargo Verde",
+  "cat": "Pantalones",
+  "precio": 29900,
+  "stock": 1,
+  "desc": "Pantalón cargo verde, cómodo y resistente.",
+  "talles": [
+   "12M"
+  ],
+  "img": "assets/products/pantalon-cargo-verde.webp",
+  "stockVar": {
+   "|12M": 1
+  }
  }
 ]
