@@ -1084,7 +1084,7 @@
     "id": "GIO-0099",
     "nombre": "Conjunto Rústico Florcitas",
     "cat": "Conjuntos",
-    "precio": 0,
+    "precio": 32900,
     "stock": 1,
     "desc": "Conjunto rústico con estampa de florcitas, algodón suave.",
     "talles": [
@@ -1093,13 +1093,14 @@
     "img": "assets/products/conjunto-rustico-florcitas.webp",
     "stockVar": {
       "|24 meses": 1
-    }
+    },
+    "talle": "24 meses"
   },
   {
     "id": "GIO-0100",
     "nombre": "Conjunto Rústico Dino",
     "cat": "Conjuntos",
-    "precio": 0,
+    "precio": 32900,
     "stock": 2,
     "desc": "Conjunto rústico con estampa de dinosaurio, algodón suave.",
     "talles": [
@@ -1110,13 +1111,14 @@
     "stockVar": {
       "|24 meses": 1,
       "|36 meses": 1
-    }
+    },
+    "talle": "24 meses, 36 meses"
   },
   {
     "id": "GIO-0101",
     "nombre": "Conjunto Flores Beige",
     "cat": "Conjuntos",
-    "precio": 0,
+    "precio": 32900,
     "stock": 1,
     "desc": "Conjunto beige con estampa de flores y pantalón, algodón suave.",
     "talles": [
@@ -1125,13 +1127,14 @@
     "img": "assets/products/conjunto-flores-beige.webp",
     "stockVar": {
       "|24 meses": 1
-    }
+    },
+    "talle": "24 meses"
   },
   {
     "id": "GIO-0102",
     "nombre": "Conjunto Rústico Flores",
     "cat": "Conjuntos",
-    "precio": 0,
+    "precio": 32900,
     "stock": 1,
     "desc": "Conjunto rústico beige con estampa de flores y botones en el pantalón, algodón suave.",
     "talles": [
@@ -1140,13 +1143,14 @@
     "img": "assets/products/conjunto-rustico-flores.webp",
     "stockVar": {
       "|12-18 meses": 1
-    }
+    },
+    "talle": "12-18 meses"
   },
   {
     "id": "GIO-0103",
     "nombre": "Buzo Rústico Dinos Celeste",
     "cat": "Buzos",
-    "precio": 0,
+    "precio": 16900,
     "stock": 3,
     "desc": "Buzo rústico celeste con estampa de dinosaurios, algodón suave.",
     "talles": [
@@ -1159,13 +1163,14 @@
       "|12-18 meses": 1,
       "|24 meses": 1,
       "|36 meses": 1
-    }
+    },
+    "talle": "12-18 meses, 24 meses, 36 meses"
   },
   {
     "id": "GIO-0104",
     "nombre": "Buzo Rústico Florcitas Rosa",
     "cat": "Buzos",
-    "precio": 0,
+    "precio": 16900,
     "stock": 3,
     "desc": "Buzo rústico rosa con estampa de florcitas, algodón suave.",
     "talles": [
@@ -1178,13 +1183,14 @@
       "|12-18 meses": 1,
       "|24 meses": 1,
       "|36 meses": 1
-    }
+    },
+    "talle": "12-18 meses, 24 meses, 36 meses"
   },
   {
     "id": "GIO-0105",
     "nombre": "Buzo Rústico Elefante Oliva",
     "cat": "Buzos",
-    "precio": 0,
+    "precio": 19900,
     "stock": 3,
     "desc": "Buzo rústico oliva con estampa de elefante, algodón suave.",
     "talles": [
@@ -1197,13 +1203,14 @@
       "|12 meses": 1,
       "|18 meses": 1,
       "|36 meses": 1
-    }
+    },
+    "talle": "12 meses, 18 meses, 36 meses"
   },
   {
     "id": "GIO-0106",
     "nombre": "Buzo Rústico Florcitas",
     "cat": "Buzos",
-    "precio": 0,
+    "precio": 16900,
     "stock": 3,
     "desc": "Buzo rústico beige con estampa de florcitas, algodón suave.",
     "talles": [
@@ -1216,13 +1223,14 @@
       "|12-18 meses": 1,
       "|24 meses": 1,
       "|36 meses": 1
-    }
+    },
+    "talle": "12-18 meses, 24 meses, 36 meses"
   },
   {
     "id": "GIO-0107",
     "nombre": "Vestido Blanco con Rosas",
     "cat": "Vestidos",
-    "precio": 0,
+    "precio": 19900,
     "stock": 1,
     "desc": "Vestido blanco con estampa de rosas, algodón suave.",
     "talles": [
@@ -1231,13 +1239,14 @@
     "img": "assets/products/vestido-blanco-rosas.webp",
     "stockVar": {
       "|24 meses": 1
-    }
+    },
+    "talle": "24 meses"
   },
   {
     "id": "GIO-0108",
     "nombre": "Buzo Rústico Cocodrilo Celeste",
     "cat": "Buzos",
-    "precio": 0,
+    "precio": 19900,
     "stock": 3,
     "desc": "Buzo rústico celeste con estampa de cocodrilo, algodón suave.",
     "talles": [
@@ -1250,13 +1259,14 @@
       "|12 meses": 1,
       "|18 meses": 1,
       "|36 meses": 1
-    }
+    },
+    "talle": "12 meses, 18 meses, 36 meses"
   },
   {
     "id": "GIO-0109",
     "nombre": "Vestido Rosa Frutillita",
     "cat": "Vestidos",
-    "precio": 0,
+    "precio": 19900,
     "stock": 1,
     "desc": "Vestido rosa con estampa de frutillitas, algodón suave.",
     "talles": [
@@ -1265,13 +1275,14 @@
     "img": "assets/products/vestido-rosa-frutillita.webp",
     "stockVar": {
       "|36 meses": 1
-    }
+    },
+    "talle": "36 meses"
   },
   {
     "id": "GIO-0110",
     "nombre": "Buzo Frizado Ositos",
     "cat": "Buzos",
-    "precio": 32900,
+    "precio": 19900,
     "stock": 1,
     "desc": "Buzo frizado con ositos, calentito y súper cómodo.",
     "talles": [
@@ -1280,13 +1291,14 @@
     "img": "assets/products/buzo-frizado-ositos.webp",
     "stockVar": {
       "|24M": 1
-    }
+    },
+    "talle": "24M"
   },
   {
     "id": "GIO-0111",
     "nombre": "Vestido Rosa Flores",
     "cat": "Vestidos",
-    "precio": 25900,
+    "precio": 19900,
     "stock": 2,
     "desc": "Vestido rosa con flores, tela suave y liviana.",
     "talles": [
@@ -1297,13 +1309,14 @@
     "stockVar": {
       "|18M": 1,
       "|12-18M": 1
-    }
+    },
+    "talle": "18M, 12-18M"
   },
   {
     "id": "GIO-0112",
     "nombre": "Buzo Rústico Zorritos",
     "cat": "Buzos",
-    "precio": 34900,
+    "precio": 19900,
     "stock": 2,
     "desc": "Buzo rústico con estampa de zorritos, tela suave y abrigada.",
     "talles": [
@@ -1314,13 +1327,14 @@
     "stockVar": {
       "|18M": 1,
       "|36M": 1
-    }
+    },
+    "talle": "18M, 36M"
   },
   {
     "id": "GIO-0113",
     "nombre": "Campera Rústica",
     "cat": "Camperas",
-    "precio": 47900,
+    "precio": 20500,
     "stock": 1,
     "desc": "Campera rústica, bien abrigada.",
     "talles": [
@@ -1329,13 +1343,14 @@
     "img": "assets/products/campera-rustica.webp",
     "stockVar": {
       "|24M": 1
-    }
+    },
+    "talle": "24M"
   },
   {
     "id": "GIO-0114",
     "nombre": "Buzo Rústico Rayas Gris",
     "cat": "Buzos",
-    "precio": 34900,
+    "precio": 19900,
     "stock": 1,
     "desc": "Buzo rústico a rayas gris, tela de primera.",
     "talles": [
@@ -1344,6 +1359,7 @@
     "img": "assets/products/buzo-rustico-rayas-gris.webp",
     "stockVar": {
       "|36M": 1
-    }
+    },
+    "talle": "36M"
   }
 ]
