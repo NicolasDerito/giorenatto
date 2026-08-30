@@ -266,10 +266,11 @@
   .wa-float{position:fixed;bottom:26px;right:26px;z-index:55;background:var(--wa);color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.9rem;box-shadow:0 6px 24px rgba(37,211,102,.4);transition:transform .2s;animation:pulse 2.6s infinite}
   .wa-float:hover{transform:scale(1.08)}
   /* TALLES FLOAT (encima del de WhatsApp) */
-  .talles-float{position:fixed;bottom:98px;right:26px;z-index:55;width:60px;height:60px;border-radius:14px;background:var(--surface);border:2px solid var(--salvia-dark);box-shadow:0 6px 20px rgba(70,58,45,.25);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;transition:transform .2s;padding:0}
-  .talles-float img{width:100%;height:100%;object-fit:cover;display:block}
+  .talles-float{position:fixed;bottom:92px;right:26px;z-index:55;display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:none;padding:0;cursor:pointer;transition:transform .2s}
+  .talles-float .talles-icon{width:58px;height:58px;border-radius:50%;background:var(--surface);border:2px solid var(--salvia-dark);box-shadow:0 6px 20px rgba(70,58,45,.25);display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .talles-float .talles-icon img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
   .talles-float:hover{transform:scale(1.08)}
-  .talles-float .talles-badge{position:absolute;bottom:-2px;right:-2px;background:var(--oso-deep);color:#fff;font-size:.62rem;font-weight:800;padding:3px 7px;border-radius:999px;letter-spacing:.02em;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+  .talles-float .talles-badge{background:var(--oso-deep);color:#fff;font-size:.62rem;font-weight:800;padding:2px 9px;border-radius:999px;letter-spacing:.05em;box-shadow:0 2px 6px rgba(0,0,0,.25);line-height:1.4;text-align:center;white-space:nowrap}
   /* MODAL TALLES */
   .talles-ov{position:fixed;inset:0;background:rgba(70,58,45,.42);backdrop-filter:blur(4px);z-index:76;opacity:0;visibility:hidden;transition:opacity .28s;display:flex;align-items:center;justify-content:center;padding:20px}
   .talles-ov.open{opacity:1;visibility:visible}
@@ -404,7 +405,7 @@
 </footer>
 
 <button class="talles-float" onclick="abrirTalles()" title="Guía de talles de bebé">
-  <img src="logo.webp" alt="Giorenatto - Guía de talles">
+  <span class="talles-icon"><img src="logo.webp" alt="Giorenatto - Guía de talles"></span>
   <span class="talles-badge">TALLES</span>
 </button>
 
