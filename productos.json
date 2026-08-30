@@ -1435,7 +1435,7 @@
     "id": "GIO-0119",
     "nombre": "Ajuar Beige 0-3",
     "cat": "Ajuar",
-    "precio": 0,
+    "precio": 24900,
     "stock": 1,
     "desc": "Ajuar talle 0-3 meses en tono beige. Consultá precio por WhatsApp.",
     "talles": [
@@ -1444,6 +1444,7 @@
     "img": "assets/products/ajuar-beige-0-3.webp",
     "stockVar": {
       "|0-3": 1
-    }
+    },
+    "talle": "0-3"
   }
 ]
