@@ -115,6 +115,9 @@
   .catbar{position:sticky;top:75px;z-index:40;background:rgba(251,250,247,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
   .catbar-inner{max-width:1160px;margin:0 auto;padding:12px 24px;display:flex;gap:9px;overflow-x:auto;scrollbar-width:none;align-items:center}
   .catbar-inner::-webkit-scrollbar{display:none}
+  @media(min-width:761px){
+    .catbar-inner{flex-wrap:wrap;overflow-x:visible}
+  }
   .pill{white-space:nowrap;font-size:.86rem;font-weight:700;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s}
   .pill:hover{border-color:var(--oso)}
   .pill.on{background:var(--oso-deep);color:#fff;border-color:var(--oso-deep)}
