@@ -54,8 +54,8 @@
   a{text-decoration:none;color:inherit}
   ::selection{background:var(--oso);color:#fff}
   /* ==== MODO MANTENIMIENTO ==== */
-  #mante{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--bg) 0%,#f3efe6 100%);text-align:center;padding:24px}
-  #mante .m-in{max-width:560px}
+  #mante{position:fixed;inset:0;z-index:999;display:flex;background:linear-gradient(160deg,var(--bg) 0%,#f3efe6 100%);text-align:center;padding:24px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  #mante .m-in{max-width:560px;margin:auto}
   #mante .m-logo{font-family:'Fraunces',serif;font-size:2.6rem;font-weight:600;color:var(--oso-deep);letter-spacing:-.02em;margin-bottom:6px}
   #mante .m-sub{font-size:.95rem;color:var(--ink-2);letter-spacing:.22em;text-transform:uppercase;margin-bottom:34px}
   #mante .m-fecha{font-family:'Fraunces',serif;font-size:clamp(2.6rem,8vw,4.6rem);font-weight:600;color:var(--oso);line-height:1.05;margin-bottom:22px}
@@ -2113,8 +2113,10 @@ renderNav();renderDestacados();renderGrupos();actualizar();
 fetch("productos.json").then(r=>r.ok?r.json():null).then(lista=>{
   if(lista&&Array.isArray(lista)&&lista.length){PRODUCTOS.splice(0,PRODUCTOS.length,...lista);CATS.length=0;CATS.push(...new Set(PRODUCTOS.map(p=>p.cat)));renderNav();renderDestacados();renderGrupos();actualizar();}
 }).catch(()=>{});
+// Bloquear scroll del fondo mientras está la pantalla de mantenimiento (evita que se vea la web detrás al scrollear)
+document.body.style.overflow="hidden";
 // Preview: con ?preview=1 se salta la pantalla de mantenimiento y se ve la web completa
-if(new URLSearchParams(location.search).has("preview")){document.getElementById("mante").style.display="none";}
+if(new URLSearchParams(location.search).has("preview")){document.getElementById("mante").style.display="none";document.body.style.overflow="";}
 // Cuenta regresiva hasta la apertura (04/09/2026 00:00 ART)
 (function(){
   const target=new Date("2026-09-04T00:00:00-03:00").getTime();
@@ -2123,7 +2125,7 @@ if(new URLSearchParams(location.search).has("preview")){document.getElementById(
   function tick(){
     const diff=target-Date.now();
     if(diff<=0){// Apertura: sacar la pantalla de mantenimiento y dejar entrar a la web
-      document.getElementById("mante").style.display="none";
+      document.getElementById("mante").style.display="none";document.body.style.overflow="";
       clearInterval(timer);
       return;}
     const d=Math.floor(diff/86400000);
