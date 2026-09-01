@@ -118,7 +118,7 @@
   @media(min-width:761px){
     .catbar-inner{flex-wrap:wrap;overflow-x:visible}
   }
-  .pill{white-space:nowrap;font-size:.86rem;font-weight:700;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s}
+  .pill{white-space:nowrap;font-size:.86rem;font-weight:700;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s;transform-style:preserve-3d;will-change:transform}
   .pill:hover{border-color:var(--oso)}
   .pill.on{background:var(--oso-deep);color:#fff;border-color:var(--oso-deep)}
   .talle-filter{margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0}
@@ -2225,6 +2225,23 @@ window.addEventListener("scroll",()=>{document.getElementById("header").classLis
     icon.style.transform=`rotateY(${x*maxTilt}deg) rotateX(${-y*maxTilt}deg) scale(1.04)`;
   });
   btn.addEventListener("mouseleave",()=>{icon.style.transform="rotateY(0deg) rotateX(0deg)";});
+})();
+// Tilt 3D estilo iPhone también en los botones de categorías (delegado, sobrevive a re-renders)
+(function(){
+  const bar=document.querySelector(".catbar-inner");
+  if(!bar)return;
+  const maxTilt=10;
+  bar.addEventListener("mousemove",e=>{
+    const pill=e.target.closest(".pill");
+    if(!pill)return;
+    const r=pill.getBoundingClientRect();
+    const x=(e.clientX-(r.left+r.width/2))/(r.width/2);
+    const y=(e.clientY-(r.top+r.height/2))/(r.height/2);
+    pill.style.transform=`rotateY(${x*maxTilt}deg) rotateX(${-y*maxTilt}deg)`;
+  });
+  bar.addEventListener("mouseleave",()=>{
+    bar.querySelectorAll(".pill").forEach(p=>{p.style.transform="rotateY(0deg) rotateX(0deg)";});
+  });
 })();
 // La barra de categorías se pega justo debajo del header (altura real, desktop y móvil)
 (function(){
