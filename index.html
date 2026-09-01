@@ -274,6 +274,17 @@
   .talles-float .talles-icon img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;transform:translateZ(6px)}
   /* Brillo estilo iOS (reflejo superior) */
   .talles-float .talles-icon::after{content:"";position:absolute;inset:0;border-radius:50%;background:linear-gradient(160deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.12) 38%,rgba(255,255,255,0) 55%);pointer-events:none}
+  /* Wiggle estilo iOS (sacudida tipo "cerrar icono") */
+  @keyframes iosWiggle{
+    0%{transform:rotate(0deg)}
+    15%{transform:rotate(-8deg)}
+    30%{transform:rotate(7deg)}
+    45%{transform:rotate(-6deg)}
+    60%{transform:rotate(5deg)}
+    75%{transform:rotate(-3deg)}
+    100%{transform:rotate(0deg)}
+  }
+  .talles-float.wiggle .talles-icon{animation:iosWiggle .55s ease-in-out}
   .talles-float:hover{transform:scale(1.08)}
   .talles-float .talles-badge{background:var(--oso-deep);color:#fff;font-size:.62rem;font-weight:800;padding:2px 9px;border-radius:999px;letter-spacing:.05em;box-shadow:0 2px 6px rgba(0,0,0,.25);line-height:1.4;text-align:center;white-space:nowrap;transform:translateZ(10px)}
   /* MODAL TALLES */
@@ -2212,6 +2223,19 @@ if(new URLSearchParams(location.search).has("preview")){document.getElementById(
   tick();timer=setInterval(tick,1000);
 })();
 window.addEventListener("scroll",()=>{document.getElementById("header").classList.toggle("scrolled",window.scrollY>10);});
+// Wiggle estilo iOS: al tocar/hacer clic en TALLES, el icono se sacude como en iPhone
+(function(){
+  const btn=document.querySelector(".talles-float");
+  if(!btn)return;
+  function wiggle(){
+    btn.classList.remove("wiggle");
+    void btn.offsetWidth; // reinicia la animación
+    btn.classList.add("wiggle");
+    setTimeout(()=>btn.classList.remove("wiggle"),600);
+  }
+  btn.addEventListener("touchstart",wiggle,{passive:true});
+  btn.addEventListener("click",wiggle);
+})();
 // Tilt 3D estilo iconos de iPhone en el botón de TALLES (sigue el cursor)
 (function(){
   const btn=document.querySelector(".talles-float");
