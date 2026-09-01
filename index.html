@@ -301,9 +301,10 @@
     .nav{flex-wrap:wrap}
     .search{flex:1 1 100%;order:3;max-width:none;margin:0}
     .brand span{display:none}
+    .ig-btn{display:none}
     .pasos{grid-template-columns:repeat(2,1fr);gap:28px}
     .foot-inner{grid-template-columns:1fr;gap:28px}
-    .catbar{top:158px}.strip-inner{gap:26px}
+    .strip-inner{gap:26px}
     .modal{grid-template-columns:1fr;max-height:88vh;overflow-y:auto}
     .modal-img{min-height:0;font-size:5rem}
     .talle-filter label{display:none}
@@ -1916,8 +1917,8 @@ const PRODUCTOS=[
     }
   }
 ];
-// Destacados elegidos por criterio de venta: buen stock, variedad de categorías, precios gancho
-const DESTACADOS=["GIO-0001","GIO-0003","GIO-0020","GIO-0018","GIO-0016","GIO-0002"];
+// Destacados elegidos: productos reales del catálogo actual, variedad de categorías y buen stock
+const DESTACADOS=["GIO-0048","GIO-0049","GIO-0018","GIO-0103","GIO-0072","GIO-0111"];
 
 const ICONOS={Ajuar:"🧶",Buzos:"🧥",Babuchas:"👖",Pantalones:"👖",Remeras:"👕",Camperas:"🧥",Vestidos:"👗",Medias:"🧦",Babitas:"🍼",Mantas:"🧣",Sets:"🎁",Enteritos:"👶",Bodies:"👕",Pijamas:"🌙",Promos:"⭐"};
 const fmt=n=>"$"+n.toLocaleString("es-AR");
@@ -2113,7 +2114,7 @@ function actualizar(){
   document.getElementById("total").textContent=total>0?fmt(total):"Consultar";document.getElementById("checkout").disabled=count===0;document.getElementById("mp-btn").disabled=count===0||total===0;
   const cont=document.getElementById("items");
   if(items.length===0){cont.innerHTML=`<div class="empty"><span class="emoji">🧺</span>Tu carrito está vacío<br>¡Sumá algo lindo!</div>`;}
-  else{cont.innerHTML=items.map(i=>`<div class="item"><div class="ico">${ICONOS[i.producto.cat]||"🧸"}</div><div class="info"><div class="n">${i.producto.nombre}${i.color?(' · '+i.color):''}${i.talle?(' · Talle '+i.talle):''}</div><div class="p">${i.producto.precio>0?fmt(i.producto.precio)+" c/u":"Consultar"}</div></div><div class="qty"><button onclick="cambiar('${i.producto.id}|${i.color||''}|${i.talle||''}',-1)">−</button><span>${i.cantidad}</span><button onclick="cambiar('${i.producto.id}|${i.color||''}|${i.talle||''}',1)">+</button></div></div>`).join("");}
+  else{cont.innerHTML=items.map(i=>{const k=i.color||i.talle?`${i.producto.id}|${i.color||''}|${i.talle||''}`:i.producto.id;return `<div class="item"><div class="ico">${ICONOS[i.producto.cat]||"🧸"}</div><div class="info"><div class="n">${i.producto.nombre}${i.color?(' · '+i.color):''}${i.talle?(' · Talle '+i.talle):''}</div><div class="p">${i.producto.precio>0?fmt(i.producto.precio)+" c/u":"Consultar"}</div></div><div class="qty"><button onclick="cambiar('${k}',-1)">−</button><span>${i.cantidad}</span><button onclick="cambiar('${k}',1)">+</button></div></div>`;}).join("");}
   renderDestacados();renderGrupos();
 }
 function abrirCarrito(){document.getElementById("overlay").classList.add("open");document.getElementById("drawer").classList.add("open");}
@@ -2170,7 +2171,7 @@ function pagarMercadoPago(){
     return;
   }
   if(!MP_LINK){toast("Aún no configuramos Mercado Pago, usá WhatsApp");return;}
-  const sep=MP_LINK.includes("?")?"?":"?";
+  const sep=MP_LINK.includes("?")?"&":"?";
   window.open(MP_LINK+sep+"quantity="+total,"_blank");
 }
 function waConsulta(){window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent("¡Hola Giorenatto! 🐻 Tengo una consulta")}`,"_blank");}
@@ -2209,6 +2210,16 @@ if(new URLSearchParams(location.search).has("preview")){document.getElementById(
   tick();timer=setInterval(tick,1000);
 })();
 window.addEventListener("scroll",()=>{document.getElementById("header").classList.toggle("scrolled",window.scrollY>10);});
+// La barra de categorías se pega justo debajo del header (altura real, desktop y móvil)
+(function(){
+  function ajustarCatbar(){
+    const h=document.getElementById("header");const c=document.querySelector(".catbar");
+    if(h&&c){c.style.top=h.getBoundingClientRect().height+"px";}
+  }
+  window.addEventListener("load",ajustarCatbar);
+  window.addEventListener("resize",ajustarCatbar);
+  ajustarCatbar();
+})();
 function abrirTalles(){document.getElementById("tallesOv").classList.add("open");}
 function cerrarTalles(e){if(e&&e.target!==document.getElementById("tallesOv")&&e.type==="click"&&!e.target.classList.contains("talles-close"))return;document.getElementById("tallesOv").classList.remove("open");}
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){cerrarModal();cerrarTalles();cerrarCarrito();}});
