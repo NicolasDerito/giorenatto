@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="logo-192.png">
+<meta name="theme-color" content="#4a3f35">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Giorenatto">
 <title>Giorenatto · Ropa de bebé</title>
 <meta name="description" content="Giorenatto · Ropa de bebé y primera infancia hecha con amor. Bodies, buzos, pijamas, ajuares y más. Quilmes, Buenos Aires. Envíos a todo el país.">
 <meta property="og:title" content="Giorenatto · Ropa de bebé">
@@ -2242,6 +2248,8 @@ if(new URLSearchParams(location.search).has("preview")){document.getElementById(
   tick();timer=setInterval(tick,1000);
 })();
 window.addEventListener("scroll",()=>{document.getElementById("header").classList.toggle("scrolled",window.scrollY>10);});
+// PWA: registro del service worker (permite instalar la web como app en el celu)
+if("serviceWorker" in navigator){ window.addEventListener("load",()=>{ navigator.serviceWorker.register("sw.js").catch(()=>{}); }); }
 // Guarda el email del visitante para avisarle cuando abra (endpoint del backend en Vercel)
 function guardarLead(ev){
   ev.preventDefault();
