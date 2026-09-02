@@ -58,9 +58,13 @@
   #mante .m-sub{font-size:.95rem;color:var(--ink-2);letter-spacing:.22em;text-transform:uppercase;margin-bottom:34px}
   #mante .m-fecha{font-family:'Fraunces',serif;font-size:clamp(2.6rem,8vw,4.6rem);font-weight:600;color:var(--oso);line-height:1.05;margin-bottom:22px}
   #mante .m-frase{font-size:1.05rem;color:var(--ink);max-width:420px;margin:0 auto 26px;line-height:1.7}
-  #mante .m-aviso{display:inline-flex;align-items:center;gap:9px;background:var(--oso-deep);color:#fff;font-weight:700;font-size:1rem;padding:14px 30px;border-radius:999px;transition:transform .18s,box-shadow .25s;box-shadow:var(--shadow-sm);margin-bottom:24px}
-  #mante .m-aviso:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
-  #mante .m-aviso .arrow{transition:transform .2s}#mante .m-aviso:hover .arrow{transform:translateX(4px)}
+  #mante .m-aviso-form{display:flex;gap:8px;max-width:420px;margin:0 auto 22px;flex-wrap:wrap;justify-content:center}
+  #mante .m-aviso-form input{flex:1;min-width:200px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:13px 20px;font-family:'Manrope';font-size:.95rem;color:var(--ink);outline:none}
+  #mante .m-aviso-form button{display:inline-flex;align-items:center;gap:9px;background:var(--oso-deep);color:#fff;font-weight:700;font-size:.95rem;padding:13px 26px;border-radius:999px;border:none;cursor:pointer;transition:transform .18s,box-shadow .25s;box-shadow:var(--shadow-sm)}
+  #mante .m-aviso-form button:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+  #mante .m-aviso-ok{display:none;color:var(--salvia-dark);font-weight:800;font-size:.95rem;margin-bottom:22px}
+  #mante .m-aviso-err{display:none;color:#c0392b;font-weight:700;font-size:.85rem;margin-bottom:14px}
+  #mante .m-aviso-form button .arrow{transition:transform .2s}#mante .m-aviso-form button:hover .arrow{transform:translateX(4px)}
   #mante .m-redes{font-size:.9rem;color:var(--ink-2)}
   #mante .m-redes a{color:var(--oso-dark);font-weight:700}
   #mante .m-emoji{font-size:2.2rem;margin-bottom:16px}
@@ -352,7 +356,12 @@
       <div class="cd-box"><div class="cd-n" id="cdS">00</div><div class="cd-l">seg</div></div>
     </div>
     <div class="m-frase">Estamos preparando un mundo de suavidad y ternura para los más chiquitos. Muy pronto vas a poder conocer todo lo que preparamos con amor.</div>
-    <a class="m-aviso" href="https://wa.me/5491162705378?text=%C2%A1Hola%20Giorenatto!%20%F0%9F%90%BB%20Quiero%20que%20me%20avisen%20cuando%20abra%20la%20tienda%20%F0%9F%A4%8E" target="_blank" rel="noopener">🔔 Avisame cuando abra <span class="arrow">→</span></a>
+    <form class="m-aviso-form" onsubmit="return guardarLead(event)">
+      <input type="email" id="leadEmail" placeholder="tu@email.com" required>
+      <button type="submit">🔔 Avisame cuando abra <span class="arrow">→</span></button>
+    </form>
+    <div class="m-aviso-ok" id="leadOk">¡Listo! Te avisamos por mail cuando abramos 🤎</div>
+    <div class="m-aviso-err" id="leadErr">Ups, no se pudo guardar. Probá de nuevo o escribinos por Instagram.</div>
     <div class="m-redes">Seguinos en <a href="https://www.instagram.com/giorenatto" target="_blank" rel="noopener">@giorenatto</a> 💛</div>
   </div>
 </div>
@@ -2233,6 +2242,20 @@ if(new URLSearchParams(location.search).has("preview")){document.getElementById(
   tick();timer=setInterval(tick,1000);
 })();
 window.addEventListener("scroll",()=>{document.getElementById("header").classList.toggle("scrolled",window.scrollY>10);});
+// Guarda el email del visitante para avisarle cuando abra (endpoint del backend en Vercel)
+function guardarLead(ev){
+  ev.preventDefault();
+  const email=document.getElementById("leadEmail").value.trim();
+  const okEl=document.getElementById("leadOk"),errEl=document.getElementById("leadErr");
+  okEl.style.display="none";errEl.style.display="none";
+  fetch("https://backend-omega-smoky-28.vercel.app/api/leads",{
+    method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email})
+  }).then(r=>r.json()).then(d=>{
+    if(d&&d.ok){ okEl.style.display="block"; document.getElementById("leadEmail").value=""; }
+    else errEl.style.display="block";
+  }).catch(()=>errEl.style.display="block");
+  return false;
+}
 // Wiggle estilo iOS: al tocar/hacer clic en TALLES, el icono se sacude como en iPhone
 (function(){
   const btn=document.querySelector(".talles-float");
