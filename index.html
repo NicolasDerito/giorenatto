@@ -227,7 +227,7 @@
   .modal-img{background:radial-gradient(circle at 50% 40%,#fff,var(--bg));display:flex;align-items:center;justify-content:center;font-size:7rem;min-height:320px;position:relative;overflow:hidden;aspect-ratio:3/4}
   .modal-img .modal-img-foto{width:100%;height:100%;object-fit:contain;position:absolute;inset:0}
   .modal-price.consult{font-size:1.15rem;color:var(--ink-3);font-weight:600}
-  .modal-info{padding:34px 30px;display:flex;flex-direction:column}
+  .modal-info{padding:34px 30px;display:flex;flex-direction:column;overflow-y:auto;min-height:0}
   .modal-close{position:absolute;top:16px;right:16px;background:var(--surface);border:1px solid var(--line);width:36px;height:36px;border-radius:50%;font-size:1.3rem;cursor:pointer;color:var(--ink-2);z-index:2;display:flex;align-items:center;justify-content:center}
   .modal-cat{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--salvia-dark);margin-bottom:10px}
   .modal-info h3{font-size:1.8rem;font-weight:500;color:var(--ink);line-height:1.1;margin-bottom:12px}
@@ -318,8 +318,8 @@
     .pasos{grid-template-columns:repeat(2,1fr);gap:28px}
     .foot-inner{grid-template-columns:1fr;gap:28px}
     .strip-inner{gap:26px}
-    .modal{grid-template-columns:1fr;max-height:88vh;overflow-y:auto}
-    .modal-img{min-height:0;font-size:5rem}
+    .modal{grid-template-columns:1fr;max-height:92vh;overflow-y:auto}
+    .modal-img{min-height:0;font-size:5rem;height:42vh;aspect-ratio:auto}
     .talle-filter label{display:none}
     .talles-ov{padding:0}
     .talles-modal{max-width:100%;max-height:100vh;border-radius:0;padding:0;transform:scale(1)}
