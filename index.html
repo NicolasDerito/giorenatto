@@ -205,11 +205,12 @@
   .overlay.open{opacity:1;visibility:visible}
   .drawer{position:fixed;top:0;right:0;height:100%;width:min(440px,100%);background:var(--bg);z-index:70;box-shadow:-20px 0 60px rgba(70,58,45,.18);transform:translateX(100%);transition:transform .32s cubic-bezier(.3,.8,.3,1);display:flex;flex-direction:column}
   .drawer.open{transform:translateX(0)}
-  .drawer-head{padding:24px 24px 18px;display:flex;align-items:center;justify-content:space-between}
+  .drawer-head{padding:24px 24px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
   .drawer-head h3{font-size:1.5rem;font-weight:500;color:var(--oso-deep)}
   .close{background:var(--surface);border:1px solid var(--line);width:36px;height:36px;border-radius:50%;font-size:1.3rem;cursor:pointer;color:var(--ink-2);line-height:1;display:flex;align-items:center;justify-content:center;transition:all .2s}
   .close:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .items{flex:1;overflow-y:auto;padding:8px 24px;display:flex;flex-direction:column;gap:12px}
+  .drawer-body{flex:1;overflow-y:auto;min-height:0;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch}
+  .items{padding:8px 24px;display:flex;flex-direction:column;gap:12px}
   .empty{text-align:center;color:var(--ink-3);margin-top:60px}
   .empty .emoji{font-size:3.4rem;display:block;margin-bottom:14px;opacity:.7}
   .item{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;gap:13px;align-items:center}
@@ -220,7 +221,7 @@
   .qty{display:flex;align-items:center;gap:6px;background:var(--bg);border-radius:999px;padding:3px}
   .qty button{width:28px;height:28px;border-radius:50%;border:none;background:var(--surface);cursor:pointer;font-weight:800;color:var(--oso-deep);box-shadow:var(--shadow-sm)}
   .qty span{min-width:20px;text-align:center;font-weight:800;font-size:.9rem}
-  .drawer-foot{padding:22px 24px;border-top:1px solid var(--line);background:var(--surface)}
+  .drawer-foot{padding:22px 24px;border-top:1px solid var(--line);background:var(--surface);flex-shrink:0}
   .total-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px}
   .total-row .lbl{font-size:1rem;color:var(--ink-2);font-weight:600}
   .total-row .val{font-family:'Fraunces';font-weight:600;font-size:2rem;color:var(--oso-deep)}
@@ -527,6 +528,7 @@
 <div class="overlay" id="overlay" onclick="cerrarCarrito()"></div>
 <aside class="drawer" id="drawer">
   <div class="drawer-head"><h3>Tu carrito</h3><button class="close" onclick="cerrarCarrito()">×</button></div>
+  <div class="drawer-body">
   <div class="items" id="items"></div>
   <div class="datos" id="datos">
     <h4>Datos para la entrega</h4>
@@ -539,10 +541,11 @@
       <div><label>Apellido</label><input id="fApellido" placeholder="Tu apellido" autocomplete="family-name"></div>
       <div class="full"><label>Teléfono</label><input id="fTelefono" type="tel" placeholder="11 2345-6789" autocomplete="tel"></div>
       <div class="full"><label>Email</label><input id="fMail" type="email" placeholder="tu@mail.com" autocomplete="email"></div>
-      <div class="full" id="campoDireccion"><label>Calle y número</label><input id="fCalle" placeholder="Av. Siempre Viva 123"></div>
-      <div class="full" id="campoCiudad"><label>Ciudad</label><input id="fCiudad" placeholder="Ciudad"></div>
-      <div class="full" id="campoProvincia"><label>Provincia</label><input id="fProvincia" placeholder="Provincia"></div>
+      <div class="full show" id="campoDireccion"><label>Calle y número</label><input id="fCalle" placeholder="Av. Siempre Viva 123"></div>
+      <div class="full show" id="campoCiudad"><label>Ciudad</label><input id="fCiudad" placeholder="Ciudad"></div>
+      <div class="full show" id="campoProvincia"><label>Provincia</label><input id="fProvincia" placeholder="Provincia"></div>
     </div>
+  </div>
   </div>
   <div class="drawer-foot">
     <div class="total-row"><span class="lbl">Total</span><span class="val" id="total">$0</span></div>
