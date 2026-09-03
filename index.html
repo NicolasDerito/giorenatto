@@ -353,6 +353,42 @@
     .talles-foto{width:100%;margin:14px 0 0;border-radius:0;border:none}
     .talles-nota{margin:0;padding:12px 18px 18px}
   }
+
+  /* ===== Efectos iOS ===== */
+  :root{--spring:cubic-bezier(.34,1.56,.64,1)}
+  .ios-press{transition:transform .32s var(--spring),box-shadow .32s var(--spring),filter .2s;-webkit-tap-highlight-color:transparent}
+  .ios-press:active,.ios-press.pressed{transform:scale(.92)!important;filter:brightness(.96)}
+  .pill:active{transform:scale(.9)!important}
+  /* Iconos tipo app de iPhone: squircle con brillo y sombra */
+  .paso .ico,.item .ico{position:relative;width:60px;height:60px;margin:0 auto 10px;border-radius:19px;background:linear-gradient(145deg,#fff 0%,var(--bg) 100%);border:1px solid var(--line);box-shadow:0 8px 20px rgba(70,58,45,.14),inset 0 1px 0 rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;font-size:1.75rem;transition:transform .34s var(--spring),box-shadow .34s var(--spring);transform-style:preserve-3d;overflow:hidden}
+  .item .ico{margin:0;width:48px;height:48px;border-radius:15px;font-size:1.5rem}
+  .paso .ico::after,.item .ico::after,.talles-icon::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(165deg,rgba(255,255,255,.75) 0%,rgba(255,255,255,.15) 45%,rgba(255,255,255,0) 60%);pointer-events:none}
+  .paso:hover .ico{transform:translateY(-6px) scale(1.08) rotate(-3deg);box-shadow:0 16px 30px rgba(70,58,45,.2),inset 0 1px 0 rgba(255,255,255,.9)}
+  .paso .ico.wiggle,.item .ico.wiggle{animation:iosWiggle .55s ease-in-out}
+  .strip-item{transition:transform .34s var(--spring)}
+  .strip-item:hover{transform:translateY(-3px) scale(1.04)}
+  /* Cards: tilt 3D con brillo que sigue el cursor */
+  .grid{perspective:1200px}
+  .card{transform-style:preserve-3d;will-change:transform;position:relative}
+  .card .glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.35),rgba(255,255,255,0) 55%);opacity:0;transition:opacity .25s;z-index:3}
+  .card.tilting{transition:box-shadow .22s}
+  .card.tilting .glare{opacity:1}
+  .card:active{transform:scale(.97)!important;transition:transform .12s}
+  /* Badge del carrito: pop al agregar */
+  .cart-count.pop{animation:cartPop .5s var(--spring)}
+  @keyframes cartPop{0%{transform:scale(1)}40%{transform:scale(1.6)}100%{transform:scale(1)}}
+  .cart-btn.bump{animation:cartBump .5s var(--spring)}
+  @keyframes cartBump{0%{transform:scale(1)}35%{transform:scale(1.08) rotate(-4deg)}70%{transform:scale(.97) rotate(2deg)}100%{transform:scale(1)}}
+  /* "+" que sale volando al carrito */
+  .fly-dot{position:fixed;z-index:200;width:22px;height:22px;border-radius:50%;background:var(--oso-deep);box-shadow:0 4px 14px rgba(0,0,0,.25);pointer-events:none;transition:transform .7s cubic-bezier(.2,.8,.2,1),opacity .7s;opacity:.95}
+  /* Botón de agregar: rebote al confirmar */
+  .add.done{animation:addDone .5s var(--spring)}
+  @keyframes addDone{0%{transform:scale(1)}40%{transform:scale(1.25) rotate(90deg)}100%{transform:scale(1) rotate(90deg)}}
+  /* Modal y drawer entran con spring */
+  .modal-ov.open .modal{animation:springIn .5s var(--spring)}
+  @keyframes springIn{from{transform:scale(.88) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+  .toast{transition:transform .45s var(--spring),opacity .3s}
+  @media (prefers-reduced-motion:reduce){.ios-press,.card,.paso .ico,.item .ico,.pill,.strip-item{transition:none!important;animation:none!important}.card .glare{display:none}}
 </style>
 </head>
 <body>
@@ -393,7 +429,7 @@
     <a class="ig-btn" href="https://www.instagram.com/giorenatto" target="_blank" rel="noopener" title="Seguinos en Instagram @giorenatto">
       <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07c-1.28.06-2.15.26-2.91.56-.79.31-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14c-.3.76-.5 1.63-.56 2.91C.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.28.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.67.66 1.34 1.07 2.13 1.38.76.3 1.63.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.28-.06 2.15-.26 2.91-.56.79-.31 1.46-.72 2.13-1.38.66-.67 1.07-1.34 1.38-2.13.3-.76.5-1.63.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.28-.26-2.15-.56-2.91-.31-.79-.72-1.46-1.38-2.13C21.32 1.35 20.65.94 19.86.63c-.76-.3-1.63-.5-2.91-.56C15.67.01 15.26 0 12 0Zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84Zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4Zm6.4-11.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44Z"/></svg>
     </a>
-    <button class="cart-btn" onclick="abrirCarrito()">Carrito<span class="cart-count" id="cartCount" style="display:none">0</span></button>
+    <button class="cart-btn ios-press" onclick="abrirCarrito()">Carrito<span class="cart-count" id="cartCount" style="display:none">0</span></button>
   </div>
 </header>
 
@@ -405,7 +441,7 @@
   </div>
   <h1>Lo más tierno para<br>los <em>más chiquitos</em></h1>
   <p>Bodies, buzos y prendas suaves pensadas para acompañar cada momento del bebé. Elegí lo que te guste y armá tu pedido en minutos.</p>
-  <a href="#catalogo" class="hero-cta">Descubrir el catálogo <span class="arrow">→</span></a>
+  <a href="#catalogo" class="hero-cta ios-press">Descubrir el catálogo <span class="arrow">→</span></a>
 </section>
 
 <div class="strip">
@@ -465,12 +501,12 @@
   <div class="foot-bottom">© 2026 Giorenatto · Hecho con amor en Argentina</div>
 </footer>
 
-<button class="talles-float" onclick="abrirTalles()" title="Guía de talles de bebé">
+<button class="talles-float ios-press" onclick="abrirTalles()" title="Guía de talles de bebé">
   <span class="talles-icon"><img src="logo.webp" alt="Giorenatto - Guía de talles"></span>
   <span class="talles-badge">TALLES</span>
 </button>
 
-<a class="wa-float" onclick="waConsulta()" title="Escribinos por WhatsApp">
+<a class="wa-float ios-press" onclick="waConsulta()" title="Escribinos por WhatsApp">
   <svg viewBox="0 0 32 32" width="30" height="30" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg>
 </a>
 
@@ -508,8 +544,8 @@
   </div>
   <div class="drawer-foot">
     <div class="total-row"><span class="lbl">Total</span><span class="val" id="total">$0</span></div>
-    <button class="checkout" id="checkout" onclick="finalizar()" disabled><svg viewBox="0 0 32 32" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg> Finalizar por WhatsApp</button>
-    <button class="mp-btn" id="mp-btn" onclick="pagarMercadoPago()" disabled>Pagar con Mercado Pago</button>
+    <button class="checkout ios-press" id="checkout" onclick="finalizar()" disabled><svg viewBox="0 0 32 32" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg> Finalizar por WhatsApp</button>
+    <button class="mp-btn ios-press" id="mp-btn" onclick="pagarMercadoPago()" disabled>Pagar con Mercado Pago</button>
     <p class="pago-nota">Coordinás el pago por Mercado Pago o transferencia</p>
   </div>
 </aside>
@@ -1976,7 +2012,12 @@ const DESTACADOS=["GIO-0048","GIO-0049","GIO-0018","GIO-0103","GIO-0072","GIO-01
 
 const ICONOS={Ajuar:"🧶",Buzos:"🧥",Babuchas:"👖",Pantalones:"👖",Remeras:"👕",Camperas:"🧥",Vestidos:"👗",Medias:"🧦",Babitas:"🍼",Mantas:"🧣",Sets:"🎁",Enteritos:"👶",Bodies:"👕",Pijamas:"🌙",Promos:"⭐"};
 const fmt=n=>"$"+n.toLocaleString("es-AR");
+// Escapa texto del catálogo antes de meterlo en innerHTML (evita XSS si productos.json trae algo raro)
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const carrito={};
+// Persistencia del carrito en la pestaña (sobrevive a un refresh, no a cerrar el navegador)
+function guardarCarrito(){try{sessionStorage.setItem("gio_carrito",JSON.stringify(Object.entries(carrito).map(([k,i])=>[k,i.producto.id,i.color||"",i.talle||"",i.cantidad])));}catch(e){}}
+function restaurarCarrito(){try{const d=JSON.parse(sessionStorage.getItem("gio_carrito")||"[]");d.forEach(([k,id,color,talle,n])=>{const p=PRODUCTOS.find(x=>x.id===id);if(!p)return;const st=stockCombo(p,color||null,talle||null);if(st<=0)return;carrito[k]={producto:p,color,talle,cantidad:Math.min(n,st)};});}catch(e){}}
 const CATS=[...new Set(PRODUCTOS.map(p=>p.cat))];
 let filtroTalle="", busqueda="";
 
@@ -1984,15 +2025,15 @@ function slug(c){return "cat-"+c.toLowerCase().normalize("NFD").replace(/[^a-z]/
 
 function tallesDisponibles(){
   const set=new Set();
-  PRODUCTOS.forEach(p=>{if(p.talle)set.add(p.talle);});
-  return [...set];
+  PRODUCTOS.forEach(p=>(p.talles||[]).forEach(t=>set.add(String(t))));
+  return [...set].sort((a,b)=>a.localeCompare(b,"es",{numeric:true}));
 }
 function renderNav(){
   const catsConFoto=CATS.filter(cat=>PRODUCTOS.some(p=>p.cat===cat && (p.img||(p.colores&&p.colores.length))));
   document.getElementById("catbar").innerHTML=
     `<div class="pill on" onclick="scrollTo0()">Todo</div>`+
-    catsConFoto.map(c=>`<div class="pill" onclick="irA('${slug(c)}')">${c}</div>`).join("")+
-    `<div class="talle-filter"><label>Talle:</label><select id="selTalle" onchange="onTalle()"><option value="">Por talles</option>${tallesDisponibles().map(t=>`<option value="${t}">${t}</option>`).join("")}</select></div>`;
+    catsConFoto.map(c=>`<div class="pill" onclick="irA('${slug(c)}')">${esc(c)}</div>`).join("")+
+    `<div class="talle-filter"><label>Talle:</label><select id="selTalle" onchange="onTalle()"><option value="">Por talles</option>${tallesDisponibles().map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join("")}</select></div>`;
 }
 function scrollTo0(){window.scrollTo({top:0,behavior:'smooth'})}
 function irA(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'})}
@@ -2000,7 +2041,7 @@ function onTalle(){filtroTalle=document.getElementById("selTalle").value;renderG
 function onSearch(){busqueda=document.getElementById("search").value.toLowerCase().trim();renderGrupos();}
 
 function pasaFiltro(p){
-  if(filtroTalle && p.talle!==filtroTalle)return false;
+  if(filtroTalle && !(p.talles||[]).map(String).includes(filtroTalle))return false;
   if(busqueda && !(p.nombre.toLowerCase().includes(busqueda)||p.cat.toLowerCase().includes(busqueda)))return false;
   return true;
 }
@@ -2021,7 +2062,7 @@ function renderGrupos(){
     const items=PRODUCTOS.filter(p=>p.cat===cat && (p.img||(p.colores&&p.colores.length)) && pasaFiltro(p));
     if(items.length===0)return;
     total+=items.length;
-    html+=`<div class="cat-group" id="${slug(cat)}"><div class="group-head"><h2>${cat}</h2><span class="count">${items.length}</span><div class="rule"></div></div><div class="grid">${items.map(p=>cardHTML(p)).join("")}</div></div>`;
+    html+=`<div class="cat-group" id="${slug(cat)}"><div class="group-head"><h2>${esc(cat)}</h2><span class="count">${items.length}</span><div class="rule"></div></div><div class="grid">${items.map(p=>cardHTML(p)).join("")}</div></div>`;
   });
   if(total===0){html=`<div class="no-results"><span class="e">🔍</span>No encontramos prendas con ese filtro.<br>Probá con otra búsqueda o talle.</div>`;}
   cont.innerHTML=html;
@@ -2029,22 +2070,23 @@ function renderGrupos(){
   document.getElementById("destacados").style.display=hayFiltro?"none":"block";
 }
 function cardHTML(p,fav){
-  const enCarrito=carrito[p.id]?.cantidad||0;const agotado=p.stock>0&&enCarrito>=p.stock;const low=p.stock>0&&p.stock<=2;
-  const total=stockTotal(p);const stockTag=total>0?`<span class="stock-tag ${total<=2?'stock-low':'stock-ok'}" style="top:16px;left:16px">${total<=2?'Últimas '+total:'Disponible'}</span>`:`<span class="stock-tag stock-low" style="top:16px;left:16px">Consultar stock</span>`;
-  const img=p.colores?`<img class="thumb-img" src="${p.colores[0].foto}" alt="${p.nombre}" loading="lazy">`:(p.img?`<img class="thumb-img" src="${p.img}" alt="${p.nombre}" loading="lazy">`:ICONOS[p.cat]||"🧸");
+  const enCarrito=Object.values(carrito).filter(i=>i.producto.id===p.id).reduce((s,i)=>s+i.cantidad,0);
+  const total=stockTotal(p);const agotado=total>0&&enCarrito>=total;const stockTag=total>0?`<span class="stock-tag ${total<=2?'stock-low':'stock-ok'}" style="top:16px;left:16px">${total<=2?'Últimas '+total:'Disponible'}</span>`:`<span class="stock-tag stock-low" style="top:16px;left:16px">Consultar stock</span>`;
+  const img=p.colores?`<img class="thumb-img" src="${esc(p.colores[0].foto)}" alt="${esc(p.nombre)}" loading="lazy">`:(p.img?`<img class="thumb-img" src="${esc(p.img)}" alt="${esc(p.nombre)}" loading="lazy">`:ICONOS[p.cat]||"🧸");
   const COLOR_HEX={rosa:'#f2b8c6',celeste:'#a8d8ea',blanco:'#f7f4ef',azul:'#8db3d9',verde:'#b5cc9e','verde oliva':'#a9a083',bordo:'#8e3b3b',gris:'#b9b4ac',crudo:'#ede3d0',beige:'#e8dcc5',amarillo:'#f4d67a',naranja:'#f2a65a',lila:'#c9b8e0',negro:'#3a3a3a'};
   const precio=p.precio>0?`<span class="precio">${fmt(p.precio)}</span>`:`<span class="precio consult">Consultar</span>`;
-  return `<div class="card" onclick="abrirModal('${p.id}')">
+  return `<div class="card" data-id="${esc(p.id)}" onclick="abrirModal('${esc(p.id)}')">
+    <div class="glare"></div>
     <div class="thumb">${img}
       ${stockTag}
       ${fav?'<span class="fav-tag">⭐</span>':''}
     </div>
     <div class="body">
-      <div class="name">${p.nombre}</div>
-      ${p.colores&&p.colores.length>1?`<div class="card-colores">${p.colores.map(c=>{const hex=COLOR_HEX[(c.nombre||'').toLowerCase()];return `<span class="c-dot" ${hex?`style="background:${hex}"`:`style="background-image:url('${c.foto}')"`} title="${c.nombre}"></span>`;}).join("")}</div>`:""}
-      <div class="talle">${p.talles?('Talles: '+p.talles.join(' · ')):(p.talle?('Talle '+p.talle):'Consultar talle')}</div>
+      <div class="name">${esc(p.nombre)}</div>
+      ${p.colores&&p.colores.length>1?`<div class="card-colores">${p.colores.map(c=>{const hex=COLOR_HEX[(c.nombre||'').toLowerCase()];return `<span class="c-dot" ${hex?`style="background:${hex}"`:`style="background-image:url('${esc(c.foto)}')"`} title="${esc(c.nombre)}"></span>`;}).join("")}</div>`:""}
+      <div class="talle">${p.talles?('Talles: '+esc(p.talles.join(' · '))):(p.talle?('Talle '+esc(p.talle)):'Consultar talle')}</div>
       <div class="foot">${precio}
-        <button class="add" onclick="event.stopPropagation();${p.talles||p.colores?`abrirModal('${p.id}')`:`agregar('${p.id}')`}" ${agotado?'disabled':''}>+</button>
+        <button class="add ios-press" onclick="event.stopPropagation();${p.talles||p.colores?`abrirModal('${esc(p.id)}')`:`agregar('${esc(p.id)}')`}" ${agotado?'disabled':''}>+</button>
       </div>
     </div>
   </div>`;
@@ -2088,32 +2130,32 @@ function abrirModal(id){
   const agotado=st>0&&enCarrito>=st;
   const total=stockTotal(p);const low=total>0&&total<=2;
   const foto0=p.colores&&p.colores.length?p.colores[ci].foto:(p.img||"");
-  const img=foto0?`<img class="modal-img-foto" id="modalFoto" src="${foto0}" alt="${p.nombre}">`:(ICONOS[p.cat]||"🧸");
+  const img=foto0?`<img class="modal-img-foto" id="modalFoto" src="${esc(foto0)}" alt="${esc(p.nombre)}">`:(ICONOS[p.cat]||"🧸");
   const stockTag=total>0?`<span class="stock-tag ${low?'stock-low':'stock-ok'}" style="top:16px;left:16px">${low?'Últimas '+total:'Disponible'}</span>`:`<span class="stock-tag stock-low" style="top:16px;left:16px">Consultar stock</span>`;
   const precio=p.precio>0?`<div class="modal-price">${fmt(p.precio)}</div>`:`<div class="modal-price consult">Consultar precio</div>`;
-  const stockInfo=p.stockVar?(st>0?`${st} ${st===1?'unidad':'unidades'} de ${colorSel}${talleSel?(' · Talle '+talleSel):''}`:'Combinación sin stock'):(p.stock>0?`${p.stock} ${p.stock===1?'unidad':'unidades'} ${low?'· ¡Últimas!':''}`:'Consultar');
+  const stockInfo=p.stockVar?(st>0?`${st} ${st===1?'unidad':'unidades'} de ${esc(colorSel)}${talleSel?(' · Talle '+esc(talleSel)):''}`:'Combinación sin stock'):(p.stock>0?`${p.stock} ${p.stock===1?'unidad':'unidades'} ${low?'· ¡Últimas!':''}`:'Consultar');
   const selectorColor=p.colores&&p.colores.length>1?`<div class="var-block"><div class="var-label">Color</div><div class="modal-colores">${p.colores.map((c,i)=>{
     const disp=!p.stockVar||p.stockVar[c.nombre+"|"+talleSel]>0;
-    return `<button class="color-thumb ${i===ci?'on':''} ${disp?'':'off'}" onclick="elegirFoto('${p.id}',${i})" ${disp?'':'disabled'}><img src="${c.foto}" alt="${c.nombre}" title="${c.nombre}"></button>`;
+    return `<button class="color-thumb ios-press ${i===ci?'on':''} ${disp?'':'off'}" onclick="elegirFoto('${esc(p.id)}',${i})" ${disp?'':'disabled'}><img src="${esc(c.foto)}" alt="${esc(c.nombre)}" title="${esc(c.nombre)}"></button>`;
   }).join("")}</div></div>`:"";
   const selectorTalle=p.talles&&p.talles.length>1?`<div class="var-block"><div class="var-label">Talle</div><div class="modal-talles">${p.talles.map((t,i)=>{
     const disp=!p.stockVar||p.stockVar[colorSel+"|"+t]>0;
-    return `<button class="talle-btn ${i===ti?'on':''} ${disp?'':'off'}" onclick="elegirTalle('${p.id}',${i})" ${disp?'':'disabled'}>${t}</button>`;
+    return `<button class="talle-btn ios-press ${i===ti?'on':''} ${disp?'':'off'}" onclick="elegirTalle('${esc(p.id)}',${i})" ${disp?'':'disabled'}>${esc(t)}</button>`;
   }).join("")}</div></div>`:"";
   document.getElementById("modalBox").innerHTML=`
     <button class="modal-close" onclick="cerrarModal()">×</button>
     <div class="modal-img">${img}${stockTag}</div>
     <div class="modal-info">
-      <div class="modal-cat">${p.cat}</div>
-      <h3>${p.nombre}</h3>
+      <div class="modal-cat">${esc(p.cat)}</div>
+      <h3>${esc(p.nombre)}</h3>
       ${precio}
       <div class="modal-meta">
         <div class="row"><b>Stock</b> <span>${stockInfo}</span></div>
-        <div class="row"><b>Detalle</b> <span>${p.desc||""}</span></div>
+        <div class="row"><b>Detalle</b> <span>${esc(p.desc||"")}</span></div>
       </div>
       ${selectorColor}
       ${selectorTalle}
-      <button class="modal-add" onclick="agregarVar('${p.id}');cerrarModal()" ${(st<=0||agotado)?'disabled':''}>${st<=0?'Sin stock en ese color/talle':(agotado?'Sin más stock':'Agregar al carrito')}</button>
+      <button class="modal-add ios-press" onclick="agregarVar('${esc(p.id)}');cerrarModal()" ${(st<=0||agotado)?'disabled':''}>${st<=0?'Sin stock en ese color/talle':(agotado?'Sin más stock':'Agregar al carrito')}</button>
     </div>`;
   document.getElementById("modalOv").classList.add("open");
 }
@@ -2145,6 +2187,17 @@ function elegirTalle(id,idx){
   }
   varSel[id]=s;abrirModal(id);
 }
+let ultimoOrigen=null; // elemento desde donde se agregó (para la animación de vuelo)
+document.addEventListener("pointerdown",e=>{const b=e.target.closest(".add,.modal-add");if(b)ultimoOrigen=b;},true);
+function volarAlCarrito(){
+  if(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  const from=ultimoOrigen,to=document.querySelector(".cart-btn");if(!from||!to)return;
+  const a=from.getBoundingClientRect(),b=to.getBoundingClientRect();
+  const dot=document.createElement("div");dot.className="fly-dot";dot.style.left=(a.left+a.width/2-11)+"px";dot.style.top=(a.top+a.height/2-11)+"px";document.body.appendChild(dot);
+  requestAnimationFrame(()=>{dot.style.transform=`translate(${b.left+b.width/2-(a.left+a.width/2)}px,${b.top+b.height/2-(a.top+a.height/2)}px) scale(.3)`;dot.style.opacity="0";});
+  setTimeout(()=>dot.remove(),750);
+  if(from.classList.contains("add")){from.classList.remove("done");void from.offsetWidth;from.classList.add("done");}
+}
 function agregarVar(id){
   const p=PRODUCTOS.find(x=>x.id===id);if(!p)return;
   const s=varSel[id]||{ci:0,ti:0};
@@ -2156,19 +2209,21 @@ function agregarVar(id){
   const a=carrito[key]?.cantidad||0;
   if(a>=st){toast("No hay más stock de esa combinación");return;}
   carrito[key]={producto:p,color,talle,cantidad:a+1};
-  actualizar();toast(p.nombre+" agregado ✓");
+  volarAlCarrito();actualizar();toast(p.nombre+" agregado ✓");
 }
 function cerrarModal(e){if(e&&e.target!==document.getElementById("modalOv")&&e.type==="click"&&!e.target.classList.contains("modal-close"))return;document.getElementById("modalOv").classList.remove("open");}
 
-function agregar(id){const p=PRODUCTOS.find(x=>x.id===id);const a=carrito[id]?.cantidad||0;if(a>=p.stock){toast("No hay más stock");return;}carrito[id]={producto:p,cantidad:a+1};actualizar();toast(p.nombre+" agregado ✓");}
+function agregar(id){const p=PRODUCTOS.find(x=>x.id===id);const a=carrito[id]?.cantidad||0;if(a>=p.stock){toast("No hay más stock");return;}carrito[id]={producto:p,cantidad:a+1};volarAlCarrito();actualizar();toast(p.nombre+" agregado ✓");}
 function cambiar(id,d){if(!carrito[id])return;const it=carrito[id];const st=stockCombo(it.producto,it.color||null,it.talle||null);const n=it.cantidad+d;if(n<=0)delete carrito[id];else if(n>st){toast("Llegaste al stock disponible");return;}else it.cantidad=n;actualizar();}
 function actualizar(){
+  guardarCarrito();
   const items=Object.values(carrito);const count=items.reduce((s,i)=>s+i.cantidad,0);const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
-  const badge=document.getElementById("cartCount");badge.textContent=count;badge.style.display=count>0?"flex":"none";
-  document.getElementById("total").textContent=total>0?fmt(total):"Consultar";document.getElementById("checkout").disabled=count===0;document.getElementById("mp-btn").disabled=count===0||total===0;
+  const badge=document.getElementById("cartCount");const prev=parseInt(badge.textContent)||0;badge.textContent=count;badge.style.display=count>0?"flex":"none";
+  if(count>prev){badge.classList.remove("pop");void badge.offsetWidth;badge.classList.add("pop");const cb=document.querySelector(".cart-btn");cb.classList.remove("bump");void cb.offsetWidth;cb.classList.add("bump");}
+  document.getElementById("total").textContent=total>0?fmt(total):"Consultar";document.getElementById("checkout").disabled=count===0;const mpBtn=document.getElementById("mp-btn");mpBtn.disabled=count===0||total===0;mpBtn.style.display=(BACKEND_URL||MP_LINK)?"":"none";
   const cont=document.getElementById("items");
   if(items.length===0){cont.innerHTML=`<div class="empty"><span class="emoji">🧺</span>Tu carrito está vacío<br>¡Sumá algo lindo!</div>`;}
-  else{cont.innerHTML=items.map(i=>{const k=i.color||i.talle?`${i.producto.id}|${i.color||''}|${i.talle||''}`:i.producto.id;return `<div class="item"><div class="ico">${ICONOS[i.producto.cat]||"🧸"}</div><div class="info"><div class="n">${i.producto.nombre}${i.color?(' · '+i.color):''}${i.talle?(' · Talle '+i.talle):''}</div><div class="p">${i.producto.precio>0?fmt(i.producto.precio)+" c/u":"Consultar"}</div></div><div class="qty"><button onclick="cambiar('${k}',-1)">−</button><span>${i.cantidad}</span><button onclick="cambiar('${k}',1)">+</button></div></div>`;}).join("");}
+  else{cont.innerHTML=items.map(i=>{const k=i.color||i.talle?`${i.producto.id}|${i.color||''}|${i.talle||''}`:i.producto.id;return `<div class="item"><div class="ico">${ICONOS[i.producto.cat]||"🧸"}</div><div class="info"><div class="n">${esc(i.producto.nombre)}${i.color?(' · '+esc(i.color)):''}${i.talle?(' · Talle '+esc(i.talle)):''}</div><div class="p">${i.producto.precio>0?fmt(i.producto.precio)+" c/u":"Consultar"}</div></div><div class="qty"><button class="ios-press" onclick="cambiar('${esc(k)}',-1)">−</button><span>${i.cantidad}</span><button class="ios-press" onclick="cambiar('${esc(k)}',1)">+</button></div></div>`;}).join("");}
   renderDestacados();renderGrupos();
 }
 function abrirCarrito(){document.getElementById("overlay").classList.add("open");document.getElementById("drawer").classList.add("open");}
@@ -2194,15 +2249,16 @@ function finalizar(){
   const provincia=document.getElementById("fProvincia").value.trim();
   const direccion=[calle,ciudad,provincia].filter(Boolean).join(", ");
   const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
-  let msg="¡Hola Giorenatto! 🐻 Quiero hacer este pedido:%0A%0A";
-  items.forEach(i=>{const importe=i.producto.precio>0?fmt(i.producto.precio*i.cantidad):"Consultar";msg+=`• ${i.cantidad}x ${i.producto.nombre}${i.color?(' · '+i.color):''}${i.talle?(' (Talle '+i.talle+')'):''} — ${importe}%0A`;});
-  msg+=`%0A*Total: ${total>0?fmt(total):"Consultar"}*%0A%0A`;
-  msg+=`*Entrega:* ${entrega==='envio'?'🚚 Envío':'🏠 Retiro'}%0A`;
-  msg+=`*Nombre:* ${nombre} ${apellido}%0A`;
-  msg+=`*Teléfono:* ${telefono}%0A`;
-  msg+=`*Email:* ${mail}%0A`;
-  if(entrega==='envio'&&direccion)msg+=`*Dirección:* ${direccion}%0A`;
-  window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,"_blank");
+  const NL="\n";
+  let msg="¡Hola Giorenatto! 🐻 Quiero hacer este pedido:"+NL+NL;
+  items.forEach(i=>{const importe=i.producto.precio>0?fmt(i.producto.precio*i.cantidad):"Consultar";msg+=`• ${i.cantidad}x ${i.producto.nombre}${i.color?(' · '+i.color):''}${i.talle?(' (Talle '+i.talle+')'):''} — ${importe}`+NL;});
+  msg+=NL+`*Total: ${total>0?fmt(total):"Consultar"}*`+NL+NL;
+  msg+=`*Entrega:* ${entrega==='envio'?'🚚 Envío':'🏠 Retiro'}`+NL;
+  msg+=`*Nombre:* ${nombre} ${apellido}`+NL;
+  msg+=`*Teléfono:* ${telefono}`+NL;
+  msg+=`*Email:* ${mail}`+NL;
+  if(entrega==='envio'&&direccion)msg+=`*Dirección:* ${direccion}`+NL;
+  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,"_blank");
   // mail de confirmación al cliente (si el backend está configurado)
   if(BACKEND_URL&&mail){
     fetch(BACKEND_URL+"/api/confirm",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
@@ -2212,34 +2268,39 @@ function finalizar(){
   }
 }
 // Mercado Pago: link de pago configurable (se completa cuando Nicolas tenga su cuenta MP)
-const MP_LINK="https://link.mercadopago.com.ar/giorenatto"; // fallback: link de tienda MP
-const BACKEND_URL=""; // ej: "https://giorenatto-backend.vercel.app" — cuando esté el backend, se usa Checkout Pro con monto exacto
+const MP_LINK="https://link.mercadopago.com.ar/giorenatto"; // link de pago actual (cuenta Giorenatto). Cuando Milagros pase su MP_ACCESS_TOKEN, activar BACKEND_URL abajo.
+const BACKEND_URL=""; // backend Checkout Pro: requiere MP_ACCESS_TOKEN de la cuenta de Milagros en Vercel. Mientras no esté, el botón usa MP_LINK.
 function pagarMercadoPago(){
   const items=Object.values(carrito);if(!items.length)return;
   const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
   if(BACKEND_URL){
-    const payload={items:items.map(i=>({nombre:i.producto.nombre,cantidad:i.cantidad,precio:i.producto.precio,color:i.color||"",talle:i.talle||""})),total,nombre:document.getElementById("fNombre").value.trim(),email:document.getElementById("fMail").value.trim()};
+    const payload={items:items.map(i=>({id:i.producto.id,nombre:i.producto.nombre,cantidad:i.cantidad,precio:i.producto.precio,color:i.color||"",talle:i.talle||""})),total,nombre:(document.getElementById("fNombre").value.trim()+" "+document.getElementById("fApellido").value.trim()).trim(),email:document.getElementById("fMail").value.trim(),telefono:document.getElementById("fTelefono").value.trim()};
     fetch(BACKEND_URL+"/api/preference",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
-      .then(r=>r.json()).then(d=>{if(d.init_point){window.open(d.init_point,"_blank");}else{toast("No se pudo iniciar el pago, usá WhatsApp");}})
+      .then(r=>r.json()).then(d=>{if(d.init_point){window.location.href=d.init_point;}else{toast(d.error||"No se pudo iniciar el pago, usá WhatsApp");}})
       .catch(()=>toast("No se pudo iniciar el pago, usá WhatsApp"));
     return;
   }
   if(!MP_LINK){toast("Aún no configuramos Mercado Pago, usá WhatsApp");return;}
-  const sep=MP_LINK.includes("?")?"&":"?";
-  window.open(MP_LINK+sep+"quantity="+total,"_blank");
+  window.open(MP_LINK,"_blank");
 }
 function waConsulta(){window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent("¡Hola Giorenatto! 🐻 Tengo una consulta")}`,"_blank");}
 let toastTimer;
 function toast(t){const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),1700);}
 
-renderNav();renderDestacados();renderGrupos();actualizar();
+restaurarCarrito();renderNav();renderDestacados();renderGrupos();actualizar();
 // Catálogo dinámico: si existe productos.json (editado desde el Admin), se usa en vez del array fijo.
 fetch("productos.json").then(r=>r.ok?r.json():null).then(lista=>{
-  if(lista&&Array.isArray(lista)&&lista.length){PRODUCTOS.splice(0,PRODUCTOS.length,...lista);CATS.length=0;CATS.push(...new Set(PRODUCTOS.map(p=>p.cat)));renderNav();renderDestacados();renderGrupos();actualizar();}
+  if(lista&&Array.isArray(lista)&&lista.length){PRODUCTOS.splice(0,PRODUCTOS.length,...lista);CATS.length=0;CATS.push(...new Set(PRODUCTOS.map(p=>p.cat)));Object.keys(carrito).forEach(k=>delete carrito[k]);restaurarCarrito();renderNav();renderDestacados();renderGrupos();actualizar();}
 }).catch(()=>{});
 // Bloquear scroll del fondo mientras está la pantalla de mantenimiento (evita que se vea la web detrás al scrollear)
 document.body.style.overflow="hidden";
 // Preview: con ?preview=1 se salta la pantalla de mantenimiento y se ve la web completa
+// Vuelta desde Mercado Pago
+(function(){const q=new URLSearchParams(location.search);const pago=q.get("pago");if(!pago)return;
+  if(pago==="ok"){sessionStorage.removeItem("gio_carrito");Object.keys(carrito).forEach(k=>delete carrito[k]);actualizar();toast("¡Pago aprobado! Te escribimos por WhatsApp 🐻");}
+  else if(pago==="pendiente")toast("Pago pendiente. Te avisamos cuando se acredite.");
+  else toast("El pago no se completó. Podés reintentar o pedir por WhatsApp.");
+  history.replaceState(null,"",location.pathname);})();
 if(new URLSearchParams(location.search).has("preview")){document.getElementById("mante").style.display="none";document.body.style.overflow="";}
 // Cuenta regresiva hasta la apertura (04/09/2026 00:00 ART)
 (function(){
@@ -2334,6 +2395,28 @@ function guardarLead(ev){
   window.addEventListener("resize",ajustarCatbar);
   ajustarCatbar();
 })();
+// Tilt 3D + brillo en las cards (solo con mouse; en touch se usa el press)
+(function(){
+  if(!window.matchMedia||matchMedia("(prefers-reduced-motion:reduce)").matches||!matchMedia("(hover:hover)").matches)return;
+  const maxTilt=7;
+  document.addEventListener("mousemove",e=>{
+    const card=e.target.closest(".card");if(!card)return;
+    const r=card.getBoundingClientRect();
+    const px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;
+    card.classList.add("tilting");
+    card.style.setProperty("--gx",(px*100)+"%");card.style.setProperty("--gy",(py*100)+"%");
+    card.style.transform=`translateY(-6px) rotateY(${(px-.5)*2*maxTilt}deg) rotateX(${(.5-py)*2*maxTilt}deg)`;
+  });
+  document.addEventListener("mouseout",e=>{
+    const card=e.target.closest(".card");if(!card||card.contains(e.relatedTarget))return;
+    card.classList.remove("tilting");card.style.transform="";card.style.removeProperty("--gx");card.style.removeProperty("--gy");
+  });
+})();
+// Wiggle iOS en cualquier icono squircle al tocarlo
+document.addEventListener("pointerdown",e=>{
+  const ico=e.target.closest(".paso .ico,.item .ico");if(!ico)return;
+  ico.classList.remove("wiggle");void ico.offsetWidth;ico.classList.add("wiggle");setTimeout(()=>ico.classList.remove("wiggle"),600);
+},{passive:true});
 function abrirTalles(){document.getElementById("tallesOv").classList.add("open");}
 function cerrarTalles(e){if(e&&e.target!==document.getElementById("tallesOv")&&e.type==="click"&&!e.target.classList.contains("talles-close"))return;document.getElementById("tallesOv").classList.remove("open");}
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){cerrarModal();cerrarTalles();cerrarCarrito();}});
