@@ -549,6 +549,8 @@
   </div>
   </div>
   <div class="drawer-foot">
+    <div class="sub-row" id="subRow" style="display:flex;justify-content:space-between;font-size:.85rem;color:var(--ink-3);margin-bottom:3px"><span>Subtotal</span><span id="subtotal">$0</span></div>
+    <div class="sub-row" id="envioRow" style="display:none;justify-content:space-between;font-size:.85rem;color:var(--ink-3);margin-bottom:3px"><span id="envioLbl">Envío</span><span id="envioTx"></span></div>
     <div class="total-row"><span class="lbl">Total</span><span class="val" id="total">$0</span></div>
     <button class="checkout ios-press" id="checkout" onclick="finalizar()" disabled><svg viewBox="0 0 32 32" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg> Finalizar por WhatsApp</button>
     <button class="mp-btn ios-press" id="mp-btn" onclick="pagarMercadoPago()" disabled>Pagar con Mercado Pago</button>
@@ -2223,10 +2225,13 @@ function agregar(id){const p=PRODUCTOS.find(x=>x.id===id);const a=carrito[id]?.c
 function cambiar(id,d){if(!carrito[id])return;const it=carrito[id];const st=stockCombo(it.producto,it.color||null,it.talle||null);const n=it.cantidad+d;if(n<=0)delete carrito[id];else if(n>st){toast("Llegaste al stock disponible");return;}else it.cantidad=n;actualizar();}
 function actualizar(){
   guardarCarrito();
-  const items=Object.values(carrito);const count=items.reduce((s,i)=>s+i.cantidad,0);const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
+  const items=Object.values(carrito);const count=items.reduce((s,i)=>s+i.cantidad,0);const subtotal=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
   const badge=document.getElementById("cartCount");const prev=parseInt(badge.textContent)||0;badge.textContent=count;badge.style.display=count>0?"flex":"none";
   if(count>prev){badge.classList.remove("pop");void badge.offsetWidth;badge.classList.add("pop");const cb=document.querySelector(".cart-btn");cb.classList.remove("bump");void cb.offsetWidth;cb.classList.add("bump");}
-  document.getElementById("total").textContent=total>0?fmt(total):"Consultar";document.getElementById("checkout").disabled=count===0;const mpBtn=document.getElementById("mp-btn");mpBtn.disabled=count===0||total===0;mpBtn.style.display=(BACKEND_URL||MP_LINK)?"":"none";
+  document.getElementById("subtotal").textContent=subtotal>0?fmt(subtotal):"$0";
+  const totalEl=document.getElementById("total");totalEl.textContent=subtotal>0?fmt(subtotal+(entrega==='envio'?costoEnvio:0)):"Consultar";
+  document.getElementById("checkout").disabled=count===0;const mpBtn=document.getElementById("mp-btn");mpBtn.disabled=count===0||subtotal===0;mpBtn.style.display=(BACKEND_URL||MP_LINK)?"":"none";
+  recalcularEnvio();
   const cont=document.getElementById("items");
   if(items.length===0){cont.innerHTML=`<div class="empty"><span class="emoji">🧺</span>Tu carrito está vacío<br>¡Sumá algo lindo!</div>`;}
   else{cont.innerHTML=items.map(i=>{const k=i.color||i.talle?`${i.producto.id}|${i.color||''}|${i.talle||''}`:i.producto.id;return `<div class="item"><div class="ico">${ICONOS[i.producto.cat]||"🧸"}</div><div class="info"><div class="n">${esc(i.producto.nombre)}${i.color?(' · '+esc(i.color)):''}${i.talle?(' · Talle '+esc(i.talle)):''}</div><div class="p">${i.producto.precio>0?fmt(i.producto.precio)+" c/u":"Consultar"}</div></div><div class="qty"><button class="ios-press" onclick="cambiar('${esc(k)}',-1)">−</button><span>${i.cantidad}</span><button class="ios-press" onclick="cambiar('${esc(k)}',1)">+</button></div></div>`;}).join("");}
@@ -2235,6 +2240,7 @@ function actualizar(){
 function abrirCarrito(){document.getElementById("overlay").classList.add("open");document.getElementById("drawer").classList.add("open");}
 function cerrarCarrito(){document.getElementById("overlay").classList.remove("open");document.getElementById("drawer").classList.remove("open");}
 let entrega='envio';
+let costoEnvio=0;let envioGratis=false;let envioZona=''; // estado del envío calculado (0 si retiro/sin calcular)
 function elegirEntrega(t){
   entrega=t;
   document.getElementById("btnEnvio").classList.toggle("on",t==='envio');
@@ -2243,7 +2249,35 @@ function elegirEntrega(t){
   document.getElementById("campoCiudad").classList.toggle("show",t==='envio');
   document.getElementById("campoCP").classList.toggle("show",t==='envio');
   document.getElementById("campoProvincia").classList.toggle("show",t==='envio');
+  recalcularEnvio();
 }
+let envioTimer=null;
+function recalcularEnvio(){
+  clearTimeout(envioTimer);
+  envioTimer=setTimeout(async()=>{
+    const fila=document.getElementById("envioRow");const tx=document.getElementById("envioTx");
+    const items=Object.values(carrito);const subtotal=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
+    if(entrega!=='envio'||subtotal<=0){costoEnvio=0;envioGratis=false;envioZona='';if(fila)fila.style.display='none';pintarTotal(subtotal);return;}
+    const provincia=(document.getElementById("fProvincia").value||'').trim();
+    const cp=(document.getElementById("fCP").value||'').trim();
+    if(!provincia||!cp){costoEnvio=0;envioGratis=false;envioZona='';if(fila){fila.style.display='flex';tx.textContent='Completá provincia y CP';}pintarTotal(subtotal);return;}
+    try{
+      const r=await fetch(BACKEND_URL+"/api/envio",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({provincia,cp,subtotal})});
+      const d=await r.json();
+      if(d&&d.ok){costoEnvio=d.costo||0;envioGratis=!!d.gratis;envioZona=d.zonaLabel||'';
+        if(fila){fila.style.display='flex';tx.textContent=envioGratis?('GRATIS 🎉 · '+envioZona):fmt(costoEnvio)+' · '+envioZona;tx.style.color=envioGratis?'#2e7d32':'';}
+      }else{if(fila){fila.style.display='flex';tx.textContent='Consultar';}costoEnvio=0;}
+    }catch(e){if(fila){fila.style.display='flex';tx.textContent='Consultar';}costoEnvio=0;}
+    pintarTotal(subtotal);
+  },350);
+}
+function pintarTotal(subtotal){
+  const totalFinal=subtotal+(entrega==='envio'?costoEnvio:0);
+  const el=document.getElementById("total");if(el)el.textContent=totalFinal>0?fmt(totalFinal):(subtotal>0?fmt(subtotal):"Consultar");
+  const sub=document.getElementById("subtotal");if(sub)sub.textContent=subtotal>0?fmt(subtotal):"$0";
+}
+document.getElementById("fProvincia")&&document.getElementById("fProvincia").addEventListener("input",recalcularEnvio);
+document.getElementById("fCP")&&document.getElementById("fCP").addEventListener("input",recalcularEnvio);
 // Valida los datos de entrega/envio. Devuelve {ok:true,datos} o {ok:false,msg}.
 // Si falta algo, marca los campos en rojo y enfoca el primero vacío.
 function validarDatos(){
