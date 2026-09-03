@@ -244,8 +244,8 @@
   .entrega{display:flex;gap:8px;margin-bottom:10px}
   .entrega button{flex:1;border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:9px;font-family:'Manrope';font-weight:700;font-size:.85rem;color:var(--ink-2);cursor:pointer;transition:all .15s}
   .entrega button.on{border-color:var(--salvia-dark);background:var(--salvia);color:var(--ink)}
-  #campoDireccion,#campoCiudad,#campoProvincia{display:none}
-  #campoDireccion.show,#campoCiudad.show,#campoProvincia.show{display:block}
+  #campoDireccion,#campoCiudad,#campoCP,#campoProvincia{display:none}
+  #campoDireccion.show,#campoCiudad.show,#campoCP.show,#campoProvincia.show{display:block}
 
   /* MODAL PRODUCTO */
   .modal-ov{position:fixed;inset:0;background:rgba(70,58,45,.42);backdrop-filter:blur(4px);z-index:75;opacity:0;visibility:hidden;transition:opacity .28s;display:flex;align-items:center;justify-content:center;padding:20px}
@@ -543,6 +543,7 @@
       <div class="full"><label>Email</label><input id="fMail" type="email" placeholder="tu@mail.com" autocomplete="email"></div>
       <div class="full show" id="campoDireccion"><label>Calle y número</label><input id="fCalle" placeholder="Av. Siempre Viva 123"></div>
       <div class="full show" id="campoCiudad"><label>Ciudad</label><input id="fCiudad" placeholder="Ciudad"></div>
+      <div class="full show" id="campoCP"><label>Código postal</label><input id="fCP" inputmode="numeric" placeholder="1878"></div>
       <div class="full show" id="campoProvincia"><label>Provincia</label><input id="fProvincia" placeholder="Provincia"></div>
     </div>
   </div>
@@ -2240,6 +2241,7 @@ function elegirEntrega(t){
   document.getElementById("btnRetiro").classList.toggle("on",t==='retiro');
   document.getElementById("campoDireccion").classList.toggle("show",t==='envio');
   document.getElementById("campoCiudad").classList.toggle("show",t==='envio');
+  document.getElementById("campoCP").classList.toggle("show",t==='envio');
   document.getElementById("campoProvincia").classList.toggle("show",t==='envio');
 }
 // Valida los datos de entrega/envio. Devuelve {ok:true,datos} o {ok:false,msg}.
@@ -2247,14 +2249,14 @@ function elegirEntrega(t){
 function validarDatos(){
   const v=(id)=>{const el=document.getElementById(id);const val=(el.value||"").trim();el.classList.toggle("err",!val);return val;};
   const nombre=v("fNombre"),apellido=v("fApellido"),telefono=v("fTelefono"),mail=v("fMail");
-  const calle=v("fCalle"),ciudad=v("fCiudad"),provincia=v("fProvincia");
+  const calle=v("fCalle"),ciudad=v("fCiudad"),cp=v("fCP"),provincia=v("fProvincia");
   const esEnvio=entrega==='envio';
   let falta=null;
   if(!nombre)falta="fNombre";else if(!apellido)falta="fApellido";else if(!telefono)falta="fTelefono";else if(!mail)falta="fMail";
-  if(!falta&&esEnvio){if(!calle)falta="fCalle";else if(!ciudad)falta="fCiudad";else if(!provincia)falta="fProvincia";}
+  if(!falta&&esEnvio){if(!calle)falta="fCalle";else if(!ciudad)falta="fCiudad";else if(!cp)falta="fCP";else if(!provincia)falta="fProvincia";}
   if(falta){document.getElementById(falta).focus();return {ok:false,msg:"Completá "+(esEnvio?"tus datos y la dirección de envío":"tus datos de contacto")+" para continuar"};}
-  const direccion=[calle,ciudad,provincia].filter(Boolean).join(", ");
-  return {ok:true,datos:{nombre:nombre+" "+apellido,nombreSolo:nombre,apellido,telefono,mail,calle,ciudad,provincia,direccion,entrega}};
+  const direccion=[calle,ciudad,"CP "+cp,provincia].filter(Boolean).join(", ");
+  return {ok:true,datos:{nombre:nombre+" "+apellido,nombreSolo:nombre,apellido,telefono,mail,calle,ciudad,cp,provincia,direccion,entrega}};
 }
 function limpiarErrores(e){
   const el=e.target.closest("input");if(el)el.classList.remove("err");
@@ -2292,7 +2294,7 @@ function pagarMercadoPago(){
   const {datos}=chk;
   const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
   if(BACKEND_URL){
-    const payload={items:items.map(i=>({id:i.producto.id,nombre:i.producto.nombre,cantidad:i.cantidad,precio:i.producto.precio,color:i.color||"",talle:i.talle||""})),total,nombre:datos.nombreSolo,apellido:datos.apellido,email:datos.mail,telefono:datos.telefono,entrega:datos.entrega,direccion:datos.direccion,calle:datos.calle,ciudad:datos.ciudad,provincia:datos.provincia};
+    const payload={items:items.map(i=>({id:i.producto.id,nombre:i.producto.nombre,cantidad:i.cantidad,precio:i.producto.precio,color:i.color||"",talle:i.talle||""})),total,nombre:datos.nombreSolo,apellido:datos.apellido,email:datos.mail,telefono:datos.telefono,entrega:datos.entrega,direccion:datos.direccion,calle:datos.calle,ciudad:datos.ciudad,cp:datos.cp,provincia:datos.provincia};
     fetch(BACKEND_URL+"/api/preference",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
       .then(r=>r.json()).then(d=>{if(d.init_point){window.location.href=d.init_point;}else{toast(d.error||"No se pudo iniciar el pago, usá WhatsApp");}})
       .catch(()=>toast("No se pudo iniciar el pago, usá WhatsApp"));
