@@ -238,6 +238,8 @@
   .datos label{display:block;font-size:.75rem;font-weight:700;color:var(--ink-2);margin-bottom:4px}
   .datos input,.datos select{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 12px;font-family:'Manrope';font-size:.92rem;color:var(--ink);box-sizing:border-box}
   .datos input:focus,.datos select:focus{outline:none;border-color:var(--salvia-dark)}
+  .datos input.err{border-color:#e5484d;background:#fff5f5}
+  .datos input.err:focus{border-color:#e5484d;box-shadow:0 0 0 3px rgba(229,72,77,.12)}
   .entrega{display:flex;gap:8px;margin-bottom:10px}
   .entrega button{flex:1;border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:9px;font-family:'Manrope';font-weight:700;font-size:.85rem;color:var(--ink-2);cursor:pointer;transition:all .15s}
   .entrega button.on{border-color:var(--salvia-dark);background:var(--salvia);color:var(--ink)}
@@ -2237,32 +2239,43 @@ function elegirEntrega(t){
   document.getElementById("campoCiudad").classList.toggle("show",t==='envio');
   document.getElementById("campoProvincia").classList.toggle("show",t==='envio');
 }
+// Valida los datos de entrega/envio. Devuelve {ok:true,datos} o {ok:false,msg}.
+// Si falta algo, marca los campos en rojo y enfoca el primero vacío.
+function validarDatos(){
+  const v=(id)=>{const el=document.getElementById(id);const val=(el.value||"").trim();el.classList.toggle("err",!val);return val;};
+  const nombre=v("fNombre"),apellido=v("fApellido"),telefono=v("fTelefono"),mail=v("fMail");
+  const calle=v("fCalle"),ciudad=v("fCiudad"),provincia=v("fProvincia");
+  const esEnvio=entrega==='envio';
+  let falta=null;
+  if(!nombre)falta="fNombre";else if(!apellido)falta="fApellido";else if(!telefono)falta="fTelefono";else if(!mail)falta="fMail";
+  if(!falta&&esEnvio){if(!calle)falta="fCalle";else if(!ciudad)falta="fCiudad";else if(!provincia)falta="fProvincia";}
+  if(falta){document.getElementById(falta).focus();return {ok:false,msg:"Completá "+(esEnvio?"tus datos y la dirección de envío":"tus datos de contacto")+" para continuar"};}
+  const direccion=[calle,ciudad,provincia].filter(Boolean).join(", ");
+  return {ok:true,datos:{nombre:nombre+" "+apellido,nombreSolo:nombre,apellido,telefono,mail,calle,ciudad,provincia,direccion,entrega}};
+}
+function limpiarErrores(e){
+  const el=e.target.closest("input");if(el)el.classList.remove("err");
+}
+document.querySelectorAll("#datos input").forEach(i=>i.addEventListener("input",limpiarErrores));
 function finalizar(){
   const items=Object.values(carrito);if(!items.length)return;
-  const nombre=document.getElementById("fNombre").value.trim();
-  const apellido=document.getElementById("fApellido").value.trim();
-  const telefono=document.getElementById("fTelefono").value.trim();
-  const mail=document.getElementById("fMail").value.trim();
-  if(!nombre||!apellido||!telefono||!mail){toast("Completá tus datos para la entrega");return;}
-  const calle=document.getElementById("fCalle").value.trim();
-  const ciudad=document.getElementById("fCiudad").value.trim();
-  const provincia=document.getElementById("fProvincia").value.trim();
-  const direccion=[calle,ciudad,provincia].filter(Boolean).join(", ");
+  const chk=validarDatos();if(!chk.ok){toast(chk.msg);return;}
+  const {datos}=chk;
   const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
   const NL="\n";
   let msg="¡Hola Giorenatto! 🐻 Quiero hacer este pedido:"+NL+NL;
   items.forEach(i=>{const importe=i.producto.precio>0?fmt(i.producto.precio*i.cantidad):"Consultar";msg+=`• ${i.cantidad}x ${i.producto.nombre}${i.color?(' · '+i.color):''}${i.talle?(' (Talle '+i.talle+')'):''} — ${importe}`+NL;});
   msg+=NL+`*Total: ${total>0?fmt(total):"Consultar"}*`+NL+NL;
-  msg+=`*Entrega:* ${entrega==='envio'?'🚚 Envío':'🏠 Retiro'}`+NL;
-  msg+=`*Nombre:* ${nombre} ${apellido}`+NL;
-  msg+=`*Teléfono:* ${telefono}`+NL;
-  msg+=`*Email:* ${mail}`+NL;
-  if(entrega==='envio'&&direccion)msg+=`*Dirección:* ${direccion}`+NL;
+  msg+=`*Entrega:* ${datos.entrega==='envio'?'🚚 Envío':'🏠 Retiro'}`+NL;
+  msg+=`*Nombre:* ${datos.nombre}`+NL;
+  msg+=`*Teléfono:* ${datos.telefono}`+NL;
+  msg+=`*Email:* ${datos.mail}`+NL;
+  if(datos.entrega==='envio'&&datos.direccion)msg+=`*Dirección:* ${datos.direccion}`+NL;
   window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,"_blank");
   // mail de confirmación al cliente (si el backend está configurado)
-  if(BACKEND_URL&&mail){
+  if(BACKEND_URL&&datos.mail){
     fetch(BACKEND_URL+"/api/confirm",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
-      email:mail,nombre,apellido,telefono,entrega,direccion,total,
+      email:datos.mail,nombre:datos.nombreSolo,apellido:datos.apellido,telefono:datos.telefono,entrega:datos.entrega,direccion:datos.direccion,total,
       items:items.map(i=>({nombre:i.producto.nombre,cantidad:i.cantidad,precio:i.producto.precio,color:i.color||"",talle:i.talle||""}))
     })}).catch(()=>{});
   }
@@ -2272,9 +2285,11 @@ const MP_LINK=""; // sin backend, dejalo vacío: el botón de MP se oculta solo.
 const BACKEND_URL="https://backend-omega-smoky-28.vercel.app"; // backend en Vercel: /api/preference crea el pago de MP con el total del carrito (MP_ACCESS_TOKEN ya activo)
 function pagarMercadoPago(){
   const items=Object.values(carrito);if(!items.length)return;
+  const chk=validarDatos();if(!chk.ok){toast(chk.msg);return;}
+  const {datos}=chk;
   const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
   if(BACKEND_URL){
-    const payload={items:items.map(i=>({id:i.producto.id,nombre:i.producto.nombre,cantidad:i.cantidad,precio:i.producto.precio,color:i.color||"",talle:i.talle||""})),total,nombre:(document.getElementById("fNombre").value.trim()+" "+document.getElementById("fApellido").value.trim()).trim(),email:document.getElementById("fMail").value.trim(),telefono:document.getElementById("fTelefono").value.trim()};
+    const payload={items:items.map(i=>({id:i.producto.id,nombre:i.producto.nombre,cantidad:i.cantidad,precio:i.producto.precio,color:i.color||"",talle:i.talle||""})),total,nombre:datos.nombreSolo,apellido:datos.apellido,email:datos.mail,telefono:datos.telefono,entrega:datos.entrega,direccion:datos.direccion,calle:datos.calle,ciudad:datos.ciudad,provincia:datos.provincia};
     fetch(BACKEND_URL+"/api/preference",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
       .then(r=>r.json()).then(d=>{if(d.init_point){window.location.href=d.init_point;}else{toast(d.error||"No se pudo iniciar el pago, usá WhatsApp");}})
       .catch(()=>toast("No se pudo iniciar el pago, usá WhatsApp"));
