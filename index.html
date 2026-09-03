@@ -2268,8 +2268,8 @@ function finalizar(){
   }
 }
 // Mercado Pago: link de pago configurable (se completa cuando Nicolas tenga su cuenta MP)
-const MP_LINK="https://link.mercadopago.com.ar/giorenatto"; // link de pago actual (cuenta Giorenatto). Cuando Milagros pase su MP_ACCESS_TOKEN, activar BACKEND_URL abajo.
-const BACKEND_URL=""; // backend Checkout Pro: requiere MP_ACCESS_TOKEN de la cuenta de Milagros en Vercel. Mientras no esté, el botón usa MP_LINK.
+const MP_LINK=""; // sin backend, dejalo vacío: el botón de MP se oculta solo. Si tenés un link de pago real de MP, pegalo acá.
+const BACKEND_URL="https://backend-omega-smoky-28.vercel.app"; // backend en Vercel: /api/preference crea el pago de MP con el total del carrito (MP_ACCESS_TOKEN ya activo)
 function pagarMercadoPago(){
   const items=Object.values(carrito);if(!items.length)return;
   const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
