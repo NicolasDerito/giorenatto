@@ -873,15 +873,6 @@
   "talle": "4"
  },
  {
-  "id": "GIO-0098",
-  "nombre": "Soquetes x3 Pares",
-  "cat": "Medias",
-  "precio": 6300,
-  "stock": 1,
-  "desc": "Pack x3 pares de soquetes, algodón suave.",
-  "img": "assets/products/soquetes-3-pares.webp"
- },
- {
   "id": "GIO-0045",
   "nombre": "Ajuar Animalitos",
   "cat": "Ajuar",
