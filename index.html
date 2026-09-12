@@ -10,10 +10,10 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Giorenatto">
-<title>Giorenatto · Ropa de bebé</title>
-<meta name="description" content="Giorenatto · Ropa de bebé y primera infancia hecha con amor. Bodies, buzos, pijamas, ajuares y más. Quilmes, Buenos Aires. Envíos a todo el país.">
-<meta property="og:title" content="Giorenatto · Ropa de bebé">
-<meta property="og:description" content="Lo más tierno para los más chiquitos. Bodies, buzos, pijamas, ajuares y más. Envíos a todo el país.">
+<title>Giorenatto · Ropa de bebé en Quilmes | Envíos a todo el país</title>
+<meta name="description" content="Ropa de bebé y primera infancia en Quilmes: bodies, buzos, pijamas, ajuares y más en algodón hipoalergénico. Envíos a todo el país y envío gratis desde $60.000.">
+<meta property="og:title" content="Giorenatto · Ropa de bebé en Quilmes">
+<meta property="og:description" content="Bodies, buzos, pijamas, ajuares y más. Algodón hipoalergénico. Envíos a todo el país · Envío gratis desde $60.000.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -21,9 +21,14 @@
   "name": "Giorenatto",
   "description": "Ropa de bebé y primera infancia hecha con amor. Bodies, buzos, pijamas, ajuares y más.",
   "url": "https://giorenatto.com.ar/",
-  "image": "https://giorenatto.com.ar/logo.webp",
-  "address": {"@type": "PostalAddress", "addressLocality": "Quilmes", "addressRegion": "Buenos Aires", "addressCountry": "AR"},
-  "sameAs": ["https://www.instagram.com/giorenatto"],
+  "image": "https://giorenatto.com.ar/assets/og-giorenatto.jpg",
+  "logo": "https://giorenatto.com.ar/logo.webp",
+  "address": {"@type": "PostalAddress", "streetAddress": "Av. Rivadavia 730, Local F5", "addressLocality": "Quilmes", "addressRegion": "Buenos Aires", "addressCountry": "AR"},
+  "telephone": "+5491162705378",
+  "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday", "Saturday", "Sunday"], "opens": "10:00", "closes": "20:00"}],
+  "areaServed": {"@type": "Country", "name": "Argentina"},
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=Av.+Rivadavia+730%2C+Quilmes%2C+Buenos+Aires",
+  "sameAs": ["https://www.instagram.com/giorenatto", "https://wa.me/5491162705378"],
   "priceRange": "$",
   "currenciesAccepted": "ARS",
   "paymentAccepted": "Mercado Pago, Transferencia, Efectivo"
@@ -33,9 +38,15 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://giorenatto.com.ar/">
 <link rel="canonical" href="https://giorenatto.com.ar/">
-<meta property="og:image" content="https://giorenatto.com.ar/logo.webp">
+<meta property="og:image" content="https://giorenatto.com.ar/assets/og-giorenatto.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Giorenatto · Ropa de bebé en Quilmes">
 <meta property="og:locale" content="es_AR">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Giorenatto · Ropa de bebé en Quilmes">
+<meta name="twitter:description" content="Bodies, buzos, pijamas, ajuares y más. Envíos a todo el país · Envío gratis desde $60.000.">
+<meta name="twitter:image" content="https://giorenatto.com.ar/assets/og-giorenatto.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="logo.webp" fetchpriority="high">
@@ -504,6 +515,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
   .catbar{top:64px}
   .modal{grid-template-columns:1fr;max-height:94dvh;overflow-y:auto}
   .modal-img{aspect-ratio:4/5;min-height:0;height:min(44dvh,360px);width:auto;justify-self:center;border-radius:var(--r-sm);margin-top:10px}
+  .modal-info{overflow:visible}
+  .modal-add{position:sticky;bottom:0;z-index:2;margin-top:12px;box-shadow:0 -14px 20px -8px var(--sup),0 -1px 0 var(--linea)}
   .pie-grilla{grid-template-columns:1fr}
   .etiqueta-flotante{left:auto;right:14px;bottom:14px;max-width:200px}
   .medallon{width:88px;height:88px;top:-10px;right:auto;left:-10px}
@@ -540,7 +553,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
     <i class="tb-sep" aria-hidden="true">·</i>
     <span>Viernes a domingos y feriados, <b>10 a 20 hs</b></span>
     <i class="tb-sep" aria-hidden="true">·</i>
-    <a href="https://wa.me/5491162705378?text=%C2%A1Hola%20Giorenatto!%20%F0%9F%90%BB%20Quiero%20hacer%20una%20consulta" target="_blank" rel="noopener">Consultá por WhatsApp</a>
+    <a href="https://wa.me/5491162705378?text=%C2%A1Hola%20Giorenatto!%20%F0%9F%90%BB%20Quiero%20hacer%20una%20consulta" onclick="gioTrack('whatsapp_click',{origen:'header'})" target="_blank" rel="noopener">Consultá por WhatsApp</a>
   </div>
 </div>
 
@@ -777,6 +790,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 
 <script>
 const WHATSAPP="5491162705378";
+/* Capa de eventos: inerte hasta que se carguen las etiquetas (GA4 / Meta Pixel). No hace red por sí sola. */
+window.gioTrack=function(n,p){try{if(typeof window.gtag==="function")window.gtag("event",n,p||{});}catch(e){}try{if(typeof window.fbq==="function")window.fbq("trackCustom",n,p||{});}catch(e){}};
 const PRODUCTOS=[
   {
     "id": "GIO-0048",
@@ -2361,6 +2376,7 @@ function selInit(p){
 }
 function abrirModal(id){
   const p=PRODUCTOS.find(x=>x.id===id);if(!p)return;
+  gioTrack("view_item",{item_id:id,item_name:p.nombre,value:p.precio,currency:"ARS"});
   const sel=selInit(p);
   const ci=sel.ci,ti=sel.ti;
   const colorSel=p.colores&&p.colores.length?p.colores[ci].nombre:"";
@@ -2463,6 +2479,7 @@ function agregarVar(id){
   carrito[key]={producto:p,color,talle,cantidad:a+1};
   volarAlCarrito();actualizar();
   toast(p.nombre+(color?(' · '+color):'')+(talle?(' · Talle '+talle):'')+" agregado ✓");
+  gioTrack("add_to_cart",{item_id:id,item_name:p.nombre,item_variant:[color,talle].filter(Boolean).join(" / "),value:p.precio,currency:"ARS"});
   return true;
 }
 // Feedback en el botón de la ficha y recién ahí se cierra el modal
@@ -2473,7 +2490,7 @@ function agregarDesdeModal(id,btn){
 }
 function cerrarModal(e){if(e&&e.target!==document.getElementById("modalOv")&&e.type==="click"&&!e.target.classList.contains("modal-close"))return;const ov=document.getElementById("modalOv");ov.classList.remove("open");ov.inert=true;if(ultimoFoco&&document.contains(ultimoFoco)){ultimoFoco.focus();ultimoFoco=null;}}
 
-function agregar(id){const p=PRODUCTOS.find(x=>x.id===id);const a=carrito[id]?.cantidad||0;if(a>=p.stock){toast("No hay más stock");return;}carrito[id]={producto:p,cantidad:a+1};volarAlCarrito();actualizar();toast(p.nombre+" agregado ✓");}
+function agregar(id){const p=PRODUCTOS.find(x=>x.id===id);const a=carrito[id]?.cantidad||0;if(a>=p.stock){toast("No hay más stock");return;}carrito[id]={producto:p,cantidad:a+1};volarAlCarrito();actualizar();toast(p.nombre+" agregado ✓");gioTrack("add_to_cart",{item_id:id,item_name:p.nombre,value:p.precio,currency:"ARS"});}
 function cambiar(id,d){if(!carrito[id])return;const it=carrito[id];const st=stockCombo(it.producto,it.color||null,it.talle||null);const n=it.cantidad+d;if(n<=0)delete carrito[id];else if(n>st){toast("Llegaste al stock disponible");return;}else it.cantidad=n;actualizar();}
 function actualizar(){
   guardarCarrito();
@@ -2623,6 +2640,7 @@ function finalizar(){
   msg+=`*Teléfono:* ${datos.telefono}`+NL;
   msg+=`*Email:* ${datos.mail}`+NL;
   if(datos.entrega==='envio'&&datos.direccion)msg+=`*Dirección:* ${datos.direccion}`+NL;
+  gioTrack("whatsapp_click",{origen:"pedido",value:total,currency:"ARS",items:items.length});
   const url=`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
   window.open(url,"_blank");
   // Éxito visible + enlace de reintento (por si el navegador bloquea la ventana emergente)
@@ -2662,7 +2680,7 @@ function pagarMercadoPago(){
   if(!MP_LINK){aviso("Mercado Pago todavía no está disponible: finalizá por WhatsApp.","info");toast("Aún no configuramos Mercado Pago, usá WhatsApp");return;}
   window.open(MP_LINK,"_blank");
 }
-function waConsulta(){window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent("¡Hola Giorenatto! 🐻 Tengo una consulta")}`,"_blank");}
+function waConsulta(){gioTrack("whatsapp_click",{origen:"consulta"});window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent("¡Hola Giorenatto! 🐻 Tengo una consulta")}`,"_blank");}
 let toastTimer;
 function toast(t){const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),1700);}
 
