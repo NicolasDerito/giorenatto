@@ -38,7 +38,10 @@
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,0,600;9..144,1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="logo.webp" fetchpriority="high">
+<!-- Fuentes: no bloquean el render (media=print + onload) con fallback sin JS -->
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,0,600;9..144,1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,0,600;9..144,1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
 <style>
   :root{
     --oso:#c9a57f;--oso-dark:#a9835f;--oso-deep:#7d5f42;
@@ -73,7 +76,6 @@
   #mante .m-aviso-form button .arrow{transition:transform .2s}#mante .m-aviso-form button:hover .arrow{transform:translateX(4px)}
   #mante .m-redes{font-size:.9rem;color:var(--ink-2)}
   #mante .m-redes a{color:var(--oso-dark);font-weight:700}
-  #mante .m-emoji{font-size:2.2rem;margin-bottom:16px}
   #mante .m-logo-img{width:150px;height:150px;border-radius:50%;object-fit:cover;margin:0 auto 20px;display:block;box-shadow:var(--shadow-md)}
   #mante .m-cd{display:flex;justify-content:center;gap:10px;margin:0 auto 26px;flex-wrap:wrap}
   #mante .m-cd .cd-box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;min-width:72px;box-shadow:var(--shadow-sm)}
@@ -118,12 +120,6 @@
   @keyframes fade{to{opacity:1;transform:translateY(0)}}
   .hero .eyebrow,.hero .hero-logo,.hero h1,.hero p,.hero-cta{transform:translateY(14px)}
 
-  /* PROMO banner — arriba de todo */
-  .promo{width:100%;margin:0;padding:0}
-  .promo-in{background:linear-gradient(100deg,var(--oso) 0%,var(--oso-dark) 100%);color:#fff;border-radius:0;padding:13px 24px;display:flex;align-items:center;justify-content:center;gap:14px;text-align:center;flex-wrap:wrap}
-  .promo-in .big{font-family:'Fraunces';font-weight:600;font-size:1.25rem}
-  .promo-in .small{font-size:.92rem;opacity:.92}
-
   .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface);overflow:hidden;margin-top:10px}
   .strip-inner{display:flex;gap:52px;padding:16px 24px;max-width:1160px;margin:0 auto;justify-content:center;flex-wrap:wrap}
   .strip-item{display:flex;align-items:center;gap:9px;font-size:.9rem;font-weight:600;color:var(--ink-2);white-space:nowrap}
@@ -148,7 +144,6 @@
   .sec-head h2{font-size:1.9rem;font-weight:500;color:var(--oso-deep)}
   .sec-head .star{font-size:1.3rem}
   .sec-head .rule{flex:1;height:1px;background:var(--line)}
-  .destacados .grid{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
 
   .catalogo{max-width:1160px;margin:0 auto;padding:40px 24px 90px}
   .cat-group{margin-bottom:60px;scroll-margin-top:150px}
@@ -392,13 +387,17 @@
   @keyframes springIn{from{transform:scale(.88) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
   .toast{transition:transform .45s var(--spring),opacity .3s}
   @media (prefers-reduced-motion:reduce){.ios-press,.card,.paso .ico,.item .ico,.pill,.strip-item{transition:none!important;animation:none!important}.card .glare{display:none}}
+
+  /* ==== A11Y (Etapa 1): foco visible en todos los interactivos ==== */
+  a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--oso-deep);outline-offset:2px;border-radius:8px}
+  .search input:focus-visible,.datos input:focus-visible,.datos select:focus-visible,.talle-filter select:focus-visible,#mante .m-aviso-form input:focus-visible{outline:3px solid var(--oso-deep);outline-offset:2px}
 </style>
 </head>
 <body>
 
 <div id="mante">
   <div class="m-in">
-    <img src="logo-mante.webp" alt="Giorenatto" class="m-logo-img">
+    <img src="logo-mante.webp" alt="Giorenatto" class="m-logo-img" width="150" height="150" decoding="async">
     <div class="m-logo">Giorenatto</div>
     <div class="m-sub">Ropa de bebé y primera infancia</div>
     <div class="m-fecha">APERTURA<br>04 · 09 · 2026</div>
@@ -426,10 +425,10 @@
 <div class="topbar">🎉 ¡YA ABRIMOS! Envíos a todo el país · 🚚 Envío GRATIS desde $60.000 <span class="tb-sep">|</span> <a href="https://wa.me/5491162705378?text=%C2%A1Hola%20Giorenatto!%20%F0%9F%90%BB%20Quiero%20hacer%20una%20consulta" target="_blank" rel="noopener">Consultá por WhatsApp</a></div>
 <header id="header">
   <div class="nav">
-    <a href="#" class="brand"><img src="logo.webp" alt="Giorenatto"><span>Giorenatto</span></a>
-    <div class="search"><input type="text" id="search" placeholder="Buscar prendas…" oninput="onSearch()"></div>
+    <a href="#" class="brand"><img src="logo.webp" alt="Giorenatto" width="64" height="64" decoding="async"><span>Giorenatto</span></a>
+    <div class="search"><input type="text" id="search" placeholder="Buscar prendas…" aria-label="Buscar prendas" oninput="onSearch()"></div>
     <a class="nav-link" href="nosotros.html">Nosotros</a>
-    <a class="ig-btn" href="https://www.instagram.com/giorenatto" target="_blank" rel="noopener" title="Seguinos en Instagram @giorenatto">
+    <a class="ig-btn" href="https://www.instagram.com/giorenatto" target="_blank" rel="noopener" title="Seguinos en Instagram @giorenatto" aria-label="Seguinos en Instagram @giorenatto">
       <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07c-1.28.06-2.15.26-2.91.56-.79.31-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14c-.3.76-.5 1.63-.56 2.91C.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.28.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.67.66 1.34 1.07 2.13 1.38.76.3 1.63.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.28-.06 2.15-.26 2.91-.56.79-.31 1.46-.72 2.13-1.38.66-.67 1.07-1.34 1.38-2.13.3-.76.5-1.63.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.28-.26-2.15-.56-2.91-.31-.79-.72-1.46-1.38-2.13C21.32 1.35 20.65.94 19.86.63c-.76-.3-1.63-.5-2.91-.56C15.67.01 15.26 0 12 0Zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84Zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4Zm6.4-11.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44Z"/></svg>
     </a>
     <button class="cart-btn ios-press" onclick="abrirCarrito()">Carrito<span class="cart-count" id="cartCount" style="display:none">0</span></button>
@@ -439,7 +438,7 @@
 <section class="hero">
   <span class="eyebrow">🌞 Nueva temporada · Primavera-Verano</span>
   <div class="hero-logo">
-    <img src="logo.webp" alt="Giorenatto">
+    <img src="logo.webp" alt="Giorenatto" width="120" height="120" fetchpriority="high" decoding="async">
     <div class="hero-name">Giorenatto</div>
   </div>
   <h1>Lo más tierno para<br>los <em>más chiquitos</em></h1>
@@ -491,43 +490,43 @@
 <footer>
   <div class="foot-inner">
     <div class="foot-brand">
-      <div class="fb"><img src="logo.webp" alt=""><span>Giorenatto</span></div>
+      <div class="fb"><img src="logo.webp" alt="" width="42" height="42" loading="lazy" decoding="async"><span>Giorenatto</span></div>
       <p>Ropa de bebé y primera infancia, hecha con amor. Quilmes, Buenos Aires.</p>
       <p>📍 Nos encontrás en <b>La Barranca Market</b> — Av. Rivadavia 730, local F5, Quilmes centro — de viernes a domingos y feriados, de 10 a 20 hs.</p>
     </div>
-    <div class="foot-col"><h4>Tienda</h4><a href="#catalogo">Catálogo</a><a href="nosotros.html">Nosotros</a><a onclick="abrirCarrito()">Mi carrito</a><a href="#como">Cómo comprar</a></div>
+    <div class="foot-col"><h4>Tienda</h4><a href="#catalogo">Catálogo</a><a href="nosotros.html">Nosotros</a><a href="#" role="button" onclick="abrirCarrito();return false">Mi carrito</a><a href="#como">Cómo comprar</a></div>
     <div class="foot-col"><h4>Seguinos</h4>
       <a href="https://www.instagram.com/giorenatto" target="_blank" rel="noopener" class="social-link"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07c-1.28.06-2.15.26-2.91.56-.79.31-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14c-.3.76-.5 1.63-.56 2.91C.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.28.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.67.66 1.34 1.07 2.13 1.38.76.3 1.63.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.28-.06 2.15-.26 2.91-.56.79-.31 1.46-.72 2.13-1.38.66-.67 1.07-1.34 1.38-2.13.3-.76.5-1.63.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.28-.26-2.15-.56-2.91-.31-.79-.72-1.46-1.38-2.13C21.32 1.35 20.65.94 19.86.63c-.76-.3-1.63-.5-2.91-.56C15.67.01 15.26 0 12 0Zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84Zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4Zm6.4-11.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44Z"/></svg> Instagram</a>
-      <a onclick="waConsulta()" class="social-link"><svg viewBox="0 0 32 32" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg> WhatsApp</a>
+      <a href="#" role="button" onclick="waConsulta();return false" class="social-link"><svg viewBox="0 0 32 32" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg> WhatsApp</a>
     </div>
   </div>
   <div class="foot-bottom">© 2026 Giorenatto · Hecho con amor en Argentina</div>
 </footer>
 
-<button class="talles-float ios-press" onclick="abrirTalles()" title="Guía de talles de bebé">
-  <span class="talles-icon"><img src="logo.webp" alt="Giorenatto - Guía de talles"></span>
+<button class="talles-float ios-press" onclick="abrirTalles()" title="Guía de talles de bebé" aria-label="Abrir guía de talles de bebé">
+  <span class="talles-icon"><img src="logo.webp" alt="Giorenatto - Guía de talles" width="58" height="58" loading="lazy" decoding="async"></span>
   <span class="talles-badge">TALLES</span>
 </button>
 
-<a class="wa-float ios-press" onclick="waConsulta()" title="Escribinos por WhatsApp">
+<a class="wa-float ios-press" href="#" role="button" onclick="waConsulta();return false" title="Escribinos por WhatsApp" aria-label="Escribinos por WhatsApp">
   <svg viewBox="0 0 32 32" width="30" height="30" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg>
 </a>
 
-<div class="talles-ov" id="tallesOv" onclick="cerrarTalles(event)">
+<div class="talles-ov" id="tallesOv" role="dialog" aria-modal="true" aria-labelledby="tallesTitle" onclick="cerrarTalles(event)">
   <div class="talles-modal">
-    <button class="talles-close" onclick="cerrarTalles()">×</button>
+    <button class="talles-close" onclick="cerrarTalles()" aria-label="Cerrar guía de talles">×</button>
     <div class="talles-head">
-      <img src="logo.webp" alt="Giorenatto">
-      <div><h3>Guía de talles</h3><p>Ropa de bebé · medidas orientativas</p></div>
+      <img src="logo.webp" alt="Giorenatto" width="56" height="56" loading="lazy" decoding="async">
+      <div><h3 id="tallesTitle">Guía de talles</h3><p>Ropa de bebé · medidas orientativas</p></div>
     </div>
-    <img class="talles-foto" src="assets/tabla-talles.webp" alt="Tabla de talles bebé Giorenatto">
+    <img class="talles-foto" src="assets/tabla-talles.webp" alt="Tabla de talles bebé Giorenatto" width="1000" height="667" loading="lazy" decoding="async">
     <p class="talles-nota">💡 Cada prenda puede variar según el modelo y la tela. Si dudás entre dos talles, te recomendamos elegir el más grande.</p>
   </div>
 </div>
 
 <div class="overlay" id="overlay" onclick="cerrarCarrito()"></div>
-<aside class="drawer" id="drawer">
-  <div class="drawer-head"><h3>Tu carrito</h3><button class="close" onclick="cerrarCarrito()">×</button></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Tu carrito">
+  <div class="drawer-head"><h3>Tu carrito</h3><button class="close" onclick="cerrarCarrito()" aria-label="Cerrar carrito">×</button></div>
   <div class="drawer-body">
   <div class="items" id="items"></div>
   <div class="datos" id="datos">
@@ -537,14 +536,14 @@
       <button type="button" id="btnRetiro" onclick="elegirEntrega('retiro')">🏠 Retiro</button>
     </div>
     <div class="grid">
-      <div><label>Nombre</label><input id="fNombre" placeholder="Tu nombre" autocomplete="given-name"></div>
-      <div><label>Apellido</label><input id="fApellido" placeholder="Tu apellido" autocomplete="family-name"></div>
-      <div class="full"><label>Teléfono</label><input id="fTelefono" type="tel" placeholder="11 2345-6789" autocomplete="tel"></div>
-      <div class="full"><label>Email</label><input id="fMail" type="email" placeholder="tu@mail.com" autocomplete="email"></div>
-      <div class="full show" id="campoDireccion"><label>Calle y número</label><input id="fCalle" placeholder="Av. Siempre Viva 123"></div>
-      <div class="full show" id="campoCiudad"><label>Ciudad</label><input id="fCiudad" placeholder="Ciudad"></div>
-      <div class="full show" id="campoCP"><label>Código postal</label><input id="fCP" inputmode="numeric" placeholder="1878"></div>
-      <div class="full show" id="campoProvincia"><label>Provincia</label><input id="fProvincia" placeholder="Provincia"></div>
+      <div><label for="fNombre">Nombre</label><input id="fNombre" placeholder="Tu nombre" autocomplete="given-name"></div>
+      <div><label for="fApellido">Apellido</label><input id="fApellido" placeholder="Tu apellido" autocomplete="family-name"></div>
+      <div class="full"><label for="fTelefono">Teléfono</label><input id="fTelefono" type="tel" placeholder="11 2345-6789" autocomplete="tel"></div>
+      <div class="full"><label for="fMail">Email</label><input id="fMail" type="email" placeholder="tu@mail.com" autocomplete="email"></div>
+      <div class="full show" id="campoDireccion"><label for="fCalle">Calle y número</label><input id="fCalle" placeholder="Av. Siempre Viva 123"></div>
+      <div class="full show" id="campoCiudad"><label for="fCiudad">Ciudad</label><input id="fCiudad" placeholder="Ciudad"></div>
+      <div class="full show" id="campoCP"><label for="fCP">Código postal</label><input id="fCP" inputmode="numeric" placeholder="1878"></div>
+      <div class="full show" id="campoProvincia"><label for="fProvincia">Provincia</label><input id="fProvincia" placeholder="Provincia"></div>
     </div>
   </div>
   </div>
@@ -559,7 +558,7 @@
 </aside>
 
 <div class="modal-ov" id="modalOv" onclick="cerrarModal(event)">
-  <div class="modal" id="modalBox"></div>
+  <div class="modal" id="modalBox" role="dialog" aria-modal="true" aria-label="Detalle del producto" tabindex="-1"></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -2041,7 +2040,7 @@ function renderNav(){
   document.getElementById("catbar").innerHTML=
     `<div class="pill on" onclick="scrollTo0()">Todo</div>`+
     catsConFoto.map(c=>`<div class="pill" onclick="irA('${slug(c)}')">${esc(c)}</div>`).join("")+
-    `<div class="talle-filter"><label>Talle:</label><select id="selTalle" onchange="onTalle()"><option value="">Por talles</option>${tallesDisponibles().map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join("")}</select></div>`;
+    `<div class="talle-filter"><label for="selTalle">Talle:</label><select id="selTalle" aria-label="Filtrar por talle" onchange="onTalle()"><option value="">Por talles</option>${tallesDisponibles().map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join("")}</select></div>`;
 }
 function scrollTo0(){window.scrollTo({top:0,behavior:'smooth'})}
 function irA(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'})}
@@ -2080,7 +2079,7 @@ function renderGrupos(){
 function cardHTML(p,fav){
   const enCarrito=Object.values(carrito).filter(i=>i.producto.id===p.id).reduce((s,i)=>s+i.cantidad,0);
   const total=stockTotal(p);const agotado=total>0&&enCarrito>=total;const stockTag=total>0?`<span class="stock-tag ${total<=2?'stock-low':'stock-ok'}" style="top:16px;left:16px">${total<=2?'Últimas '+total:'Disponible'}</span>`:`<span class="stock-tag stock-low" style="top:16px;left:16px">Consultar stock</span>`;
-  const img=p.colores?`<img class="thumb-img" src="${esc(p.colores[0].foto)}" alt="${esc(p.nombre)}" loading="lazy">`:(p.img?`<img class="thumb-img" src="${esc(p.img)}" alt="${esc(p.nombre)}" loading="lazy">`:ICONOS[p.cat]||"🧸");
+  const img=p.colores?`<img class="thumb-img" src="${esc(p.colores[0].foto)}" alt="${esc(p.nombre)}" loading="lazy" decoding="async">`:(p.img?`<img class="thumb-img" src="${esc(p.img)}" alt="${esc(p.nombre)}" loading="lazy" decoding="async">`:ICONOS[p.cat]||"🧸");
   const COLOR_HEX={rosa:'#f2b8c6',celeste:'#a8d8ea',blanco:'#f7f4ef',azul:'#8db3d9',verde:'#b5cc9e','verde oliva':'#a9a083',bordo:'#8e3b3b',gris:'#b9b4ac',crudo:'#ede3d0',beige:'#e8dcc5',amarillo:'#f4d67a',naranja:'#f2a65a',lila:'#c9b8e0',negro:'#3a3a3a'};
   const precio=p.precio>0?`<span class="precio">${fmt(p.precio)}</span>`:`<span class="precio consult">Consultar</span>`;
   return `<div class="card" data-id="${esc(p.id)}" onclick="abrirModal('${esc(p.id)}')">
@@ -2138,7 +2137,7 @@ function abrirModal(id){
   const agotado=st>0&&enCarrito>=st;
   const total=stockTotal(p);const low=total>0&&total<=2;
   const foto0=p.colores&&p.colores.length?p.colores[ci].foto:(p.img||"");
-  const img=foto0?`<img class="modal-img-foto" id="modalFoto" src="${esc(foto0)}" alt="${esc(p.nombre)}">`:(ICONOS[p.cat]||"🧸");
+  const img=foto0?`<img class="modal-img-foto" id="modalFoto" src="${esc(foto0)}" alt="${esc(p.nombre)}" decoding="async">`:(ICONOS[p.cat]||"🧸");
   const stockTag=total>0?`<span class="stock-tag ${low?'stock-low':'stock-ok'}" style="top:16px;left:16px">${low?'Últimas '+total:'Disponible'}</span>`:`<span class="stock-tag stock-low" style="top:16px;left:16px">Consultar stock</span>`;
   const precio=p.precio>0?`<div class="modal-price">${fmt(p.precio)}</div>`:`<div class="modal-price consult">Consultar precio</div>`;
   const stockInfo=p.stockVar?(st>0?`${st} ${st===1?'unidad':'unidades'} de ${esc(colorSel)}${talleSel?(' · Talle '+esc(talleSel)):''}`:'Combinación sin stock'):(p.stock>0?`${p.stock} ${p.stock===1?'unidad':'unidades'} ${low?'· ¡Últimas!':''}`:'Consultar');
@@ -2151,7 +2150,7 @@ function abrirModal(id){
     return `<button class="talle-btn ios-press ${i===ti?'on':''} ${disp?'':'off'}" onclick="elegirTalle('${esc(p.id)}',${i})" ${disp?'':'disabled'}>${esc(t)}</button>`;
   }).join("")}</div></div>`:"";
   document.getElementById("modalBox").innerHTML=`
-    <button class="modal-close" onclick="cerrarModal()">×</button>
+    <button class="modal-close" onclick="cerrarModal()" aria-label="Cerrar">×</button>
     <div class="modal-img">${img}${stockTag}</div>
     <div class="modal-info">
       <div class="modal-cat">${esc(p.cat)}</div>
@@ -2165,7 +2164,12 @@ function abrirModal(id){
       ${selectorTalle}
       <button class="modal-add ios-press" onclick="agregarVar('${esc(p.id)}');cerrarModal()" ${(st<=0||agotado)?'disabled':''}>${st<=0?'Sin stock en ese color/talle':(agotado?'Sin más stock':'Agregar al carrito')}</button>
     </div>`;
-  document.getElementById("modalOv").classList.add("open");
+  const ov=document.getElementById("modalOv");
+  ultimoFoco=document.activeElement; // a11y: restaurar foco al cerrar
+  ov.inert=false;
+  ov.classList.add("open");
+  const cerrarBtn=document.querySelector("#modalBox .modal-close");
+  if(cerrarBtn)cerrarBtn.focus();
 }
 function elegirFoto(id,idx){
   const p=PRODUCTOS.find(x=>x.id===id);if(!p||!p.colores)return;
@@ -2196,6 +2200,7 @@ function elegirTalle(id,idx){
   varSel[id]=s;abrirModal(id);
 }
 let ultimoOrigen=null; // elemento desde donde se agregó (para la animación de vuelo)
+let ultimoFoco=null; // a11y: elemento con foco antes de abrir un diálogo (se restaura al cerrar)
 document.addEventListener("pointerdown",e=>{const b=e.target.closest(".add,.modal-add");if(b)ultimoOrigen=b;},true);
 function volarAlCarrito(){
   if(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches)return;
@@ -2219,7 +2224,7 @@ function agregarVar(id){
   carrito[key]={producto:p,color,talle,cantidad:a+1};
   volarAlCarrito();actualizar();toast(p.nombre+" agregado ✓");
 }
-function cerrarModal(e){if(e&&e.target!==document.getElementById("modalOv")&&e.type==="click"&&!e.target.classList.contains("modal-close"))return;document.getElementById("modalOv").classList.remove("open");}
+function cerrarModal(e){if(e&&e.target!==document.getElementById("modalOv")&&e.type==="click"&&!e.target.classList.contains("modal-close"))return;const ov=document.getElementById("modalOv");ov.classList.remove("open");ov.inert=true;if(ultimoFoco&&document.contains(ultimoFoco)){ultimoFoco.focus();ultimoFoco=null;}}
 
 function agregar(id){const p=PRODUCTOS.find(x=>x.id===id);const a=carrito[id]?.cantidad||0;if(a>=p.stock){toast("No hay más stock");return;}carrito[id]={producto:p,cantidad:a+1};volarAlCarrito();actualizar();toast(p.nombre+" agregado ✓");}
 function cambiar(id,d){if(!carrito[id])return;const it=carrito[id];const st=stockCombo(it.producto,it.color||null,it.talle||null);const n=it.cantidad+d;if(n<=0)delete carrito[id];else if(n>st){toast("Llegaste al stock disponible");return;}else it.cantidad=n;actualizar();}
@@ -2237,8 +2242,8 @@ function actualizar(){
   else{cont.innerHTML=items.map(i=>{const k=i.color||i.talle?`${i.producto.id}|${i.color||''}|${i.talle||''}`:i.producto.id;return `<div class="item"><div class="ico">${ICONOS[i.producto.cat]||"🧸"}</div><div class="info"><div class="n">${esc(i.producto.nombre)}${i.color?(' · '+esc(i.color)):''}${i.talle?(' · Talle '+esc(i.talle)):''}</div><div class="p">${i.producto.precio>0?fmt(i.producto.precio)+" c/u":"Consultar"}</div></div><div class="qty"><button class="ios-press" onclick="cambiar('${esc(k)}',-1)">−</button><span>${i.cantidad}</span><button class="ios-press" onclick="cambiar('${esc(k)}',1)">+</button></div></div>`;}).join("");}
   renderDestacados();renderGrupos();
 }
-function abrirCarrito(){document.getElementById("overlay").classList.add("open");document.getElementById("drawer").classList.add("open");}
-function cerrarCarrito(){document.getElementById("overlay").classList.remove("open");document.getElementById("drawer").classList.remove("open");}
+function abrirCarrito(){const d=document.getElementById("drawer");ultimoFoco=document.activeElement;d.inert=false;document.getElementById("overlay").classList.add("open");d.classList.add("open");const c=d.querySelector(".close");if(c)c.focus();}
+function cerrarCarrito(){const d=document.getElementById("drawer");d.classList.remove("open");d.inert=true;document.getElementById("overlay").classList.remove("open");if(ultimoFoco&&document.contains(ultimoFoco)){ultimoFoco.focus();ultimoFoco=null;}}
 let entrega='envio';
 let costoEnvio=0;let envioGratis=false;let envioZona=''; // estado del envío calculado (0 si retiro/sin calcular)
 function elegirEntrega(t){
@@ -2342,6 +2347,8 @@ let toastTimer;
 function toast(t){const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),1700);}
 
 restaurarCarrito();renderNav();renderDestacados();renderGrupos();actualizar();
+// A11Y: los diálogos cerrados no deben ser alcanzables con Tab
+["drawer","modalOv","tallesOv"].forEach(id=>{const el=document.getElementById(id);if(el&&"inert" in el)el.inert=true;});
 // Catálogo dinámico: si existe productos.json (editado desde el Admin), se usa en vez del array fijo.
 fetch("productos.json").then(r=>r.ok?r.json():null).then(lista=>{
   if(lista&&Array.isArray(lista)&&lista.length){PRODUCTOS.splice(0,PRODUCTOS.length,...lista);CATS.length=0;CATS.push(...new Set(PRODUCTOS.map(p=>p.cat)));Object.keys(carrito).forEach(k=>delete carrito[k]);restaurarCarrito();renderNav();renderDestacados();renderGrupos();actualizar();}
@@ -2471,8 +2478,8 @@ document.addEventListener("pointerdown",e=>{
   const ico=e.target.closest(".paso .ico,.item .ico");if(!ico)return;
   ico.classList.remove("wiggle");void ico.offsetWidth;ico.classList.add("wiggle");setTimeout(()=>ico.classList.remove("wiggle"),600);
 },{passive:true});
-function abrirTalles(){document.getElementById("tallesOv").classList.add("open");}
-function cerrarTalles(e){if(e&&e.target!==document.getElementById("tallesOv")&&e.type==="click"&&!e.target.classList.contains("talles-close"))return;document.getElementById("tallesOv").classList.remove("open");}
+function abrirTalles(){const ov=document.getElementById("tallesOv");ultimoFoco=document.activeElement;ov.inert=false;ov.classList.add("open");const c=ov.querySelector(".talles-close");if(c)c.focus();}
+function cerrarTalles(e){if(e&&e.target!==document.getElementById("tallesOv")&&e.type==="click"&&!e.target.classList.contains("talles-close"))return;const ov=document.getElementById("tallesOv");ov.classList.remove("open");ov.inert=true;if(ultimoFoco&&document.contains(ultimoFoco)){ultimoFoco.focus();ultimoFoco=null;}}
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){cerrarModal();cerrarTalles();cerrarCarrito();}});
 </script>
 </body>
