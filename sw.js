@@ -1,9 +1,9 @@
-// Service Worker Giorenatto — v8
+// Service Worker Giorenatto — v9
 // Cambio clave: index.html y productos.json van NETWORK-FIRST (siempre el catálogo/stock más nuevo;
 // caché solo si no hay internet). Fotos, logo y manifest siguen cache-first porque no cambian.
 // IMPORTANTE: cada vez que subas cambios a index.html/sw.js, subí el número de CACHE (v3, v4…)
 // para que los celus que ya instalaron la app pisen la versión vieja.
-const CACHE = "giorenatto-v8"; // v8: carrito en celular (el resumen aplastaba la lista de productos) y renglón de cada prenda más claro; subir la versión fuerza a los celus a bajar el HTML/CSS nuevo
+const CACHE = "giorenatto-v9"; // v9: bloqueo del scroll de fondo cuando el carrito, la ficha o la guia de talles estan abiertos (antes se movia la pagina de atras); subir la version fuerza a los celus a bajar el HTML nuevo
 const CORE = ["/", "/index.html", "/nosotros.html", "/404.html", "/logo.webp", "/logo-192.png", "/logo-512.png", "/manifest.webmanifest"];
 
 // Rutas que SIEMPRE se piden a la red primero

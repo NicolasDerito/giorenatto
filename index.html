@@ -349,7 +349,10 @@ button{font:inherit;color:inherit}
 .drawer-head .sub{font-size:.74rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--tinta-3);margin-top:4px}
 .close{width:38px;height:38px;border-radius:50%;border:1px solid var(--linea);background:var(--sup);cursor:pointer;display:grid;place-items:center;color:var(--tinta-2);font-size:1.3rem;line-height:1;transition:all .2s;flex-shrink:0}
 .close:hover{background:var(--tinta);color:#fff;border-color:var(--tinta)}
-.drawer-body{flex:1;overflow-y:auto;min-height:0;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch}
+.drawer-body{flex:1;overflow-y:auto;min-height:0;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+/* Con el carrito, la ficha o la guia de talles abiertos, la pagina de atras no debe moverse */
+body.bloqueo-scroll{position:fixed;left:0;right:0;width:100%;overflow:hidden}
+.modal,.modal-info,.talles-ov,.talles-modal{overscroll-behavior:contain}
 .items{padding:6px var(--gutter) 18px;display:flex;flex-direction:column;gap:11px}
 .empty{text-align:center;color:var(--tinta-2);margin-top:60px;padding:0 var(--gutter)}
 .empty .emoji{font-size:3.4rem;display:block;margin-bottom:14px;opacity:.8}
@@ -2438,6 +2441,7 @@ function abrirModal(id){
   ov.classList.add("open");
   const cerrarBtn=document.querySelector("#modalBox .modal-close");
   if(cerrarBtn)cerrarBtn.focus();
+  sincronizarBloqueo();
 }
 function elegirFoto(id,idx){
   const p=PRODUCTOS.find(x=>x.id===id);if(!p||!p.colores)return;
@@ -2469,6 +2473,18 @@ function elegirTalle(id,idx){
 }
 let ultimoOrigen=null; // elemento desde donde se agregó (para la animación de vuelo)
 let ultimoFoco=null; // a11y: elemento con foco antes de abrir un diálogo (se restaura al cerrar)
+// ---- Bloqueo del scroll de fondo: con un panel abierto, scrollear adentro no mueve la pagina ----
+let scrollYBloqueado=0;
+function bloquearScroll(on){
+  const b=document.body,activo=b.classList.contains("bloqueo-scroll");
+  if(on){if(activo)return;scrollYBloqueado=window.scrollY||window.pageYOffset||0;b.style.top=(-scrollYBloqueado)+"px";b.classList.add("bloqueo-scroll");}
+  else{if(!activo)return;b.classList.remove("bloqueo-scroll");b.style.top="";window.scrollTo({top:scrollYBloqueado,left:0,behavior:"instant"});}
+}
+function panelAbierto(){
+  const ab=(id)=>{const el=document.getElementById(id);return !!(el&&el.classList.contains("open"));};
+  return ab("drawer")||ab("modalOv")||ab("tallesOv");
+}
+function sincronizarBloqueo(){bloquearScroll(panelAbierto());}
 document.addEventListener("pointerdown",e=>{const b=e.target.closest(".add,.modal-add");if(b)ultimoOrigen=b;},true);
 function volarAlCarrito(){
   if(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches)return;
@@ -2501,7 +2517,7 @@ function agregarDesdeModal(id,btn){
   if(btn){btn.classList.add("ok");btn.textContent="✓ ¡Agregado!";}
   setTimeout(()=>cerrarModal(),550);
 }
-function cerrarModal(e){if(e&&e.target!==document.getElementById("modalOv")&&e.type==="click"&&!e.target.classList.contains("modal-close"))return;const ov=document.getElementById("modalOv");ov.classList.remove("open");ov.inert=true;if(ultimoFoco&&document.contains(ultimoFoco)){ultimoFoco.focus();ultimoFoco=null;}}
+function cerrarModal(e){if(e&&e.target!==document.getElementById("modalOv")&&e.type==="click"&&!e.target.classList.contains("modal-close"))return;const ov=document.getElementById("modalOv");ov.classList.remove("open");ov.inert=true;sincronizarBloqueo();if(ultimoFoco&&document.contains(ultimoFoco)){ultimoFoco.focus();ultimoFoco=null;}}
 
 function agregar(id){const p=PRODUCTOS.find(x=>x.id===id);const a=carrito[id]?.cantidad||0;if(a>=p.stock){toast("No hay más stock");return;}carrito[id]={producto:p,cantidad:a+1};volarAlCarrito();actualizar();toast(p.nombre+" agregado ✓");gioTrack("add_to_cart",{item_id:id,item_name:p.nombre,value:p.precio,currency:"ARS"});}
 function cambiar(id,d){if(!carrito[id])return;const it=carrito[id];const st=stockCombo(it.producto,it.color||null,it.talle||null);const n=it.cantidad+d;if(n<=0)delete carrito[id];else if(n>st){toast("Llegaste al stock disponible");return;}else it.cantidad=n;actualizar();}
@@ -2520,8 +2536,8 @@ function actualizar(){
   else{cont.innerHTML=items.map(i=>{const k=i.color||i.talle?`${i.producto.id}|${i.color||''}|${i.talle||''}`:i.producto.id;const foto=(i.producto.colores&&i.producto.colores.length)?((i.color&&i.producto.colores.find(c=>c.nombre===i.color)||i.producto.colores[0]).foto):(i.producto.img||"");const ico=foto?`<img src="${esc(foto)}" alt="" loading="lazy" decoding="async">`:(ICONOS[i.producto.cat]||"🧸");return `<div class="item"><div class="ico">${ico}</div><div class="info"><div class="n">${esc(i.producto.nombre)}</div><div class="p">${[i.color?esc(i.color):'',i.talle?('Talle '+esc(i.talle)):''].filter(Boolean).join(' · ')}${(i.color||i.talle)?' · ':''}${i.producto.precio>0?fmt(i.producto.precio)+" c/u":"Consultar"}</div></div><div class="qty"><button class="ios-press" onclick="cambiar('${esc(k)}',-1)">−</button><span>${i.cantidad}</span><button class="ios-press" onclick="cambiar('${esc(k)}',1)">+</button></div></div>`;}).join("");}
   renderDestacados();renderGrupos();
 }
-function abrirCarrito(){const d=document.getElementById("drawer");ultimoFoco=document.activeElement;d.inert=false;document.getElementById("overlay").classList.add("open");d.classList.add("open");const c=d.querySelector(".close");if(c)c.focus();}
-function cerrarCarrito(){const d=document.getElementById("drawer");d.classList.remove("open");d.inert=true;document.getElementById("overlay").classList.remove("open");if(ultimoFoco&&document.contains(ultimoFoco)){ultimoFoco.focus();ultimoFoco=null;}}
+function abrirCarrito(){const d=document.getElementById("drawer");ultimoFoco=document.activeElement;d.inert=false;document.getElementById("overlay").classList.add("open");d.classList.add("open");sincronizarBloqueo();const c=d.querySelector(".close");if(c)c.focus();}
+function cerrarCarrito(){const d=document.getElementById("drawer");d.classList.remove("open");d.inert=true;document.getElementById("overlay").classList.remove("open");sincronizarBloqueo();if(ultimoFoco&&document.contains(ultimoFoco)){ultimoFoco.focus();ultimoFoco=null;}}
 let entrega='envio';
 let costoEnvio=0;let envioGratis=false;let envioZona=''; // estado del envío calculado (0 si retiro/sin calcular)
 function elegirEntrega(t){
@@ -2789,8 +2805,8 @@ document.addEventListener("pointerdown",e=>{
   const ico=e.target.closest(".paso .ico,.item .ico");if(!ico)return;
   ico.classList.remove("wiggle");void ico.offsetWidth;ico.classList.add("wiggle");setTimeout(()=>ico.classList.remove("wiggle"),600);
 },{passive:true});
-function abrirTalles(){const ov=document.getElementById("tallesOv");ultimoFoco=document.activeElement;ov.inert=false;ov.classList.add("open");const c=ov.querySelector(".talles-close");if(c)c.focus();}
-function cerrarTalles(e){if(e&&e.target!==document.getElementById("tallesOv")&&e.type==="click"&&!e.target.classList.contains("talles-close"))return;const ov=document.getElementById("tallesOv");ov.classList.remove("open");ov.inert=true;if(ultimoFoco&&document.contains(ultimoFoco)){ultimoFoco.focus();ultimoFoco=null;}}
+function abrirTalles(){const ov=document.getElementById("tallesOv");ultimoFoco=document.activeElement;ov.inert=false;ov.classList.add("open");sincronizarBloqueo();const c=ov.querySelector(".talles-close");if(c)c.focus();}
+function cerrarTalles(e){if(e&&e.target!==document.getElementById("tallesOv")&&e.type==="click"&&!e.target.classList.contains("talles-close"))return;const ov=document.getElementById("tallesOv");ov.classList.remove("open");ov.inert=true;sincronizarBloqueo();if(ultimoFoco&&document.contains(ultimoFoco)){ultimoFoco.focus();ultimoFoco=null;}}
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){cerrarModal();cerrarTalles();cerrarCarrito();}});
 </script>
 </body>
