@@ -358,7 +358,7 @@ button{font:inherit;color:inherit}
 .item .ico{width:60px;height:72px;border-radius:var(--r-xs);background:var(--papel-2);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;position:relative;font-size:1.6rem}
 .item .ico img{width:100%;height:100%;object-fit:cover;display:block}
 .item .info{flex:1;min-width:0}
-.item .info .n{font-family:var(--display);font-variation-settings:'opsz' 30;font-weight:500;font-size:.98rem;line-height:1.15}
+.item .info .n{font-family:var(--display);font-variation-settings:'opsz' 30;font-weight:500;font-size:.98rem;line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .item .info .p{font-size:.76rem;color:var(--tinta-3);font-weight:700;margin-top:3px}
 .qty{display:flex;align-items:center;gap:4px;background:var(--papel-2);border-radius:999px;padding:3px;flex-shrink:0}
 .qty button{width:26px;height:26px;border-radius:50%;border:none;background:var(--sup);cursor:pointer;font-weight:800;color:var(--oso-deep);box-shadow:0 1px 2px rgba(58,46,35,.12)}
@@ -529,6 +529,19 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
   .talles-head{padding:18px 18px 0;margin-bottom:0}
   .talles-foto{width:100%;margin:14px 0 0;border-radius:0;border:none}
   .talles-nota{margin:0;padding:12px 18px 18px}
+  /* Carrito en celular: el resumen (474px) aplastaba la lista de productos a 41px */
+  .drawer-head{padding:15px var(--gutter) 11px}
+  .drawer-head h3{font-size:1.3rem}
+  .drawer-foot{padding:13px var(--gutter) 15px}
+  .drawer-foot .trust-row{display:none}
+  .ship-progress{padding:8px 11px;margin-bottom:8px;font-size:.79rem}
+  .total-row .val{font-size:1.5rem}
+  .checkout-title{margin-bottom:7px}
+  .checkout{padding:14px}
+  .mp-btn{padding:12px;margin-top:8px}
+  .pago-nota{margin-top:8px}
+  .item{padding:10px;gap:11px}
+  .item .ico{width:54px;height:66px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
@@ -2504,7 +2517,7 @@ function actualizar(){
   actualizarPaso();
   const cont=document.getElementById("items");
   if(items.length===0){cont.innerHTML=`<div class="empty"><span class="emoji">🧺</span>Tu carrito está vacío<br>¡Sumá algo lindo!<br><button class="empty-cta ios-press" onclick="cerrarCarrito();irA('catalogo')">Ver el catálogo</button></div>`;}
-  else{cont.innerHTML=items.map(i=>{const k=i.color||i.talle?`${i.producto.id}|${i.color||''}|${i.talle||''}`:i.producto.id;const foto=(i.producto.colores&&i.producto.colores.length)?((i.color&&i.producto.colores.find(c=>c.nombre===i.color)||i.producto.colores[0]).foto):(i.producto.img||"");const ico=foto?`<img src="${esc(foto)}" alt="" loading="lazy" decoding="async">`:(ICONOS[i.producto.cat]||"🧸");return `<div class="item"><div class="ico">${ico}</div><div class="info"><div class="n">${esc(i.producto.nombre)}${i.color?(' · '+esc(i.color)):''}${i.talle?(' · Talle '+esc(i.talle)):''}</div><div class="p">${i.producto.precio>0?fmt(i.producto.precio)+" c/u":"Consultar"}</div></div><div class="qty"><button class="ios-press" onclick="cambiar('${esc(k)}',-1)">−</button><span>${i.cantidad}</span><button class="ios-press" onclick="cambiar('${esc(k)}',1)">+</button></div></div>`;}).join("");}
+  else{cont.innerHTML=items.map(i=>{const k=i.color||i.talle?`${i.producto.id}|${i.color||''}|${i.talle||''}`:i.producto.id;const foto=(i.producto.colores&&i.producto.colores.length)?((i.color&&i.producto.colores.find(c=>c.nombre===i.color)||i.producto.colores[0]).foto):(i.producto.img||"");const ico=foto?`<img src="${esc(foto)}" alt="" loading="lazy" decoding="async">`:(ICONOS[i.producto.cat]||"🧸");return `<div class="item"><div class="ico">${ico}</div><div class="info"><div class="n">${esc(i.producto.nombre)}</div><div class="p">${[i.color?esc(i.color):'',i.talle?('Talle '+esc(i.talle)):''].filter(Boolean).join(' · ')}${(i.color||i.talle)?' · ':''}${i.producto.precio>0?fmt(i.producto.precio)+" c/u":"Consultar"}</div></div><div class="qty"><button class="ios-press" onclick="cambiar('${esc(k)}',-1)">−</button><span>${i.cantidad}</span><button class="ios-press" onclick="cambiar('${esc(k)}',1)">+</button></div></div>`;}).join("");}
   renderDestacados();renderGrupos();
 }
 function abrirCarrito(){const d=document.getElementById("drawer");ultimoFoco=document.activeElement;d.inert=false;document.getElementById("overlay").classList.add("open");d.classList.add("open");const c=d.querySelector(".close");if(c)c.focus();}
