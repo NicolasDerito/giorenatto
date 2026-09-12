@@ -488,6 +488,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
   .destacado.invertido .info{order:0}
   .pasos{grid-template-columns:repeat(2,1fr);gap:26px}
   .faq{grid-template-columns:1fr}
+  /* iOS: backdrop-filter en el fondo del modal difumina el contenido de adentro (la tabla de talles se veia borrosa). Se saca solo en mobile. */
+  .talles-ov,.modal-ov{backdrop-filter:none;-webkit-backdrop-filter:none}
 }
 @media(max-width:760px){
   .topbar .envoltura{font-size:.74rem}
