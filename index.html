@@ -466,7 +466,8 @@ body.bloqueo-scroll{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 .talles-head img{width:56px;height:56px;border-radius:50%;object-fit:cover;box-shadow:var(--sombra-1)}
 .talles-head h3{font-family:var(--display);font-weight:600;font-size:1.9rem;color:var(--oso-deep);margin:0;line-height:1.1}
 .talles-head p{margin:4px 0 0;font-size:.95rem;color:var(--tinta-3);font-weight:600}
-.talles-foto{width:100%;border-radius:var(--r-sm);margin:4px 0 16px;border:1px solid var(--linea);display:block}
+.talles-foto{width:100%;height:auto;border-radius:var(--r-sm);margin:4px 0 16px;border:1px solid var(--linea);display:block}
+.talles-tabla-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .talles-nota{margin-top:16px;font-size:.78rem;color:var(--tinta-3);font-weight:600;line-height:1.5}
 .talles-close{position:absolute;top:14px;right:14px;background:var(--sup);border:1px solid var(--linea);width:34px;height:34px;border-radius:50%;font-size:1.2rem;cursor:pointer;color:var(--tinta-2);display:grid;place-items:center;line-height:1}
 
@@ -527,10 +528,17 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
   .flotantes{right:14px;bottom:14px}
   .drawer{width:100%}
   .talle-filter label{display:none}
+  /* Categorías en celular: antes entraban 5 de 13 y el resto quedaba cortado sin ninguna pista */
+  .catbar{position:static}
+  .catbar .catbar-inner{flex-wrap:wrap;overflow:visible;gap:6px;padding-block:10px;justify-content:flex-start;overscroll-behavior:auto}
+  .catbar .conteo{display:none}
+  .catbar .chip,.catbar .pill{padding:6px 11px;font-size:.7rem}
+  .catbar .talle-filter{margin-left:0;flex:1 1 100%;justify-content:flex-start}
+  .cat-group{scroll-margin-top:86px}
   .talles-ov{padding:0}
   .talles-modal{max-width:100%;max-height:100dvh;border-radius:0;padding:0;transform:scale(1)}
   .talles-head{padding:18px 18px 0;margin-bottom:0}
-  .talles-foto{width:100%;margin:14px 0 0;border-radius:0;border:none}
+  .talles-foto{width:680px;max-width:none;height:auto;margin:14px 0 0;border-radius:0;border:none}
   .talles-nota{margin:0;padding:12px 18px 18px}
   /* Carrito en celular: el resumen (474px) aplastaba la lista de productos a 41px */
   .drawer-head{padding:15px var(--gutter) 11px}
@@ -749,7 +757,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
       <img src="logo.webp" alt="Giorenatto" width="56" height="56" loading="lazy" decoding="async">
       <div><h3 id="tallesTitle">Guía de talles</h3><p>Ropa de bebé · medidas orientativas</p></div>
     </div>
-    <img class="talles-foto" src="assets/tabla-talles.webp" alt="Tabla de talles bebé Giorenatto" width="1000" height="667" loading="lazy" decoding="async">
+    <div class="talles-tabla-wrap"><img class="talles-foto" src="assets/tabla-talles.webp" alt="Tabla de talles bebé Giorenatto" width="1000" height="667" loading="lazy" decoding="async"></div>
     <p class="talles-nota">💡 Cada prenda puede variar según el modelo y la tela. Si dudás entre dos talles, te recomendamos elegir el más grande.</p>
   </div>
 </div>
