@@ -164,6 +164,7 @@
   .stock-tag{position:absolute;top:14px;left:14px;font-size:.7rem;font-weight:800;padding:5px 11px;border-radius:999px;letter-spacing:.02em}
   .stock-ok{background:#eef2e8;color:var(--salvia-dark)}
   .stock-low{background:#fbe9ea;color:var(--rosa)}
+  .stock-tag.stock-out{background:#f2eee9;color:var(--ink-3)}
   .fav-tag{position:absolute;top:14px;right:14px;font-size:.9rem}
   .body{padding:18px;display:flex;flex-direction:column;gap:6px;flex:1}
   .name{font-family:'Fraunces';font-weight:500;font-size:1.12rem;color:var(--ink);line-height:1.18}
@@ -234,8 +235,8 @@
   .datos label{display:block;font-size:.75rem;font-weight:700;color:var(--ink-2);margin-bottom:4px}
   .datos input,.datos select{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 12px;font-family:'Manrope';font-size:.92rem;color:var(--ink);box-sizing:border-box}
   .datos input:focus,.datos select:focus{outline:none;border-color:var(--salvia-dark)}
-  .datos input.err{border-color:#e5484d;background:#fff5f5}
-  .datos input.err:focus{border-color:#e5484d;box-shadow:0 0 0 3px rgba(229,72,77,.12)}
+  .datos input.err,.datos select.err{border-color:#e5484d;background:#fff5f5}
+  .datos input.err:focus,.datos select.err:focus{border-color:#e5484d;box-shadow:0 0 0 3px rgba(229,72,77,.12)}
   .entrega{display:flex;gap:8px;margin-bottom:10px}
   .entrega button{flex:1;border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:9px;font-family:'Manrope';font-weight:700;font-size:.85rem;color:var(--ink-2);cursor:pointer;transition:all .15s}
   .entrega button.on{border-color:var(--salvia-dark);background:var(--salvia);color:var(--ink)}
@@ -388,6 +389,46 @@
   .toast{transition:transform .45s var(--spring),opacity .3s}
   @media (prefers-reduced-motion:reduce){.ios-press,.card,.paso .ico,.item .ico,.pill,.strip-item{transition:none!important;animation:none!important}.card .glare{display:none}}
 
+  /* ==== ETAPA 2 (conversión/flujo): estado de stock, validación y checkout ==== */
+  /* Estado de stock explícito en la ficha (texto en --ink sobre tinte: legible AA) */
+  .stock-state{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;font-weight:800;padding:8px 14px;border-radius:999px;margin:0 0 16px;color:var(--ink);background:var(--bg)}
+  .stock-state::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--salvia-dark);flex-shrink:0}
+  .stock-state.stock-ok{background:#eef2e8}
+  .stock-state.stock-low{background:#fbe9ea}
+  .stock-state.stock-low::before{background:var(--rosa)}
+  .stock-state.stock-out{background:#f2eee9;color:var(--ink-2)}
+  .stock-state.stock-out::before{background:var(--ink-3)}
+  .modal-stock-note{font-size:.78rem;font-weight:700;color:var(--ink-3);margin:-8px 0 16px}
+  .modal-add.ok{background:#2e7d32}
+  /* Errores de validación, campo por campo */
+  .field-err{display:none;font-size:.75rem;font-weight:700;color:#c0392b;margin-top:5px}
+  .field-err.show{display:block}
+  /* Avisos del checkout (aria-live) */
+  .drawer-status{display:none;font-size:.82rem;font-weight:700;line-height:1.45;border-radius:12px;padding:10px 13px;margin-bottom:12px}
+  .drawer-status.show{display:block}
+  .drawer-status.info{background:var(--bg);border:1px solid var(--line);color:var(--ink-2)}
+  .drawer-status.ok{background:#eef2e8;border:1px solid var(--salvia);color:var(--salvia-dark)}
+  .drawer-status.err{background:#fbe9ea;border:1px solid #f0c3c5;color:#b03a3f}
+  /* Progreso hacia el envío gratis publicado ($60.000) */
+  .ship-progress{display:none;align-items:center;gap:8px;font-size:.83rem;font-weight:800;border-radius:12px;padding:9px 13px;margin-bottom:10px;background:var(--bg);border:1px dashed var(--line);color:var(--ink-2)}
+  .ship-progress.show{display:flex}
+  .ship-progress.ok{background:#eef2e8;border-style:solid;border-color:var(--salvia);color:var(--salvia-dark)}
+  /* Confianza a la vista, sin promesas nuevas (datos de CONOCIMIENTO.md) */
+  .trust-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .trust-row span{font-size:.73rem;font-weight:700;color:var(--ink-2);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:5px 10px}
+  .checkout-title{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--oso-deep);margin-bottom:10px}
+  /* Éxito del pedido por WhatsApp */
+  .checkout-ok{display:none;background:#eef2e8;border:1px solid var(--salvia);border-radius:14px;padding:14px;margin-bottom:12px}
+  .checkout-ok.show{display:block}
+  .checkout-ok b{display:block;font-size:.95rem;color:var(--salvia-dark);margin-bottom:5px}
+  .checkout-ok p{font-size:.82rem;color:var(--ink-2);line-height:1.5;margin:0 0 8px}
+  .checkout-ok a{font-size:.82rem;font-weight:800;color:var(--oso-deep)}
+  .empty-cta{margin-top:18px;border:none;cursor:pointer;background:var(--oso-deep);color:#fff;font-family:'Manrope';font-weight:800;font-size:.92rem;padding:12px 22px;border-radius:12px}
+  /* Cargando en botones (evita dobles clics / dead-ends) */
+  .btn-load{pointer-events:none;opacity:.85}
+  .btn-load::after{content:"";width:14px;height:14px;border:2px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;display:inline-block;margin-left:9px;vertical-align:-2px;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
   /* ==== A11Y (Etapa 1): foco visible en todos los interactivos ==== */
   a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--oso-deep);outline-offset:2px;border-radius:8px}
   .search input:focus-visible,.datos input:focus-visible,.datos select:focus-visible,.talle-filter select:focus-visible,#mante .m-aviso-form input:focus-visible{outline:3px solid var(--oso-deep);outline-offset:2px}
@@ -533,24 +574,33 @@
     <h4>Datos para la entrega</h4>
     <div class="entrega">
       <button type="button" id="btnEnvio" class="on" onclick="elegirEntrega('envio')">🚚 Envío</button>
-      <button type="button" id="btnRetiro" onclick="elegirEntrega('retiro')">🏠 Retiro</button>
+      <button type="button" id="btnRetiro" onclick="elegirEntrega('retiro')">🏠 Retiro en el local</button>
     </div>
     <div class="grid">
-      <div><label for="fNombre">Nombre</label><input id="fNombre" placeholder="Tu nombre" autocomplete="given-name"></div>
-      <div><label for="fApellido">Apellido</label><input id="fApellido" placeholder="Tu apellido" autocomplete="family-name"></div>
-      <div class="full"><label for="fTelefono">Teléfono</label><input id="fTelefono" type="tel" placeholder="11 2345-6789" autocomplete="tel"></div>
-      <div class="full"><label for="fMail">Email</label><input id="fMail" type="email" placeholder="tu@mail.com" autocomplete="email"></div>
-      <div class="full show" id="campoDireccion"><label for="fCalle">Calle y número</label><input id="fCalle" placeholder="Av. Siempre Viva 123"></div>
-      <div class="full show" id="campoCiudad"><label for="fCiudad">Ciudad</label><input id="fCiudad" placeholder="Ciudad"></div>
-      <div class="full show" id="campoCP"><label for="fCP">Código postal</label><input id="fCP" inputmode="numeric" placeholder="1878"></div>
-      <div class="full show" id="campoProvincia"><label for="fProvincia">Provincia</label><input id="fProvincia" placeholder="Provincia"></div>
+      <div><label for="fNombre">Nombre</label><input id="fNombre" placeholder="Tu nombre" autocomplete="given-name" aria-describedby="fNombreErr"><small class="field-err" id="fNombreErr" aria-live="polite"></small></div>
+      <div><label for="fApellido">Apellido</label><input id="fApellido" placeholder="Tu apellido" autocomplete="family-name" aria-describedby="fApellidoErr"><small class="field-err" id="fApellidoErr" aria-live="polite"></small></div>
+      <div class="full"><label for="fTelefono">Teléfono</label><input id="fTelefono" type="tel" inputmode="tel" placeholder="11 2345-6789" autocomplete="tel" aria-describedby="fTelefonoErr"><small class="field-err" id="fTelefonoErr" aria-live="polite"></small></div>
+      <div class="full"><label for="fMail">Email</label><input id="fMail" type="email" placeholder="tu@mail.com" autocomplete="email" aria-describedby="fMailErr"><small class="field-err" id="fMailErr" aria-live="polite"></small></div>
+      <div class="full show" id="campoDireccion"><label for="fCalle">Calle y número</label><input id="fCalle" placeholder="Av. Siempre Viva 123" autocomplete="street-address" aria-describedby="fCalleErr"><small class="field-err" id="fCalleErr" aria-live="polite"></small></div>
+      <div class="full show" id="campoCiudad"><label for="fCiudad">Ciudad</label><input id="fCiudad" placeholder="Ciudad" autocomplete="address-level2" aria-describedby="fCiudadErr"><small class="field-err" id="fCiudadErr" aria-live="polite"></small></div>
+      <div class="full show" id="campoCP"><label for="fCP">Código postal</label><input id="fCP" inputmode="numeric" placeholder="1878" autocomplete="postal-code" aria-describedby="fCPErr"><small class="field-err" id="fCPErr" aria-live="polite"></small></div>
+      <div class="full show" id="campoProvincia"><label for="fProvincia">Provincia</label><select id="fProvincia" autocomplete="address-level1" aria-describedby="fProvinciaErr"><option value="">Elegí tu provincia</option><option>Buenos Aires</option><option>Ciudad Autónoma de Buenos Aires</option><option>Catamarca</option><option>Chaco</option><option>Chubut</option><option>Córdoba</option><option>Corrientes</option><option>Entre Ríos</option><option>Formosa</option><option>Jujuy</option><option>La Pampa</option><option>La Rioja</option><option>Mendoza</option><option>Misiones</option><option>Neuquén</option><option>Río Negro</option><option>Salta</option><option>San Juan</option><option>San Luis</option><option>Santa Cruz</option><option>Santa Fe</option><option>Santiago del Estero</option><option>Tierra del Fuego</option><option>Tucumán</option></select><small class="field-err" id="fProvinciaErr" aria-live="polite"></small></div>
     </div>
   </div>
   </div>
   <div class="drawer-foot">
+    <div class="trust-row" aria-label="Información de compra"><span>🚚 Envío gratis desde $60.000</span><span>📦 Envíos a todo el país</span><span>🔁 Cambios hasta 15 días</span></div>
+    <div class="ship-progress" id="shipProgress" role="status" aria-live="polite"></div>
     <div class="sub-row" id="subRow" style="display:flex;justify-content:space-between;font-size:.85rem;color:var(--ink-3);margin-bottom:3px"><span>Subtotal</span><span id="subtotal">$0</span></div>
     <div class="sub-row" id="envioRow" style="display:none;justify-content:space-between;font-size:.85rem;color:var(--ink-3);margin-bottom:3px"><span id="envioLbl">Envío</span><span id="envioTx"></span></div>
     <div class="total-row"><span class="lbl">Total</span><span class="val" id="total">$0</span></div>
+    <div class="drawer-status" id="drawerStatus" role="status" aria-live="polite"></div>
+    <div class="checkout-ok" id="checkoutOk">
+      <b>¡Pedido enviado! 🐻</b>
+      <p>Se abrió WhatsApp con tu pedido listo. Si no se abrió, <a href="#" id="waReintento" target="_blank" rel="noopener">reenviá el pedido desde acá</a>.</p>
+      <a href="#catalogo" role="button" onclick="cerrarCarrito();return false">Seguir comprando →</a>
+    </div>
+    <div class="checkout-title" id="pasoTitle">Paso final</div>
     <button class="checkout ios-press" id="checkout" onclick="finalizar()" disabled><svg viewBox="0 0 32 32" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg> Finalizar por WhatsApp</button>
     <button class="mp-btn ios-press" id="mp-btn" onclick="pagarMercadoPago()" disabled>Pagar con Mercado Pago</button>
     <p class="pago-nota">Coordinás el pago por Mercado Pago o transferencia</p>
@@ -561,7 +611,7 @@
   <div class="modal" id="modalBox" role="dialog" aria-modal="true" aria-label="Detalle del producto" tabindex="-1"></div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 const WHATSAPP="5491162705378";
@@ -2078,7 +2128,7 @@ function renderGrupos(){
 }
 function cardHTML(p,fav){
   const enCarrito=Object.values(carrito).filter(i=>i.producto.id===p.id).reduce((s,i)=>s+i.cantidad,0);
-  const total=stockTotal(p);const agotado=total>0&&enCarrito>=total;const stockTag=total>0?`<span class="stock-tag ${total<=2?'stock-low':'stock-ok'}" style="top:16px;left:16px">${total<=2?'Últimas '+total:'Disponible'}</span>`:`<span class="stock-tag stock-low" style="top:16px;left:16px">Consultar stock</span>`;
+  const total=stockTotal(p);const agotado=total<=0||enCarrito>=total;const stockTag=total>0?`<span class="stock-tag ${total<=2?'stock-low':'stock-ok'}" style="top:16px;left:16px">${total<=2?'Últimas '+total:'Disponible'}</span>`:`<span class="stock-tag stock-out" style="top:16px;left:16px">Agotado</span>`;
   const img=p.colores?`<img class="thumb-img" src="${esc(p.colores[0].foto)}" alt="${esc(p.nombre)}" loading="lazy" decoding="async">`:(p.img?`<img class="thumb-img" src="${esc(p.img)}" alt="${esc(p.nombre)}" loading="lazy" decoding="async">`:ICONOS[p.cat]||"🧸");
   const COLOR_HEX={rosa:'#f2b8c6',celeste:'#a8d8ea',blanco:'#f7f4ef',azul:'#8db3d9',verde:'#b5cc9e','verde oliva':'#a9a083',bordo:'#8e3b3b',gris:'#b9b4ac',crudo:'#ede3d0',beige:'#e8dcc5',amarillo:'#f4d67a',naranja:'#f2a65a',lila:'#c9b8e0',negro:'#3a3a3a'};
   const precio=p.precio>0?`<span class="precio">${fmt(p.precio)}</span>`:`<span class="precio consult">Consultar</span>`;
@@ -2093,7 +2143,7 @@ function cardHTML(p,fav){
       ${p.colores&&p.colores.length>1?`<div class="card-colores">${p.colores.map(c=>{const hex=COLOR_HEX[(c.nombre||'').toLowerCase()];return `<span class="c-dot" ${hex?`style="background:${hex}"`:`style="background-image:url('${esc(c.foto)}')"`} title="${esc(c.nombre)}"></span>`;}).join("")}</div>`:""}
       <div class="talle">${p.talles?('Talles: '+esc(p.talles.join(' · '))):(p.talle?('Talle '+esc(p.talle)):'Consultar talle')}</div>
       <div class="foot">${precio}
-        <button class="add ios-press" onclick="event.stopPropagation();${p.talles||p.colores?`abrirModal('${esc(p.id)}')`:`agregar('${esc(p.id)}')`}" ${agotado?'disabled':''}>+</button>
+        <button class="add ios-press" aria-label="${esc(p.talles||p.colores?('Elegir color y talle de '+p.nombre):('Agregar '+p.nombre+' al carrito'))}" onclick="event.stopPropagation();${p.talles||p.colores?`abrirModal('${esc(p.id)}')`:`agregar('${esc(p.id)}')`}" ${agotado?'disabled':''}>+</button>
       </div>
     </div>
   </div>`;
@@ -2135,12 +2185,17 @@ function abrirModal(id){
   const st=stockCombo(p,colorSel,talleSel);
   const enCarrito=carrito[id+"|"+colorSel+"|"+talleSel]?.cantidad||0;
   const agotado=st>0&&enCarrito>=st;
-  const total=stockTotal(p);const low=total>0&&total<=2;
+  const sinStock=st<=0;
+  const total=stockTotal(p);
   const foto0=p.colores&&p.colores.length?p.colores[ci].foto:(p.img||"");
   const img=foto0?`<img class="modal-img-foto" id="modalFoto" src="${esc(foto0)}" alt="${esc(p.nombre)}" decoding="async">`:(ICONOS[p.cat]||"🧸");
-  const stockTag=total>0?`<span class="stock-tag ${low?'stock-low':'stock-ok'}" style="top:16px;left:16px">${low?'Últimas '+total:'Disponible'}</span>`:`<span class="stock-tag stock-low" style="top:16px;left:16px">Consultar stock</span>`;
+  // Estado de stock explícito y por combinación elegida (disponible / últimas / agotado)
+  const donde=[colorSel,talleSel?('Talle '+talleSel):''].filter(Boolean).join(' · ');
+  const estado=sinStock?{cls:'stock-out',txt:'Agotado'}:(st<=2?{cls:'stock-low',txt:(st===1?'¡Últimas! Queda 1 unidad':'¡Últimas '+st+' unidades')}:{cls:'stock-ok',txt:'Disponible'});
+  const stockTag=`<span class="stock-tag ${estado.cls}" style="top:16px;left:16px">${sinStock?'Agotado':(st<=2?'Últimas '+st:'Disponible')}</span>`;
   const precio=p.precio>0?`<div class="modal-price">${fmt(p.precio)}</div>`:`<div class="modal-price consult">Consultar precio</div>`;
-  const stockInfo=p.stockVar?(st>0?`${st} ${st===1?'unidad':'unidades'} de ${esc(colorSel)}${talleSel?(' · Talle '+esc(talleSel)):''}`:'Combinación sin stock'):(p.stock>0?`${p.stock} ${p.stock===1?'unidad':'unidades'} ${low?'· ¡Últimas!':''}`:'Consultar');
+  const stockState=`<div class="stock-state ${estado.cls}" role="status">${esc(estado.txt)}${sinStock?'':(' · '+esc(donde||'sin variantes')+(st>2?(' · '+st+' unidades'):''))}</div>`;
+  const stockNote=enCarrito>0?`<div class="modal-stock-note">Ya tenés ${enCarrito} de esta combinación en el carrito.</div>`:'';
   const selectorColor=p.colores&&p.colores.length>1?`<div class="var-block"><div class="var-label">Color</div><div class="modal-colores">${p.colores.map((c,i)=>{
     const disp=!p.stockVar||p.stockVar[c.nombre+"|"+talleSel]>0;
     return `<button class="color-thumb ios-press ${i===ci?'on':''} ${disp?'':'off'}" onclick="elegirFoto('${esc(p.id)}',${i})" ${disp?'':'disabled'}><img src="${esc(c.foto)}" alt="${esc(c.nombre)}" title="${esc(c.nombre)}"></button>`;
@@ -2156,13 +2211,14 @@ function abrirModal(id){
       <div class="modal-cat">${esc(p.cat)}</div>
       <h3>${esc(p.nombre)}</h3>
       ${precio}
-      <div class="modal-meta">
-        <div class="row"><b>Stock</b> <span>${stockInfo}</span></div>
-        <div class="row"><b>Detalle</b> <span>${esc(p.desc||"")}</span></div>
-      </div>
+      ${stockState}
+      ${stockNote}
       ${selectorColor}
       ${selectorTalle}
-      <button class="modal-add ios-press" onclick="agregarVar('${esc(p.id)}');cerrarModal()" ${(st<=0||agotado)?'disabled':''}>${st<=0?'Sin stock en ese color/talle':(agotado?'Sin más stock':'Agregar al carrito')}</button>
+      <div class="modal-meta">
+        <div class="row"><b>Detalle</b> <span>${esc(p.desc||"")}</span></div>
+      </div>
+      <button class="modal-add ios-press" id="modalAdd" onclick="agregarDesdeModal('${esc(p.id)}',this)" ${(sinStock||agotado)?'disabled':''}>${sinStock?'Sin stock en ese color y talle':(agotado?'Ya tenés todo el stock en el carrito':'Agregar al carrito')}</button>
     </div>`;
   const ov=document.getElementById("modalOv");
   ultimoFoco=document.activeElement; // a11y: restaurar foco al cerrar
@@ -2212,17 +2268,25 @@ function volarAlCarrito(){
   if(from.classList.contains("add")){from.classList.remove("done");void from.offsetWidth;from.classList.add("done");}
 }
 function agregarVar(id){
-  const p=PRODUCTOS.find(x=>x.id===id);if(!p)return;
+  const p=PRODUCTOS.find(x=>x.id===id);if(!p)return false;
   const s=varSel[id]||{ci:0,ti:0};
   const color=p.colores&&p.colores.length?p.colores[s.ci].nombre:"";
   const talle=p.talles&&p.talles.length?p.talles[s.ti]:"";
   const st=stockCombo(p,color,talle);
-  if(st<=0){toast("Esa combinación no tiene stock");return;}
+  if(st<=0){toast("Esa combinación no tiene stock");return false;}
   const key=id+"|"+color+"|"+talle;
   const a=carrito[key]?.cantidad||0;
-  if(a>=st){toast("No hay más stock de esa combinación");return;}
+  if(a>=st){toast("No hay más stock de esa combinación");return false;}
   carrito[key]={producto:p,color,talle,cantidad:a+1};
-  volarAlCarrito();actualizar();toast(p.nombre+" agregado ✓");
+  volarAlCarrito();actualizar();
+  toast(p.nombre+(color?(' · '+color):'')+(talle?(' · Talle '+talle):'')+" agregado ✓");
+  return true;
+}
+// Feedback en el botón de la ficha y recién ahí se cierra el modal
+function agregarDesdeModal(id,btn){
+  if(!agregarVar(id))return;
+  if(btn){btn.classList.add("ok");btn.textContent="✓ ¡Agregado!";}
+  setTimeout(()=>cerrarModal(),550);
 }
 function cerrarModal(e){if(e&&e.target!==document.getElementById("modalOv")&&e.type==="click"&&!e.target.classList.contains("modal-close"))return;const ov=document.getElementById("modalOv");ov.classList.remove("open");ov.inert=true;if(ultimoFoco&&document.contains(ultimoFoco)){ultimoFoco.focus();ultimoFoco=null;}}
 
@@ -2237,8 +2301,9 @@ function actualizar(){
   const totalEl=document.getElementById("total");totalEl.textContent=subtotal>0?fmt(subtotal+(entrega==='envio'?costoEnvio:0)):"Consultar";
   document.getElementById("checkout").disabled=count===0;const mpBtn=document.getElementById("mp-btn");mpBtn.disabled=count===0||subtotal===0;mpBtn.style.display=(BACKEND_URL||MP_LINK)?"":"none";
   recalcularEnvio();
+  actualizarPaso();
   const cont=document.getElementById("items");
-  if(items.length===0){cont.innerHTML=`<div class="empty"><span class="emoji">🧺</span>Tu carrito está vacío<br>¡Sumá algo lindo!</div>`;}
+  if(items.length===0){cont.innerHTML=`<div class="empty"><span class="emoji">🧺</span>Tu carrito está vacío<br>¡Sumá algo lindo!<br><button class="empty-cta ios-press" onclick="cerrarCarrito();irA('catalogo')">Ver el catálogo</button></div>`;}
   else{cont.innerHTML=items.map(i=>{const k=i.color||i.talle?`${i.producto.id}|${i.color||''}|${i.talle||''}`:i.producto.id;return `<div class="item"><div class="ico">${ICONOS[i.producto.cat]||"🧸"}</div><div class="info"><div class="n">${esc(i.producto.nombre)}${i.color?(' · '+esc(i.color)):''}${i.talle?(' · Talle '+esc(i.talle)):''}</div><div class="p">${i.producto.precio>0?fmt(i.producto.precio)+" c/u":"Consultar"}</div></div><div class="qty"><button class="ios-press" onclick="cambiar('${esc(k)}',-1)">−</button><span>${i.cantidad}</span><button class="ios-press" onclick="cambiar('${esc(k)}',1)">+</button></div></div>`;}).join("");}
   renderDestacados();renderGrupos();
 }
@@ -2254,27 +2319,41 @@ function elegirEntrega(t){
   document.getElementById("campoCiudad").classList.toggle("show",t==='envio');
   document.getElementById("campoCP").classList.toggle("show",t==='envio');
   document.getElementById("campoProvincia").classList.toggle("show",t==='envio');
+  IDS_DATOS.forEach(limpiarErrorCampo);
+  aviso("");
+  actualizarPaso();
   recalcularEnvio();
 }
 let envioTimer=null;
+// Umbral publicado en la web y confirmado por el backend: envío gratis desde $60.000
+const ENVIO_GRATIS_DESDE=60000;
 function recalcularEnvio(){
   clearTimeout(envioTimer);
   envioTimer=setTimeout(async()=>{
     const fila=document.getElementById("envioRow");const tx=document.getElementById("envioTx");
     const items=Object.values(carrito);const subtotal=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
+    actualizarShipProgress(subtotal);
     if(entrega!=='envio'||subtotal<=0){costoEnvio=0;envioGratis=false;envioZona='';if(fila)fila.style.display='none';pintarTotal(subtotal);return;}
     const provincia=(document.getElementById("fProvincia").value||'').trim();
     const cp=(document.getElementById("fCP").value||'').trim();
-    if(!provincia||!cp){costoEnvio=0;envioGratis=false;envioZona='';if(fila){fila.style.display='flex';tx.textContent='Completá provincia y CP';}pintarTotal(subtotal);return;}
+    if(!provincia||!cp){costoEnvio=0;envioGratis=false;envioZona='';if(fila){fila.style.display='flex';tx.style.color='';tx.textContent='Completá provincia y CP';}pintarTotal(subtotal);return;}
+    if(fila){fila.style.display='flex';tx.style.color='';tx.textContent='Calculando…';}
     try{
       const r=await fetch(BACKEND_URL+"/api/envio",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({provincia,cp,subtotal})});
       const d=await r.json();
       if(d&&d.ok){costoEnvio=d.costo||0;envioGratis=!!d.gratis;envioZona=d.zonaLabel||'';
         if(fila){fila.style.display='flex';tx.textContent=envioGratis?('GRATIS 🎉 · '+envioZona):fmt(costoEnvio)+' · '+envioZona;tx.style.color=envioGratis?'#2e7d32':'';}
-      }else{if(fila){fila.style.display='flex';tx.textContent='Consultar';}costoEnvio=0;}
-    }catch(e){if(fila){fila.style.display='flex';tx.textContent='Consultar';}costoEnvio=0;}
+      }else{costoEnvio=0;if(fila){fila.style.display='flex';tx.style.color='';tx.textContent='A confirmar por WhatsApp';}}
+    }catch(e){costoEnvio=0;if(fila){fila.style.display='flex';tx.style.color='';tx.textContent='A confirmar por WhatsApp';}}
     pintarTotal(subtotal);
   },350);
+}
+// Progreso hacia el envío gratis publicado: menos abandono en el paso del costo de envío
+function actualizarShipProgress(subtotal){
+  const el=document.getElementById("shipProgress");if(!el)return;
+  if(entrega!=='envio'||subtotal<=0){el.className="ship-progress";el.textContent="";return;}
+  if(subtotal>=ENVIO_GRATIS_DESDE){el.className="ship-progress show ok";el.textContent="🎉 ¡Tenés envío gratis!";}
+  else{el.className="ship-progress show";el.textContent="🚚 Te faltan "+fmt(ENVIO_GRATIS_DESDE-subtotal)+" para el envío gratis";}
 }
 function pintarTotal(subtotal){
   const totalFinal=subtotal+(entrega==='envio'?costoEnvio:0);
@@ -2283,27 +2362,73 @@ function pintarTotal(subtotal){
 }
 document.getElementById("fProvincia")&&document.getElementById("fProvincia").addEventListener("input",recalcularEnvio);
 document.getElementById("fCP")&&document.getElementById("fCP").addEventListener("input",recalcularEnvio);
+// Etapa 2: error por campo, visible y en criollo (sin tecnicismos)
+const MSG_ERR={fNombre:"Poné tu nombre",fApellido:"Poné tu apellido",fTelefono:"Poné un teléfono para coordinar la entrega",fMail:"Poné un email válido (ej: ana@mail.com)",fCalle:"Completá la calle y el número",fCiudad:"Completá la ciudad",fCP:"Poné tu código postal",fProvincia:"Elegí tu provincia"};
+const IDS_DATOS=["fNombre","fApellido","fTelefono","fMail","fCalle","fCiudad","fCP","fProvincia"];
+function marcarError(id,msg){
+  const el=document.getElementById(id);if(el){el.classList.add("err");el.setAttribute("aria-invalid","true");}
+  const e=document.getElementById(id+"Err");if(e){e.textContent=msg;e.classList.add("show");}
+}
+function limpiarErrorCampo(id){
+  const el=document.getElementById(id);if(el){el.classList.remove("err");el.removeAttribute("aria-invalid");}
+  const e=document.getElementById(id+"Err");if(e){e.textContent="";e.classList.remove("show");}
+}
+// Aviso persistente del checkout (aria-live: lo anuncia el lector de pantalla)
+function aviso(msg,tipo){
+  const el=document.getElementById("drawerStatus");if(!el)return;
+  if(!msg){el.className="drawer-status";el.textContent="";return;}
+  el.className="drawer-status show "+(tipo==="err"?"err":tipo==="ok"?"ok":"info");
+  el.textContent=msg;
+}
+// Paso siguiente siempre a la vista: qué falta para terminar el pedido
+function actualizarPaso(){
+  const t=document.getElementById("pasoTitle");if(!t)return;
+  if(!Object.keys(carrito).length){t.textContent="Para empezar: sumá prendas desde el catálogo";return;}
+  const ids=entrega==='envio'?IDS_DATOS:IDS_DATOS.slice(0,4);
+  const faltan=ids.filter(id=>{const el=document.getElementById(id);return el&&!(el.value||"").trim();});
+  t.textContent=faltan.length?("Paso siguiente: completá tus datos ("+faltan.length+" campo"+(faltan.length===1?"":"s")+") y elegí cómo terminar"):"Todo listo: elegí cómo terminar tu pedido";
+}
 // Valida los datos de entrega/envio. Devuelve {ok:true,datos} o {ok:false,msg}.
-// Si falta algo, marca los campos en rojo y enfoca el primero vacío.
+// Si falta algo, marca cada campo con su mensaje y enfoca el primero.
 function validarDatos(){
-  const v=(id)=>{const el=document.getElementById(id);const val=(el.value||"").trim();el.classList.toggle("err",!val);return val;};
-  const nombre=v("fNombre"),apellido=v("fApellido"),telefono=v("fTelefono"),mail=v("fMail");
-  const calle=v("fCalle"),ciudad=v("fCiudad"),cp=v("fCP"),provincia=v("fProvincia");
   const esEnvio=entrega==='envio';
-  let falta=null;
-  if(!nombre)falta="fNombre";else if(!apellido)falta="fApellido";else if(!telefono)falta="fTelefono";else if(!mail)falta="fMail";
-  if(!falta&&esEnvio){if(!calle)falta="fCalle";else if(!ciudad)falta="fCiudad";else if(!cp)falta="fCP";else if(!provincia)falta="fProvincia";}
-  if(falta){document.getElementById(falta).focus();return {ok:false,msg:"Completá "+(esEnvio?"tus datos y la dirección de envío":"tus datos de contacto")+" para continuar"};}
-  const direccion=[calle,ciudad,"CP "+cp,provincia].filter(Boolean).join(", ");
-  return {ok:true,datos:{nombre:nombre+" "+apellido,nombreSolo:nombre,apellido,telefono,mail,calle,ciudad,cp,provincia,direccion,entrega}};
+  const ids=esEnvio?IDS_DATOS:IDS_DATOS.slice(0,4);
+  IDS_DATOS.forEach(limpiarErrorCampo);
+  const val={};
+  ids.forEach(id=>{val[id]=(document.getElementById(id).value||"").trim();});
+  const fallas=[];
+  if(!val.fNombre)fallas.push(["fNombre",MSG_ERR.fNombre]);
+  if(!val.fApellido)fallas.push(["fApellido",MSG_ERR.fApellido]);
+  if(!val.fTelefono)fallas.push(["fTelefono",MSG_ERR.fTelefono]);
+  if(!val.fMail)fallas.push(["fMail","Poné tu email"]);
+  else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.fMail))fallas.push(["fMail",MSG_ERR.fMail]);
+  if(esEnvio){
+    if(!val.fCalle)fallas.push(["fCalle",MSG_ERR.fCalle]);
+    if(!val.fCiudad)fallas.push(["fCiudad",MSG_ERR.fCiudad]);
+    if(!val.fCP)fallas.push(["fCP",MSG_ERR.fCP]);
+    if(!val.fProvincia)fallas.push(["fProvincia",MSG_ERR.fProvincia]);
+  }
+  if(fallas.length){
+    fallas.forEach(([id,m])=>marcarError(id,m));
+    const msg="Faltan "+fallas.length+" dato"+(fallas.length===1?"":"s")+" para terminar: revisá los campos marcados en rojo";
+    document.getElementById(fallas[0][0]).focus();
+    aviso(msg,"err");toast("Revisá los datos marcados en rojo");
+    return {ok:false,msg};
+  }
+  aviso("");
+  const calle=val.fCalle||"",ciudad=val.fCiudad||"",cp=val.fCP||"",provincia=val.fProvincia||"";
+  const direccion=[calle,ciudad,cp?("CP "+cp):"",provincia].filter(Boolean).join(", ");
+  return {ok:true,datos:{nombre:val.fNombre+" "+val.fApellido,nombreSolo:val.fNombre,apellido:val.fApellido,telefono:val.fTelefono,mail:val.fMail,calle,ciudad,cp,provincia,direccion,entrega}};
 }
 function limpiarErrores(e){
-  const el=e.target.closest("input");if(el)el.classList.remove("err");
+  const el=e.target.closest("input,select");if(el&&el.id)limpiarErrorCampo(el.id);
+  actualizarPaso();
 }
-document.querySelectorAll("#datos input").forEach(i=>i.addEventListener("input",limpiarErrores));
+document.querySelectorAll("#datos input,#datos select").forEach(i=>i.addEventListener("input",limpiarErrores));
+document.getElementById("datos").addEventListener("change",limpiarErrores);
 function finalizar(){
   const items=Object.values(carrito);if(!items.length)return;
-  const chk=validarDatos();if(!chk.ok){toast(chk.msg);return;}
+  const chk=validarDatos();if(!chk.ok)return;
   const {datos}=chk;
   const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
   const NL="\n";
@@ -2315,7 +2440,12 @@ function finalizar(){
   msg+=`*Teléfono:* ${datos.telefono}`+NL;
   msg+=`*Email:* ${datos.mail}`+NL;
   if(datos.entrega==='envio'&&datos.direccion)msg+=`*Dirección:* ${datos.direccion}`+NL;
-  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,"_blank");
+  const url=`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  window.open(url,"_blank");
+  // Éxito visible + enlace de reintento (por si el navegador bloquea la ventana emergente)
+  const relink=document.getElementById("waReintento");if(relink)relink.href=url;
+  const okPanel=document.getElementById("checkoutOk");if(okPanel)okPanel.classList.add("show");
+  aviso("Pedido enviado por WhatsApp. Si no se abrió, usá el enlace del cartel verde.","ok");
   // mail de confirmación al cliente (si el backend está configurado)
   if(BACKEND_URL&&datos.mail){
     fetch(BACKEND_URL+"/api/confirm",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
@@ -2329,17 +2459,24 @@ const MP_LINK=""; // sin backend, dejalo vacío: el botón de MP se oculta solo.
 const BACKEND_URL="https://backend-omega-smoky-28.vercel.app"; // backend en Vercel: /api/preference crea el pago de MP con el total del carrito (MP_ACCESS_TOKEN ya activo)
 function pagarMercadoPago(){
   const items=Object.values(carrito);if(!items.length)return;
-  const chk=validarDatos();if(!chk.ok){toast(chk.msg);return;}
+  const chk=validarDatos();if(!chk.ok)return;
   const {datos}=chk;
   const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
+  const btn=document.getElementById("mp-btn");
+  const setLoad=(on)=>{if(!btn)return;btn.classList.toggle("btn-load",!!on);btn.disabled=!!on;if(on)btn.textContent="Conectando con Mercado Pago";else btn.textContent="Pagar con Mercado Pago";};
   if(BACKEND_URL){
+    setLoad(true);aviso("Te estamos llevando a Mercado Pago…","info");
     const payload={items:items.map(i=>({id:i.producto.id,nombre:i.producto.nombre,cantidad:i.cantidad,precio:i.producto.precio,color:i.color||"",talle:i.talle||""})),total,nombre:datos.nombreSolo,apellido:datos.apellido,email:datos.mail,telefono:datos.telefono,entrega:datos.entrega,direccion:datos.direccion,calle:datos.calle,ciudad:datos.ciudad,cp:datos.cp,provincia:datos.provincia};
     fetch(BACKEND_URL+"/api/preference",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
-      .then(r=>r.json()).then(d=>{if(d.init_point){window.location.href=d.init_point;}else{toast(d.error||"No se pudo iniciar el pago, usá WhatsApp");}})
-      .catch(()=>toast("No se pudo iniciar el pago, usá WhatsApp"));
+      .then(r=>r.json()).then(d=>{if(d&&d.init_point){window.location.href=d.init_point;return;}
+        setLoad(false);
+        aviso("No pudimos iniciar el pago"+(d&&d.error?(" ("+d.error+")"):"")+". Probá de nuevo o finalizá por WhatsApp.","err");
+        toast("No se pudo iniciar el pago, usá WhatsApp");
+      })
+      .catch(()=>{setLoad(false);aviso("No pudimos iniciar el pago (sin conexión). Finalizá por WhatsApp y lo coordinamos.","err");toast("No se pudo iniciar el pago, usá WhatsApp");});
     return;
   }
-  if(!MP_LINK){toast("Aún no configuramos Mercado Pago, usá WhatsApp");return;}
+  if(!MP_LINK){aviso("Mercado Pago todavía no está disponible: finalizá por WhatsApp.","info");toast("Aún no configuramos Mercado Pago, usá WhatsApp");return;}
   window.open(MP_LINK,"_blank");
 }
 function waConsulta(){window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent("¡Hola Giorenatto! 🐻 Tengo una consulta")}`,"_blank");}
