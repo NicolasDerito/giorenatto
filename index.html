@@ -2772,6 +2772,8 @@ function finalizar(){
   gioTrack("whatsapp_click",{origen:"pedido",value:total,currency:"ARS",items:items.length});
   const url=`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
   window.open(url,"_blank");
+  // Cupón: dejamos registrado el uso (para que después sepas cuánto movió cada influencer)
+  if(cupon){try{fetch(BACKEND_URL+"/api/cupones",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"registrar",codigo:cupon.codigo})}).catch(()=>{});}catch(e){}}
   // Éxito visible + enlace de reintento (por si el navegador bloquea la ventana emergente)
   const relink=document.getElementById("waReintento");if(relink)relink.href=url;
   const okPanel=document.getElementById("checkoutOk");if(okPanel)okPanel.classList.add("show");
