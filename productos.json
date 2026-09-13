@@ -1448,5 +1448,151 @@
   "desc": "Torre de encastre con piezas de colores para apilar y encajar.",
   "img": "assets/products/torre-encastre.webp",
   "talle": "Único"
+ },
+ {
+  "id": "GIO-0121",
+  "nombre": "Remera Baby Safari Celeste",
+  "cat": "Remeras",
+  "precio": 12000,
+  "stock": 1,
+  "desc": "Remera celeste con estampa safari.",
+  "talles": [
+   "2"
+  ],
+  "img": "assets/products/remera-baby-safari-celeste.webp",
+  "stockVar": {
+   "|2": 1
+  },
+  "talle": "2"
+ },
+ {
+  "id": "GIO-0122",
+  "nombre": "Remera Animal Print",
+  "cat": "Remeras",
+  "precio": 12000,
+  "stock": 1,
+  "desc": "Remera con estampa animal print.",
+  "talles": [
+   "0"
+  ],
+  "img": "assets/products/remera-animal-print.webp",
+  "stockVar": {
+   "|0": 1
+  },
+  "talle": "0"
+ },
+ {
+  "id": "GIO-0123",
+  "nombre": "Calza Margaritas",
+  "cat": "Pantalones",
+  "precio": 10000,
+  "stock": 1,
+  "desc": "Calza con estampa de margaritas.",
+  "talles": [
+   "2"
+  ],
+  "img": "assets/products/calza-margaritas.webp",
+  "stockVar": {
+   "|2": 1
+  },
+  "talle": "2"
+ },
+ {
+  "id": "GIO-0124",
+  "nombre": "Calza Corazones",
+  "cat": "Pantalones",
+  "precio": 10000,
+  "stock": 1,
+  "desc": "Calza con estampa de corazones.",
+  "talles": [
+   "5"
+  ],
+  "img": "assets/products/calza-corazones.webp",
+  "stockVar": {
+   "|5": 1
+  },
+  "talle": "5"
+ },
+ {
+  "id": "GIO-0125",
+  "nombre": "Calza Moños Rosas",
+  "cat": "Pantalones",
+  "precio": 10000,
+  "stock": 1,
+  "desc": "Calza rosa con estampa de moños.",
+  "talles": [
+   "3"
+  ],
+  "img": "assets/products/calza-monos-rosas.webp",
+  "stockVar": {
+   "|3": 1
+  },
+  "talle": "3"
+ },
+ {
+  "id": "GIO-0126",
+  "nombre": "Calza Moños Beige",
+  "cat": "Pantalones",
+  "precio": 10000,
+  "stock": 1,
+  "desc": "Calza beige con estampa de moños.",
+  "talles": [
+   "4"
+  ],
+  "img": "assets/products/calza-monos-beige.webp",
+  "stockVar": {
+   "|4": 1
+  },
+  "talle": "4"
+ },
+ {
+  "id": "GIO-0127",
+  "nombre": "Enterito Happy Amarillo",
+  "cat": "Enteritos",
+  "precio": 15000,
+  "stock": 1,
+  "desc": "Enterito amarillo con estampa Happy.",
+  "talles": [
+   "5"
+  ],
+  "img": "assets/products/enterito-happy-amarillo.webp",
+  "stockVar": {
+   "|5": 1
+  },
+  "talle": "5"
+ },
+ {
+  "id": "GIO-0128",
+  "nombre": "Enterito Amarillo Conejos",
+  "cat": "Enteritos",
+  "precio": 15000,
+  "stock": 2,
+  "desc": "Enterito amarillo con estampa de conejos.",
+  "talles": [
+   "1",
+   "2"
+  ],
+  "img": "assets/products/enterito-amarillo-conejos.webp",
+  "stockVar": {
+   "|1": 1,
+   "|2": 1
+  },
+  "talle": "1, 2"
+ },
+ {
+  "id": "GIO-0129",
+  "nombre": "Enterito Happy Verde",
+  "cat": "Enteritos",
+  "precio": 15000,
+  "stock": 1,
+  "desc": "Enterito verde con estampa Happy.",
+  "talles": [
+   "4"
+  ],
+  "img": "assets/products/enterito-happy-verde.webp",
+  "stockVar": {
+   "|4": 1
+  },
+  "talle": "4"
  }
 ]
