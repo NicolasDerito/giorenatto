@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<meta name="theme-color" content="#4a3f35">
+<meta name="robots" content="noindex,nofollow">
+<title>Cupones · Giorenatto</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#fbf7f0;color:#2d231a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5}
+.envoltura{max-width:760px;margin:0 auto;padding:24px 18px 60px}
+h1{font-size:1.5rem;margin:0 0 4px;letter-spacing:-.02em}
+.sub{color:#8f7f6c;font-size:.88rem;margin:0 0 22px}
+.tarjeta{background:#fff;border:1px solid #e6ded2;border-radius:14px;padding:18px;margin-bottom:18px}
+label{display:block;font-size:.75rem;font-weight:700;color:#6b5c4e;margin-bottom:5px}
+input[type=text],input[type=number],input[type=password],input[type=date]{width:100%;border:1px solid #e6ded2;background:#fbf7f0;border-radius:9px;padding:11px 12px;font-size:.95rem;font-family:inherit;color:#2d231a}
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.campos .ancho{grid-column:1/-1}
+button{cursor:pointer;font-family:inherit;font-weight:800;border-radius:9px;border:none;padding:12px 18px;font-size:.92rem}
+.principal{background:#7a5c3f;color:#fff;width:100%}
+.secundario{background:#fff;border:1.5px solid #e6ded2;color:#6b5c4e}
+.chico{padding:7px 12px;font-size:.78rem}
+.mini{background:none;border:none;color:#8f7f6c;font-size:.8rem;text-decoration:underline;padding:4px;font-weight:700}
+.fila{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid #f0eae0}
+.fila:last-child{border-bottom:none}
+.cod{font-weight:800;font-size:1rem;letter-spacing:.04em}
+.pct{background:#eef2e6;color:#4a5a2b;border-radius:999px;padding:3px 10px;font-size:.78rem;font-weight:800}
+.meta{font-size:.76rem;color:#8f7f6c;margin-top:3px}
+.off{opacity:.45}
+.msg{border-radius:9px;padding:11px 13px;font-size:.85rem;font-weight:700;margin-bottom:14px;display:none}
+.msg.show{display:block}
+.msg.ok{background:#eef2e6;border:1px solid #c3d3a8;color:#4a5a2b}
+.msg.err{background:#fdecec;border:1px solid #f0c3c5;color:#b03a3f}
+.vacio{color:#8f7f6c;font-size:.9rem;text-align:center;padding:20px 0}
+.avisos{font-size:.78rem;color:#8f7f6c;margin-top:14px;line-height:1.6}
+@media(max-width:560px){.campos{grid-template-columns:1fr}.fila{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="envoltura">
+  <h1>Cupones 🎟️</h1>
+  <p class="sub">Creá cupones de descuento para tus influencers o promos. El descuento se aplica solo a las prendas.</p>
+
+  <div class="msg" id="msg" role="status" aria-live="polite"></div>
+
+  <!-- Login -->
+  <div class="tarjeta" id="vistaLogin">
+    <label for="clave">Clave del panel</label>
+    <input type="password" id="clave" placeholder="Tu clave" autocomplete="current-password">
+    <div style="height:12px"></div>
+    <button class="principal" onclick="entrar()">Entrar</button>
+  </div>
+
+  <!-- Cupones -->
+  <div id="vistaCupones" style="display:none">
+    <div class="tarjeta">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <b id="tituloForm">Nuevo cupón</b>
+        <button class="mini" onclick="limpiarForm()">Limpiar</button>
+      </div>
+      <div class="campos">
+        <div>
+          <label for="fCodigo">Nombre del cupón</label>
+          <input type="text" id="fCodigo" placeholder="SOFI15" autocapitalize="characters" spellcheck="false">
+        </div>
+        <div>
+          <label for="fPct">Descuento (%)</label>
+          <input type="number" id="fPct" min="1" max="90" placeholder="15">
+        </div>
+        <div>
+          <label for="fMin">Mínimo de compra (opcional)</label>
+          <input type="number" id="fMin" min="0" placeholder="0">
+        </div>
+        <div>
+          <label for="fVence">Vence (opcional)</label>
+          <input type="date" id="fVence">
+        </div>
+        <div class="ancho" style="display:flex;align-items:center;gap:9px">
+          <input type="checkbox" id="fActivo" checked style="width:18px;height:18px">
+          <label for="fActivo" style="margin:0">Cupón activo</label>
+        </div>
+      </div>
+      <div style="height:14px"></div>
+      <button class="principal" onclick="guardar()">Guardar cupón</button>
+      <p class="avisos">El nombre es lo que la persona escribe en el carrito. Usá uno por influencer (ej. <b>SOFI15</b>) para saber después quién te trajo cada venta.</p>
+    </div>
+
+    <div class="tarjeta">
+      <b>Mis cupones</b>
+      <div id="lista"><div class="vacio">Cargando…</div></div>
+      <div style="margin-top:14px"><button class="secundario chico" onclick="salir()">Salir</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = localStorage.getItem("adminApi") || "https://backend-omega-smoky-28.vercel.app";
+let token = localStorage.getItem("adminToken") || "";
+let cupones = [];
+
+function msg(txt, tipo) {
+  const m = document.getElementById("msg");
+  m.className = "msg" + (txt ? " show " + (tipo || "ok") : "");
+  m.textContent = txt || "";
+}
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+function fmt(n) { return "$" + Math.round(Number(n) || 0).toLocaleString("es-AR"); }
+
+async function api(action, extra) {
+  const r = await fetch(API + "/api/cupones", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(Object.assign({ action, token }, extra || {})),
+  });
+  let d = {};
+  try { d = await r.json(); } catch {}
+  return { code: r.status, d };
+}
+
+async function entrar() {
+  const clave = document.getElementById("clave").value;
+  if (!clave) return msg("Escribí la clave", "err");
+  msg("");
+  try {
+    const r = await fetch(API + "/api/admin/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: clave }) });
+    const d = await r.json();
+    if (!r.ok || !d.token) return msg(d.error || "Clave incorrecta", "err");
+    token = d.token;
+    localStorage.setItem("adminToken", token);
+    localStorage.setItem("adminApi", API);
+    entrarListo();
+  } catch (e) { msg("No se pudo conectar con el servidor", "err"); }
+}
+
+function entrarListo() {
+  document.getElementById("vistaLogin").style.display = "none";
+  document.getElementById("vistaCupones").style.display = "block";
+  cargar();
+}
+
+function salir() {
+  token = "";
+  localStorage.removeItem("adminToken");
+  document.getElementById("vistaCupones").style.display = "none";
+  document.getElementById("vistaLogin").style.display = "block";
+  msg("");
+}
+
+async function cargar() {
+  const { code, d } = await api("listar");
+  if (code === 401) { salir(); return msg("La sesión venció, volvé a entrar", "err"); }
+  if (!d.ok) return msg(d.error || "No se pudieron cargar los cupones", "err");
+  cupones = d.cupones || [];
+  pintar();
+}
+
+function pintar() {
+  const cont = document.getElementById("lista");
+  if (!cupones.length) { cont.innerHTML = '<div class="vacio">Todavía no hay cupones. Creá el primero arriba 👆</div>'; return; }
+  cont.innerHTML = cupones.map((c) => {
+    const partes = [];
+    if (c.minimo > 0) partes.push("desde " + fmt(c.minimo));
+    if (c.vence) partes.push("vence " + c.vence);
+    partes.push((c.usos || 0) + (c.usos === 1 ? " uso" : " usos"));
+    if (c.activo === false) partes.push("PAUSADO");
+    return '<div class="fila' + (c.activo === false ? " off" : "") + '">' +
+      '<div><div class="cod">' + esc(c.codigo) + ' <span class="pct">−' + esc(c.porcentaje) + '%</span></div>' +
+      '<div class="meta">' + esc(partes.join(" · ")) + '</div></div>' +
+      '<div style="display:flex;gap:6px">' +
+      '<button class="secundario chico" onclick="editar(\'' + esc(c.codigo) + '\')">Editar</button>' +
+      '<button class="secundario chico" onclick="pausar(\'' + esc(c.codigo) + '\',' + (c.activo === false ? "true" : "false") + ')">' + (c.activo === false ? "Activar" : "Pausar") + '</button>' +
+      '<button class="mini" onclick="borrar(\'' + esc(c.codigo) + '\')">Borrar</button>' +
+      '</div></div>';
+  }).join("");
+}
+
+function limpiarForm() {
+  ["fCodigo", "fPct", "fMin", "fVence"].forEach((id) => (document.getElementById(id).value = ""));
+  document.getElementById("fActivo").checked = true;
+  document.getElementById("tituloForm").textContent = "Nuevo cupón";
+}
+
+function editar(codigo) {
+  const c = cupones.find((x) => x.codigo === codigo);
+  if (!c) return;
+  document.getElementById("fCodigo").value = c.codigo;
+  document.getElementById("fPct").value = c.porcentaje;
+  document.getElementById("fMin").value = c.minimo || "";
+  document.getElementById("fVence").value = c.vence || "";
+  document.getElementById("fActivo").checked = c.activo !== false;
+  document.getElementById("tituloForm").textContent = "Editando " + c.codigo;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function guardar() {
+  const cupon = {
+    codigo: document.getElementById("fCodigo").value.trim(),
+    porcentaje: document.getElementById("fPct").value,
+    minimo: document.getElementById("fMin").value || 0,
+    vence: document.getElementById("fVence").value || "",
+    activo: document.getElementById("fActivo").checked,
+  };
+  if (!cupon.codigo) return msg("Poné un nombre para el cupón", "err");
+  if (!cupon.porcentaje) return msg("Poné el porcentaje de descuento", "err");
+  msg("");
+  const { code, d } = await api("guardar", { cupon });
+  if (code === 401) { salir(); return msg("La sesión venció, volvé a entrar", "err"); }
+  if (!d.ok) return msg(d.error || "No se pudo guardar", "err");
+  msg("Cupón " + d.cupon.codigo + " guardado: " + d.cupon.porcentaje + "% de descuento ✓", "ok");
+  limpiarForm();
+  cargar();
+}
+
+async function pausar(codigo, activar) {
+  const c = cupones.find((x) => x.codigo === codigo);
+  if (!c) return;
+  const { code, d } = await api("guardar", { cupon: Object.assign({}, c, { activo: !!activar }) });
+  if (code === 401) { salir(); return msg("La sesión venció, volvé a entrar", "err"); }
+  if (!d.ok) return msg(d.error || "No se pudo cambiar", "err");
+  msg("Cupón " + codigo + (activar ? " activado ✓" : " pausado ✓"), "ok");
+  cargar();
+}
+
+async function borrar(codigo) {
+  if (!confirm("¿Borrar el cupón " + codigo + "? No se puede deshacer.")) return;
+  const { code, d } = await api("borrar", { codigo });
+  if (code === 401) { salir(); return msg("La sesión venció, volvé a entrar", "err"); }
+  if (!d.ok) return msg(d.error || "No se pudo borrar", "err");
+  msg("Cupón " + codigo + " borrado ✓", "ok");
+  cargar();
+}
+
+if (token) entrarListo();
+</script>
+</body>
+</html>
