@@ -1438,5 +1438,15 @@
   "stockVar": {
    "|0-3": 1
   }
+ },
+ {
+  "id": "GIO-0120",
+  "nombre": "Torre de Encastre",
+  "cat": "Juguetes",
+  "precio": 9000,
+  "stock": 4,
+  "desc": "Torre de encastre con piezas de colores para apilar y encajar.",
+  "img": "assets/products/torre-encastre.webp",
+  "talle": "Único"
  }
 ]
