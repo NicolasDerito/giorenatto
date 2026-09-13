@@ -1,9 +1,9 @@
-// Service Worker Giorenatto — v16
+// Service Worker Giorenatto — v17
 // Cambio clave: index.html y productos.json van NETWORK-FIRST (siempre el catálogo/stock más nuevo;
 // caché solo si no hay internet). Fotos, logo y manifest siguen cache-first porque no cambian.
 // IMPORTANTE: cada vez que subas cambios a index.html/sw.js, subí el número de CACHE (v3, v4…)
 // para que los celus que ya instalaron la app pisen la versión vieja.
-const CACHE = "giorenatto-v16"; // v16: bodies, tetris y mantas nuevas
+const CACHE = "giorenatto-v17"; // v17: sets de alimentacion y toallon
 const CORE = ["/", "/index.html", "/nosotros.html", "/404.html", "/logo.webp", "/logo-192.png", "/logo-512.png", "/manifest.webmanifest"];
 
 // Rutas que SIEMPRE se piden a la red primero

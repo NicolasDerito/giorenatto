@@ -1685,5 +1685,44 @@
   ],
   "img": "assets/products/manta-algodon-celeste.webp",
   "talle": "Único"
+ },
+ {
+  "id": "GIO-0136",
+  "nombre": "Set de Alimentación Koala",
+  "cat": "Juguetes",
+  "precio": 24000,
+  "stock": 3,
+  "desc": "Set de alimentación con diseño de koala.",
+  "talles": [
+   "Único"
+  ],
+  "img": "assets/products/set-alimentacion-koala.webp",
+  "talle": "Único"
+ },
+ {
+  "id": "GIO-0137",
+  "nombre": "Set de Alimentación Osos",
+  "cat": "Juguetes",
+  "precio": 24000,
+  "stock": 3,
+  "desc": "Set de alimentación con diseño de osos.",
+  "talles": [
+   "Único"
+  ],
+  "img": "assets/products/set-alimentacion-osos.webp",
+  "talle": "Único"
+ },
+ {
+  "id": "GIO-0138",
+  "nombre": "Toallón Unisex",
+  "cat": "Juguetes",
+  "precio": 22000,
+  "stock": 3,
+  "desc": "Toallón unisex. Disponible en gris y beige.",
+  "talles": [
+   "Único"
+  ],
+  "img": "assets/products/toallon-unisex.webp",
+  "talle": "Único"
  }
 ]
