@@ -1097,24 +1097,6 @@
   "talle": "24 meses"
  },
  {
-  "id": "GIO-0100",
-  "nombre": "Conjunto Rústico Dino",
-  "cat": "Conjuntos",
-  "precio": 32900,
-  "stock": 2,
-  "desc": "Conjunto rústico con estampa de dinosaurio, algodón suave.",
-  "talles": [
-   "24 meses",
-   "36 meses"
-  ],
-  "img": "assets/products/conjunto-rustico-dino.webp",
-  "stockVar": {
-   "|24 meses": 1,
-   "|36 meses": 1
-  },
-  "talle": "24 meses, 36 meses"
- },
- {
   "id": "GIO-0101",
   "nombre": "Conjunto Flores Beige",
   "cat": "Conjuntos",
