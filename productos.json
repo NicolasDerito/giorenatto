@@ -83,22 +83,6 @@
   "talle": "4"
  },
  {
-  "id": "GIO-0052",
-  "nombre": "Body Americano Rosa",
-  "cat": "Bodies",
-  "precio": 17900,
-  "stock": 1,
-  "desc": "Body americano rosa, algodón con broches en la entrepierna.",
-  "talles": [
-   "3"
-  ],
-  "img": "assets/products/body-americano-rosa.webp",
-  "stockVar": {
-   "|3": 1
-  },
-  "talle": "3"
- },
- {
   "id": "GIO-0053",
   "nombre": "Body Gelato Rosa",
   "cat": "Bodies",
