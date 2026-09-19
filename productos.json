@@ -1328,14 +1328,14 @@
   "nombre": "Babucha Celeste Pastel",
   "cat": "Pantalones",
   "precio": 17800,
-  "stock": 1,
+  "stock": 0,
   "desc": "Babucha celeste pastel, tela suave y cómoda.",
   "talles": [
    "36M"
   ],
   "img": "assets/products/babucha-celeste-pastel.webp",
   "stockVar": {
-   "|36M": 1
+   "|36M": 0
   },
   "talle": "36M"
  },
