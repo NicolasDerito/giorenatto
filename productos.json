@@ -1562,14 +1562,14 @@
   "nombre": "Body Conejo Amarillos",
   "cat": "Bodies",
   "precio": 10000,
-  "stock": 1,
+  "stock": 0,
   "desc": "Body con estampa de conejos.",
   "talles": [
    "2"
   ],
   "img": "assets/products/body-conejo-amarillos.webp",
   "stockVar": {
-   "|2": 1
+   "|2": 0
   },
   "talle": "2"
  },
