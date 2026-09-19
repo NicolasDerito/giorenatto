@@ -1512,7 +1512,7 @@
   "nombre": "Enterito Amarillo Conejos",
   "cat": "Enteritos",
   "precio": 15000,
-  "stock": 2,
+  "stock": 1,
   "desc": "Enterito amarillo con estampa de conejos.",
   "talles": [
    "1",
@@ -1521,7 +1521,7 @@
   "img": "assets/products/enterito-amarillo-conejos.webp",
   "stockVar": {
    "|1": 1,
-   "|2": 1
+   "|2": 0
   },
   "talle": "1, 2"
  },
