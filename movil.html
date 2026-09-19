@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Stock">
+<meta name="theme-color" content="#3d5a40">
+<link rel="apple-touch-icon" href="logo-192.png">
+<link rel="icon" href="logo-192.png">
+<title>Stock · Giorenatto</title>
+<style>
+  :root{
+    --verde:#3d5a40; --verde-claro:#eef3ea; --tinta:#22301f; --gris:#6b7566;
+    --borde:#e2e6de; --rojo:#a83b32; --fondo:#f6f7f4;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--fondo);color:var(--tinta);font-size:17px;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .pantalla{min-height:100vh}
+  /* ---------- login ---------- */
+  #vistaLogin{display:flex;align-items:center;justify-content:center;padding:24px}
+  .caja-login{width:100%;max-width:360px;background:#fff;border:1px solid var(--borde);border-radius:18px;padding:26px 22px;text-align:center}
+  .caja-login h1{font-size:1.3rem;margin:0 0 4px}
+  .caja-login p{color:var(--gris);font-size:.92rem;margin:0 0 20px}
+  input[type=password],input[type=search]{
+    width:100%;padding:15px 14px;font-size:17px;border:1px solid var(--borde);
+    border-radius:12px;background:#fff;color:var(--tinta);font-family:inherit;
+  }
+  input[type=password]:focus,input[type=search]:focus{outline:2px solid var(--verde);border-color:var(--verde)}
+  .btn{
+    display:block;width:100%;padding:15px;border:0;border-radius:12px;font-size:17px;
+    font-weight:600;font-family:inherit;cursor:pointer;background:var(--verde);color:#fff;
+  }
+  .btn:active{opacity:.85}
+  .btn[disabled]{opacity:.4;cursor:default}
+  .btn-claro{background:var(--verde-claro);color:var(--verde)}
+  .error{color:var(--rojo);font-size:.88rem;margin:10px 0 0;min-height:1.1em}
+  /* ---------- app ---------- */
+  header{
+    position:sticky;top:0;z-index:10;background:rgba(246,247,244,.96);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--borde);
+    padding:calc(env(safe-area-inset-top) + 10px) 14px 10px;
+  }
+  .barra{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .barra strong{font-size:1.05rem;letter-spacing:.02em}
+  .barra .mini{background:none;border:0;color:var(--gris);font-size:.85rem;font-family:inherit;padding:6px 2px;cursor:pointer}
+  main{padding:12px 14px 40px}
+  .card{
+    background:#fff;border:1px solid var(--borde);border-radius:16px;padding:12px;
+    margin-bottom:12px;display:flex;gap:12px;
+  }
+  .card img{width:64px;height:80px;object-fit:cover;border-radius:10px;background:var(--verde-claro);flex:0 0 auto}
+  .card .info{flex:1;min-width:0}
+  .card h3{margin:0 0 2px;font-size:1rem;font-weight:600;line-height:1.25}
+  .card .cat{color:var(--gris);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+  .var{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--borde)}
+  .var:first-of-type{border-top:0}
+  .var .eti{flex:1;font-size:.95rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pillo{
+    font-size:.8rem;font-weight:700;padding:3px 9px;border-radius:999px;
+    background:var(--verde-claro);color:var(--verde);flex:0 0 auto;
+  }
+  .pillo.cero{background:#f3e6e4;color:var(--rojo)}
+  .btn-baja{
+    flex:0 0 auto;padding:10px 14px;border:0;border-radius:10px;background:var(--verde);
+    color:#fff;font-size:.9rem;font-weight:600;font-family:inherit;cursor:pointer;
+  }
+  .btn-baja:active{opacity:.85}
+  .btn-baja[disabled]{background:#e6e8e2;color:#9aa396}
+  .vacio{color:var(--gris);text-align:center;padding:40px 20px;font-size:.95rem}
+  .nota{color:var(--gris);font-size:.78rem;text-align:center;padding:0 20px 30px;line-height:1.5}
+  /* ---------- modal ---------- */
+  .modal{position:fixed;inset:0;background:rgba(28,36,26,.5);display:flex;align-items:flex-end;z-index:50}
+  .modal .hoja{background:#fff;width:100%;border-radius:20px 20px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom))}
+  .modal h2{margin:0 0 6px;font-size:1.15rem}
+  .modal .det{color:var(--gris);font-size:.95rem;margin-bottom:18px;line-height:1.4}
+  .modal .acciones{display:flex;gap:10px}
+  .modal .acciones .btn{flex:1}
+  /* ---------- toast ---------- */
+  .toast{
+    position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);
+    background:var(--tinta);color:#fff;padding:12px 18px;border-radius:12px;font-size:.92rem;
+    max-width:88vw;text-align:center;z-index:60;box-shadow:0 6px 24px rgba(0,0,0,.25);line-height:1.35;
+  }
+  .toast.malo{background:var(--rojo)}
+  [hidden]{display:none !important}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="vistaLogin" class="pantalla">
+  <div class="caja-login">
+    <h1>Stock Giorenatto</h1>
+    <p>Ingresá la clave para dar de baja lo que se vende.</p>
+    <input id="clave" type="password" inputmode="text" autocomplete="current-password" placeholder="Clave">
+    <div class="error" id="errLogin"></div>
+    <button class="btn" id="btnEntrar" style="margin-top:14px">Entrar</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="vistaApp" class="pantalla" hidden>
+  <header>
+    <div class="barra">
+      <strong>Stock</strong>
+      <span>
+        <button class="mini" id="btnRefrescar">Actualizar</button>
+        <button class="mini" id="btnSalir">Salir</button>
+      </span>
+    </div>
+    <input id="buscar" type="search" placeholder="Buscar prenda…" autocomplete="off">
+  </header>
+  <main id="lista"></main>
+  <div class="nota">Tocá <strong>“Se vendió”</strong> cuando salga algo del local.<br>Se descuenta acá y en Mercado Libre.</div>
+</div>
+
+<!-- CONFIRMAR -->
+<div id="confirmar" class="modal" hidden>
+  <div class="hoja">
+    <h2 id="cNombre">—</h2>
+    <div class="det" id="cDetalle">—</div>
+    <div class="acciones">
+      <button class="btn btn-claro" id="btnCancelar">Cancelar</button>
+      <button class="btn" id="btnConfirmar">Sí, se vendió</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script>
+(function(){
+  "use strict";
+  var API = "https://backend-omega-smoky-28.vercel.app";
+  var CLAVE_TOKEN = "gio_stock_token";
+
+  var $ = function(id){ return document.getElementById(id); };
+  var productos = [];
+  var filtro = "";
+  var pendiente = null;
+  var tmrToast = null;
+
+  function token(){ try { return localStorage.getItem(CLAVE_TOKEN) || ""; } catch(e){ return ""; } }
+  function guardarToken(t){ try { localStorage.setItem(CLAVE_TOKEN, t); } catch(e){} }
+  function borrarToken(){ try { localStorage.removeItem(CLAVE_TOKEN); } catch(e){} }
+
+  function toast(msg, malo){
+    var el = $("toast");
+    el.textContent = msg;
+    el.className = "toast" + (malo ? " malo" : "");
+    el.hidden = false;
+    clearTimeout(tmrToast);
+    tmrToast = setTimeout(function(){ el.hidden = true; }, 4200);
+  }
+
+  // ---------- login ----------
+  function entrar(){
+    var pass = $("clave").value;
+    if(!pass){ $("errLogin").textContent = "Poné la clave"; return; }
+    $("btnEntrar").disabled = true;
+    $("errLogin").textContent = "";
+    fetch(API + "/api/stock/login", {
+      method: "POST", headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ password: pass })
+    }).then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
+      .then(function(res){
+        $("btnEntrar").disabled = false;
+        if(res.ok && res.j && res.j.token){
+          guardarToken(res.j.token);
+          $("clave").value = "";
+          abrirApp();
+        } else {
+          $("errLogin").textContent = (res.j && res.j.error) || "No pude entrar";
+        }
+      })
+      .catch(function(){ $("btnEntrar").disabled = false; $("errLogin").textContent = "Sin conexión"; });
+  }
+
+  // ---------- pantallas ----------
+  function abrirApp(){
+    $("vistaLogin").hidden = true;
+    $("vistaApp").hidden = false;
+    cargar();
+  }
+  function cerrarSesion(){
+    borrarToken();
+    $("vistaApp").hidden = true;
+    $("vistaLogin").hidden = false;
+  }
+
+  // ---------- catálogo ----------
+  function cargar(){
+    $("lista").innerHTML = '<div class="vacio">Cargando…</div>';
+    fetch(API + "/api/stock/lista", { cache: "no-store" })
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        if(!j || !j.ok){ toast((j && j.error) || "No pude leer el catálogo", true); return; }
+        productos = j.productos || [];
+        productos.sort(function(a,b){ return (a.nombre||"").localeCompare(b.nombre||"","es"); });
+        pintar();
+      })
+      .catch(function(){ toast("Sin conexión con el servidor", true); });
+  }
+
+  function variantes(p){
+    var sv = p.stockVar && Object.keys(p.stockVar).length ? p.stockVar : null;
+    if(sv){
+      return Object.keys(sv).map(function(k){
+        var partes = k.split("|");
+        var color = partes[0];
+        var talle = partes.slice(1).join("|");
+        var sep = (color && talle) ? " · " : "";
+        return { clave:k, etiqueta:(color + sep + talle) || "Único", stock:Number(sv[k])||0 };
+      });
+    }
+    var talles = (p.talles && p.talles.length) ? p.talles : [p.talle || "Único"];
+    return [{ clave:"", etiqueta: talles.join(" / "), stock:Number(p.stock)||0 }];
+  }
+
+  function foto(p){
+    if(p.img) return p.img;
+    if(p.colores && p.colores[0] && p.colores[0].foto) return p.colores[0].foto;
+    return "";
+  }
+
+  function esc(s){
+    return String(s==null?"":s).replace(/[&<>"']/g, function(c){
+      return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c];
+    });
+  }
+
+  function pintar(){
+    var q = filtro.trim().toLowerCase();
+    var lista = productos.filter(function(p){
+      if(!q) return true;
+      return (p.nombre||"").toLowerCase().indexOf(q) >= 0 || (p.id||"").toLowerCase().indexOf(q) >= 0;
+    });
+    if(!lista.length){ $("lista").innerHTML = '<div class="vacio">No encontré nada con “' + esc(filtro) + '”.</div>'; return; }
+
+    var html = lista.map(function(p){
+      var vs = variantes(p);
+      var f = foto(p);
+      var vars = vs.map(function(v){
+        var sin = v.stock <= 0;
+        return '<div class="var">'
+          + '<span class="eti">' + esc(v.etiqueta) + '</span>'
+          + '<span class="pillo' + (sin?" cero":"") + '">' + (sin ? "agotado" : v.stock) + '</span>'
+          + '<button class="btn-baja" ' + (sin?"disabled":"") + ' data-id="' + esc(p.id) + '" data-clave="' + esc(v.clave) + '">Se vendió</button>'
+          + '</div>';
+      }).join("");
+      return '<div class="card">'
+        + (f ? '<img src="' + esc(f) + '" alt="" loading="lazy">' : '')
+        + '<div class="info"><h3>' + esc(p.nombre) + '</h3><div class="cat">' + esc(p.cat || "") + '</div>' + vars + '</div>'
+        + '</div>';
+    }).join("");
+    $("lista").innerHTML = html;
+  }
+
+  // ---------- baja ----------
+  function pedirConfirmacion(id, clave){
+    var p = productos.filter(function(x){ return x.id === id; })[0];
+    if(!p) return;
+    var v = variantes(p).filter(function(x){ return x.clave === clave; })[0] || {etiqueta:"", stock:0};
+    pendiente = { id:id, clave:clave };
+    $("cNombre").textContent = p.nombre;
+    $("cDetalle").textContent = (v.etiqueta ? v.etiqueta + " · " : "") + "quedan " + v.stock + " → quedará " + Math.max(0, v.stock-1);
+    $("confirmar").hidden = false;
+  }
+
+  function darBaja(){
+    if(!pendiente) return;
+    var id = pendiente.id, clave = pendiente.clave;
+    $("confirmar").hidden = true;
+    pendiente = null;
+    $("lista").querySelectorAll("button").forEach(function(b){ b.disabled = true; });
+
+    fetch(API + "/api/stock/baja", {
+      method: "POST", headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ token: token(), id: id, clave: clave })
+    }).then(function(r){ return r.json().then(function(j){ return {status:r.status, j:j||{}}; }); })
+      .then(function(res){
+        if(res.status === 401){ borrarToken(); toast("Se venció la sesión — volvé a entrar", true); cerrarSesion(); return; }
+        var j = res.j;
+        if(!j.ok){ toast(j.error || "No pude dar de baja", true); cargar(); return; }
+        // reflejar en pantalla
+        var p = productos.filter(function(x){ return x.id === id; })[0];
+        if(p){
+          if(p.stockVar && p.stockVar[clave] != null){ p.stockVar[clave] = j.quedan; p.stock = Object.keys(p.stockVar).reduce(function(s,k){ return s + (Number(p.stockVar[k])||0); },0); }
+          else { p.stock = j.quedan; }
+        }
+        pintar();
+        var extra = "";
+        if(j.ml){
+          if(j.ml.ok && j.ml.item) extra = " · ML actualizado";
+          else if(j.ml.ok && j.ml.aviso) extra = " · " + j.ml.aviso;
+          else if(!j.ml.ok && j.ml.error) extra = " · ⚠️ ML: " + j.ml.error;
+        }
+        toast("Listo. Quedan " + j.quedan + (extra ? extra : ""));
+      })
+      .catch(function(){ toast("Sin conexión — no se guardó", true); cargar(); });
+  }
+
+  // ---------- eventos ----------
+  $("btnEntrar").addEventListener("click", entrar);
+  $("clave").addEventListener("keydown", function(e){ if(e.key === "Enter") entrar(); });
+  $("btnSalir").addEventListener("click", cerrarSesion);
+  $("btnRefrescar").addEventListener("click", cargar);
+  $("buscar").addEventListener("input", function(e){ filtro = e.target.value; pintar(); });
+  $("btnCancelar").addEventListener("click", function(){ $("confirmar").hidden = true; pendiente = null; pintar(); });
+  $("btnConfirmar").addEventListener("click", darBaja);
+  $("lista").addEventListener("click", function(e){
+    var b = e.target.closest(".btn-baja");
+    if(!b || b.disabled) return;
+    pedirConfirmacion(b.getAttribute("data-id"), b.getAttribute("data-clave"));
+  });
+
+  // arranque
+  if(token()) abrirApp(); else $("vistaLogin").hidden = false;
+})();
+</script>
+</body>
+</html>
