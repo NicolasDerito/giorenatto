@@ -259,14 +259,14 @@
   "nombre": "Body Blanco",
   "cat": "Bodies",
   "precio": 14900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Body blanco liso, algodón suave.",
   "talles": [
    "4"
   ],
   "img": "assets/products/body-blanco.webp",
   "stockVar": {
-   "|4": 1
+   "|4": 0
   },
   "talle": "4"
  },
