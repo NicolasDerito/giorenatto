@@ -477,7 +477,7 @@
   "nombre": "Body Short Volados Gris",
   "cat": "Bodies",
   "precio": 19900,
-  "stock": 2,
+  "stock": 1,
   "desc": "Body short gris con volados, algodón suave.",
   "talles": [
    "6-12 meses",
@@ -486,7 +486,7 @@
   "img": "assets/products/body-short-volados-gris.webp",
   "stockVar": {
    "|6-12 meses": 1,
-   "|9-12 meses": 1
+   "|9-12 meses": 0
   },
   "talle": "6-12 meses, 9-12 meses"
  },
