@@ -1416,14 +1416,14 @@
   "nombre": "Remera Animal Print",
   "cat": "Remeras",
   "precio": 12000,
-  "stock": 1,
+  "stock": 0,
   "desc": "Remera con estampa animal print.",
   "talles": [
    "0"
   ],
   "img": "assets/products/remera-animal-print.webp",
   "stockVar": {
-   "|0": 1
+   "|0": 0
   },
   "talle": "0"
  },
