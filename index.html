@@ -331,6 +331,8 @@ button{font:inherit;color:inherit}
 .flotantes{position:fixed;right:22px;bottom:22px;z-index:70;display:flex;flex-direction:column;gap:12px;align-items:center}
 .wa-float{width:56px;height:56px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;box-shadow:0 10px 30px -10px rgba(31,170,83,.8);transition:transform .2s var(--ease);animation:pulse 2.6s infinite}
 .wa-float:hover{transform:scale(1.07)}
+.carrito-float{position:relative;width:56px;height:56px;border-radius:50%;background:var(--tinta);color:#f9f3e9;border:1.5px solid var(--tinta);display:grid;place-items:center;cursor:pointer;box-shadow:var(--sombra-1);transition:transform .2s var(--ease),background .2s,border-color .2s}
+.carrito-float:hover{transform:scale(1.07);background:var(--oso-deep);border-color:var(--oso-deep)}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(31,170,83,.45)}70%{box-shadow:0 0 0 16px rgba(31,170,83,0)}100%{box-shadow:0 0 0 0 rgba(31,170,83,0)}}
 .talles-float{display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:none;padding:0;cursor:pointer;transition:transform .2s;perspective:320px}
 .talles-float .talles-icon{width:56px;height:56px;border-radius:50%;background:var(--sup);border:1.5px solid var(--oso-deep);box-shadow:var(--sombra-1);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;transition:transform .18s ease-out;transform-style:preserve-3d;will-change:transform}
@@ -753,6 +755,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 
 <!-- ══ flotantes ══ -->
 <div class="flotantes">
+  <button class="carrito-float" onclick="abrirCarrito()" title="Ver tu carrito" aria-label="Abrir tu carrito" aria-haspopup="dialog">
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2.5 3.6h2.3l2.6 11.1h11l2.1-8.1H6.3"/></svg>
+    <span class="cart-count" id="cartFloatCount" style="display:none">0</span>
+  </button>
   <button class="talles-float" onclick="abrirTalles()" title="Guía de talles de bebé" aria-label="Abrir guía de talles de bebé">
     <span class="talles-icon"><img src="logo.webp" alt="Giorenatto - Guía de talles" width="56" height="56" loading="lazy" decoding="async"></span>
     <span class="talles-badge">TALLES</span>
@@ -2782,7 +2788,8 @@ function actualizar(){
   guardarCarrito();
   const items=Object.values(carrito);const count=items.reduce((s,i)=>s+i.cantidad,0);const subtotal=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
   const badge=document.getElementById("cartCount");const prev=parseInt(badge.textContent)||0;badge.textContent=count;badge.style.display=count>0?"flex":"none";
-  if(count>prev){badge.classList.remove("pop");void badge.offsetWidth;badge.classList.add("pop");const cb=document.querySelector(".cart-btn");cb.classList.remove("bump");void cb.offsetWidth;cb.classList.add("bump");}
+  const badgeF=document.getElementById("cartFloatCount");if(badgeF){badgeF.textContent=count;badgeF.style.display=count>0?"flex":"none";}
+  if(count>prev){badge.classList.remove("pop");void badge.offsetWidth;badge.classList.add("pop");if(badgeF){badgeF.classList.remove("pop");void badgeF.offsetWidth;badgeF.classList.add("pop");}const cb=document.querySelector(".cart-btn");cb.classList.remove("bump");void cb.offsetWidth;cb.classList.add("bump");}
   document.getElementById("subtotal").textContent=subtotal>0?fmt(subtotal):"$0";
   sincronizarCupon(subtotal);
   const descCupon=cuponDescuento(subtotal);
