@@ -1137,7 +1137,7 @@
   "nombre": "Buzo Rústico Elefante Oliva",
   "cat": "Buzos",
   "precio": 19900,
-  "stock": 3,
+  "stock": 2,
   "desc": "Buzo rústico oliva con estampa de elefante, algodón suave.",
   "talles": [
    "12 meses",
@@ -1146,7 +1146,7 @@
   ],
   "img": "assets/products/buzo-rustico-elefante-oliva.webp",
   "stockVar": {
-   "|12 meses": 1,
+   "|12 meses": 0,
    "|18 meses": 1,
    "|36 meses": 1
   },
@@ -1193,7 +1193,7 @@
   "nombre": "Buzo Rústico Cocodrilo Celeste",
   "cat": "Buzos",
   "precio": 19900,
-  "stock": 2,
+  "stock": 1,
   "desc": "Buzo rústico celeste con estampa de cocodrilo, algodón suave.",
   "talles": [
    "12 meses",
@@ -1203,7 +1203,7 @@
   "img": "assets/products/buzo-rustico-cocodrilo-celeste.webp",
   "stockVar": {
    "|12 meses": 0,
-   "|18 meses": 1,
+   "|18 meses": 0,
    "|36 meses": 1
   },
   "talle": "12 meses, 18 meses, 36 meses"
