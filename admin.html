@@ -62,6 +62,13 @@
   #login h1{font-size:1.3rem;margin-bottom:6px}
   #login p{font-size:.85rem;color:#888;margin-bottom:20px}
   #login input{width:100%;padding:12px 14px;border:1px solid #ddd;border-radius:10px;font-size:1rem;margin-bottom:12px}
+  /* cupones */
+  .cupon{background:#fff;border:1px solid #eee;border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+  .cupon .cod{font-weight:800;font-size:.95rem}
+  .cupon .pct{background:#eef2e8;color:var(--salvia-dark);border-radius:999px;padding:3px 10px;font-size:.75rem;font-weight:700}
+  .cupon .det{font-size:.78rem;color:#777}
+  .cupon .sp{flex:1}
+  .cupon .btn{padding:7px 12px;font-size:.8rem}
   .hidden{display:none!important}
 </style>
 </head>
@@ -95,6 +102,25 @@
 <div class="filtro-cat" id="filtrosCat"></div>
 <div class="stats" style="padding:0 24px;font-size:.8rem;color:#777" id="stats"></div>
 <div class="grid" id="grid"></div>
+
+<div class="toolbar" style="padding-top:4px">
+  <h2 style="font-size:1.05rem;margin:0">🎟 Cupones</h2>
+  <button class="btn btn-claro" onclick="cargarCupones()">↻ Recargar</button>
+  <button class="btn btn-primario" onclick="nuevoCupon()">+ Nuevo cupón</button>
+</div>
+<div id="cuponForm" style="display:none;padding:0 24px 10px">
+  <div class="fila3">
+    <div class="campo"><label>Código *</label><input id="c_codigo" placeholder="PRIMAVERA" style="text-transform:uppercase"></div>
+    <div class="campo"><label>Descuento (%) *</label><input id="c_porc" type="number" min="1" max="90" placeholder="10"></div>
+    <div class="campo"><label>Mínimo de compra ($)</label><input id="c_min" type="number" min="0" placeholder="0"></div>
+  </div>
+  <div class="fila3">
+    <div class="campo"><label>Vence (opcional)</label><input id="c_vence" type="date"></div>
+    <div class="campo"><label>Estado</label><select id="c_activo"><option value="1">Activo</option><option value="0">Pausado</option></select></div>
+    <div class="campo" style="display:flex;gap:8px"><button class="btn btn-primario" style="flex:1" onclick="guardarCupon()">💾 Guardar</button><button class="btn btn-claro" onclick="cerrarCuponForm()">Cancelar</button></div>
+  </div>
+</div>
+<div id="cuponesLista" style="padding:0 24px 40px"></div>
 
 <div class="barra-guardar">
   <span class="estado" id="estado">Sin cambios</span>
@@ -182,6 +208,7 @@ async function recargar() {
     ORIGINAL = JSON.parse(JSON.stringify(PRODUCTOS));
     renderCats();
     render();
+    cargarCupones();
     toast("Catálogo cargado: " + PRODUCTOS.length + " productos");
   } catch (e) {
     toast("No se pudo cargar: " + e.message + " — ¿el backend está desplegado?");
@@ -228,6 +255,102 @@ function card(p) {
 }
 
 function fmt(n) { return "$" + Number(n || 0).toLocaleString("es-AR"); }
+
+// ====== CUPONES ======
+const API_CUPONES = API_BASE.replace(/\/admin\/?$/, "") + "/cupones";
+let CUPONES = [];
+
+async function apiCupones(body) {
+  const r = await fetch(API_CUPONES, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok || data.ok === false) throw new Error(data.error || ("Error " + r.status));
+  return data;
+}
+
+async function cargarCupones() {
+  if (!TOKEN) return;
+  try {
+    const r = await apiCupones({ action: "listar", token: TOKEN });
+    CUPONES = r.cupones || [];
+    renderCupones();
+  } catch (e) {
+    $("cuponesLista").innerHTML = `<div class="aviso">No se pudieron cargar los cupones: ${e.message}</div>`;
+  }
+}
+
+function renderCupones() {
+  const cont = $("cuponesLista");
+  if (!cont) return;
+  if (!CUPONES.length) {
+    cont.innerHTML = `<div class="aviso">Todavía no hay cupones cargados. Creá el primero con "+ Nuevo cupón".</div>`;
+    return;
+  }
+  cont.innerHTML = CUPONES.map(c => {
+    const estado = c.activo === false ? "⏸ pausado" : "✅ activo";
+    const min = Number(c.minimo) > 0 ? ` · desde ${fmt(c.minimo)}` : "";
+    const vence = c.vence ? ` · vence ${c.vence}` : "";
+    const usos = ` · usos: ${Number(c.usos) || 0}`;
+    return `<div class="cupon">
+      <span class="cod">${c.codigo}</span>
+      <span class="pct">${c.porcentaje}% off</span>
+      <span class="det">${estado}${min}${vence}${usos}</span>
+      <span class="sp"></span>
+      <button class="btn btn-claro" onclick="editarCupon('${c.codigo}')">✏️ Editar</button>
+      <button class="btn btn-peligro" onclick="borrarCupon('${c.codigo}')">🗑</button>
+    </div>`;
+  }).join("");
+}
+
+function nuevoCupon() {
+  $("c_codigo").value = ""; $("c_porc").value = ""; $("c_min").value = "0";
+  $("c_vence").value = ""; $("c_activo").value = "1";
+  $("cuponForm").style.display = "";
+  $("c_codigo").focus();
+}
+
+function cerrarCuponForm() { $("cuponForm").style.display = "none"; }
+
+function editarCupon(codigo) {
+  const c = CUPONES.find(x => x.codigo === codigo);
+  if (!c) return;
+  $("c_codigo").value = c.codigo;
+  $("c_porc").value = c.porcentaje;
+  $("c_min").value = Number(c.minimo) || 0;
+  $("c_vence").value = c.vence || "";
+  $("c_activo").value = c.activo === false ? "0" : "1";
+  $("cuponForm").style.display = "";
+  $("cuponForm").scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+async function guardarCupon() {
+  const codigo = $("c_codigo").value.trim().toUpperCase();
+  const porcentaje = parseInt($("c_porc").value);
+  if (!codigo) return toast("Poné un código para el cupón");
+  if (!(porcentaje > 0 && porcentaje <= 90)) return toast("El descuento tiene que ser entre 1% y 90%");
+  try {
+    const r = await apiCupones({ action: "guardar", token: TOKEN, cupon: {
+      codigo, porcentaje,
+      minimo: Math.max(0, parseInt($("c_min").value) || 0),
+      vence: $("c_vence").value || "",
+      activo: $("c_activo").value !== "0"
+    }});
+    toast("✅ Cupón " + r.cupon.codigo + " guardado (" + r.cupon.porcentaje + "% off)");
+    cerrarCuponForm();
+    cargarCupones();
+  } catch (e) {
+    toast("Error: " + e.message + (/sesi/i.test(e.message) ? " — recargá la página y volvé a entrar." : ""));
+  }
+}
+
+async function borrarCupon(codigo) {
+  if (!confirm("¿Borrar el cupón " + codigo + "?")) return;
+  try {
+    await apiCupones({ action: "borrar", token: TOKEN, codigo });
+    toast("Cupón " + codigo + " borrado");
+    cargarCupones();
+  } catch (e) { toast("Error: " + e.message); }
+}
+
 function hayCambios() { return JSON.stringify(PRODUCTOS) !== JSON.stringify(ORIGINAL); }
 function cambiarStock(id, v) { const p = PRODUCTOS.find(x => x.id === id); if (!p) return; p.stock = Math.max(0, parseInt(v) || 0); render(); }
 
