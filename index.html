@@ -157,6 +157,9 @@ button{font:inherit;color:inherit}
 .cart-btn:hover{background:var(--oso-deep);border-color:var(--oso-deep);transform:translateY(-1px)}
 .cart-count{position:absolute;top:-7px;right:-7px;background:var(--rosa);color:#4a2224;font-weight:800;font-size:.72rem;min-width:20px;height:20px;border-radius:999px;display:grid;place-items:center;padding:0 5px;border:2px solid var(--papel)}
 .cart-count.pop{animation:cartPop .5s var(--spring)}
+.cart-cupon{background:var(--salvia-deep);color:#fff;font-weight:800;font-size:.66rem;letter-spacing:.02em;padding:3px 8px;border-radius:999px;line-height:1.3;white-space:nowrap}
+.cart-cupon[hidden]{display:none}
+.carrito-float .cart-cupon{position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);border:2px solid var(--papel);box-shadow:0 3px 10px rgba(58,46,35,.35);font-size:.62rem;padding:2px 7px}
 @keyframes cartPop{0%{transform:scale(1)}40%{transform:scale(1.6)}100%{transform:scale(1)}}
 .cart-btn.bump{animation:cartBump .5s var(--spring)}
 @keyframes cartBump{0%{transform:scale(1)}35%{transform:scale(1.08) rotate(-4deg)}70%{transform:scale(.97) rotate(2deg)}100%{transform:scale(1)}}
@@ -652,7 +655,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
       <a class="ig-btn" href="https://www.instagram.com/giorenatto" target="_blank" rel="noopener" title="Seguinos en Instagram @giorenatto" aria-label="Seguinos en Instagram @giorenatto">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07c-1.28.06-2.15.26-2.91.56-.79.31-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14c-.3.76-.5 1.63-.56 2.91C.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.28.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.67.66 1.34 1.07 2.13 1.38.76.3 1.63.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.28-.06 2.15-.26 2.91-.56.79-.31 1.46-.72 2.13-1.38.66-.67 1.07-1.34 1.38-2.13.3-.76.5-1.63.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.28-.26-2.15-.56-2.91-.31-.79-.72-1.46-1.38-2.13C21.32 1.35 20.65.94 19.86.63c-.76-.3-1.63-.5-2.91-.56C15.67.01 15.26 0 12 0Zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84Zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4Zm6.4-11.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44Z"/></svg>
       </a>
-      <button class="cart-btn ios-press" onclick="abrirCarrito()" aria-haspopup="dialog"><span class="txt">Carrito</span><span class="cart-count" id="cartCount" style="display:none">0</span></button>
+      <button class="cart-btn ios-press" onclick="abrirCarrito()" aria-haspopup="dialog"><span class="txt">Carrito</span><span class="cart-count" id="cartCount" style="display:none">0</span><span class="cart-cupon" id="cartCupon" hidden>−10%</span></button>
     </div>
   </nav>
 </header>
@@ -805,6 +808,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
   <button class="carrito-float" onclick="abrirCarrito()" title="Ver tu carrito" aria-label="Abrir tu carrito" aria-haspopup="dialog">
     <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2.5 3.6h2.3l2.6 11.1h11l2.1-8.1H6.3"/></svg>
     <span class="cart-count" id="cartFloatCount" style="display:none">0</span>
+    <span class="cart-cupon" id="cartCuponFloat" hidden>−10%</span>
   </button>
   <button class="talles-float" onclick="abrirTalles()" title="Guía de talles de bebé" aria-label="Abrir guía de talles de bebé">
     <span class="talles-icon"><img src="logo.webp" alt="Giorenatto - Guía de talles" width="56" height="56" loading="lazy" decoding="async"></span>
@@ -2864,6 +2868,8 @@ function cuponAviso(txt,tipo){
   m.textContent=txt||"";
 }
 function pintarCuponUI(){
+  const chips=document.querySelectorAll(".cart-cupon");
+  for(const ch of chips){if(cupon){ch.textContent="−"+cupon.porcentaje+"%";ch.hidden=false;}else{ch.hidden=true;}}
   const row=document.getElementById("cuponRow"),ap=document.getElementById("cuponAplicado");
   if(row)row.style.display=cupon?"none":"flex";
   if(ap)ap.style.display=cupon?"flex":"none";
