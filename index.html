@@ -209,7 +209,7 @@ button{font:inherit;color:inherit}
 
 /* ---------- banner primavera ---------- */
 .bp-envoltura{margin-top:clamp(16px,2.4vw,28px)}
-.banner-primavera{position:relative;display:flex;align-items:center;gap:clamp(14px,2vw,26px);padding:clamp(16px,2.2vw,26px) clamp(18px,2.6vw,34px);border-radius:var(--r-lg);background:linear-gradient(118deg,#eaf1e2 0%,#fbf7f0 46%,#fbe6e8 100%);border:1px solid var(--linea);box-shadow:var(--sombra-1);overflow:hidden}
+.banner-primavera{position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(14px,2vw,26px);padding:clamp(16px,2.2vw,26px) clamp(18px,2.6vw,34px);border-radius:var(--r-lg);background:linear-gradient(118deg,#eaf1e2 0%,#fbf7f0 46%,#fbe6e8 100%);border:1px solid var(--linea);box-shadow:var(--sombra-1);overflow:hidden}
 .banner-primavera::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.6);pointer-events:none}
 .bp-flores{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .bp-flores span{position:absolute;font-size:clamp(1.5rem,3.2vw,2.8rem);line-height:1;opacity:.45}
@@ -217,17 +217,15 @@ button{font:inherit;color:inherit}
 .bp-flores span:nth-child(2){right:5%;bottom:4%;opacity:.55}
 .bp-flores span:nth-child(3){right:28%;top:-8%;opacity:.3;font-size:clamp(1.1rem,2.2vw,1.9rem)}
 .bp-logo{position:relative;width:clamp(54px,6.4vw,76px);height:clamp(54px,6.4vw,76px);border-radius:50%;object-fit:cover;background:#fff;flex-shrink:0;box-shadow:0 8px 20px -8px rgba(58,46,35,.35)}
-.bp-txt{position:relative;flex:1;min-width:0}
+.bp-txt{position:relative;flex:0 1 auto;min-width:0}
 .bp-kicker{font-size:.68rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--salvia-deep)}
 .bp-tit{font-family:var(--display);font-size:clamp(1.2rem,2.2vw,1.8rem);line-height:1.06;font-weight:500;color:var(--tinta);margin-top:6px}
 .bp-tit b{color:var(--oso-deep);font-weight:600;letter-spacing:.03em}
 .bp-sub{font-size:clamp(.79rem,1vw,.9rem);color:var(--tinta-2);margin-top:7px}
 .bp-sub b{color:var(--tinta)}
-.bp-btn{position:relative;display:inline-flex;align-items:center;gap:9px;background:var(--oso-deep);color:#fff9f1;padding:13px 25px;border-radius:999px;font-weight:700;font-size:.92rem;white-space:nowrap;box-shadow:var(--sombra-1);flex-shrink:0}
-.bp-btn:hover{background:#6a4f35}
 @media (max-width:760px){
   .banner-primavera{flex-direction:column;text-align:center;gap:12px}
-  .bp-btn{width:100%;justify-content:center}
+  .bp-txt{text-align:center}
   .bp-flores span:nth-child(1){left:-3%}
 }
 
@@ -660,7 +658,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
     <p class="bp-tit">10% de descuento con el cupón <b>PRIMAVERA</b></p>
     <p class="bp-sub">En compras desde <b>$70.000</b> · Envío gratis desde $60.000</p>
   </div>
-  <a class="bp-btn ios-press" href="#catalogo">Ver el catálogo <span aria-hidden="true">→</span></a>
 </aside>
 </div>
 
