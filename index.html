@@ -528,6 +528,16 @@ body.bloqueo-scroll{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 .toast.show{opacity:1;visibility:visible;transform:translate(-50%,0);transition:transform .45s var(--spring),opacity .3s,visibility 0s 0s}
 .fly-dot{position:fixed;z-index:200;width:22px;height:22px;border-radius:50%;background:var(--oso-deep);box-shadow:0 4px 14px rgba(0,0,0,.25);pointer-events:none;transition:transform .7s cubic-bezier(.2,.8,.2,1),opacity .7s;opacity:.95}
 
+/* ---------- lluvia de flores (al tocar el cartel de primavera) ---------- */
+.flores-capa{position:fixed;inset:0;pointer-events:none;z-index:130;overflow:hidden}
+.flor-cae{position:absolute;top:-10vh;line-height:1;will-change:transform;animation:florCae linear forwards}
+@keyframes florCae{
+  0%{transform:translateY(0) rotate(0deg);opacity:0}
+  10%{opacity:1}
+  85%{opacity:1}
+  100%{transform:translateY(116vh) rotate(var(--giro,220deg));opacity:0}
+}
+
 /* ---------- efectos iOS (Etapa 1/2, conservados) ---------- */
 .ios-press{transition:transform .32s var(--spring),box-shadow .32s var(--spring),filter .2s;-webkit-tap-highlight-color:transparent}
 .ios-press:active,.ios-press.pressed{transform:scale(.92)!important;filter:brightness(.96)}
@@ -2896,7 +2906,28 @@ function sincronizarCupon(subtotal){
 }
 function guardarCupon(){try{if(cupon)sessionStorage.setItem("gio_cupon",cupon.codigo);else sessionStorage.removeItem("gio_cupon");}catch(e){}}
 // El cartel de la home: deja el cupón armado y lo aplica apenas haya prendas.
+// Lluvia de flores al tocar el cartel (respeta "reducir movimiento").
+function lluviaDeFlores(){
+  try{
+    if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+    const capa=document.createElement("div");capa.className="flores-capa";capa.setAttribute("aria-hidden","true");
+    const flores=["🌸","🌼","🌷","🌺","🌻"];
+    for(let i=0;i<22;i++){
+      const f=document.createElement("span");f.className="flor-cae";
+      f.textContent=flores[Math.floor(Math.random()*flores.length)];
+      f.style.left=(Math.random()*98)+"vw";
+      f.style.fontSize=(15+Math.random()*24).toFixed(0)+"px";
+      f.style.animationDuration=(2.7+Math.random()*1.9).toFixed(2)+"s";
+      f.style.animationDelay=(Math.random()*0.7).toFixed(2)+"s";
+      f.style.setProperty("--giro",(Math.random()*700-350).toFixed(0)+"deg");
+      capa.appendChild(f);
+    }
+    document.body.appendChild(capa);
+    setTimeout(function(){capa.remove();},5400);
+  }catch(e){}
+}
 function aplicarCuponDesdeBanner(codigo){
+  lluviaDeFlores();
   try{sessionStorage.setItem("gio_cupon",codigo);}catch(e){}
   const inp=document.getElementById("cuponInput");if(inp)inp.value=codigo;
   const subtotal=Object.values(carrito).reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
