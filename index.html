@@ -209,7 +209,10 @@ button{font:inherit;color:inherit}
 
 /* ---------- banner primavera ---------- */
 .bp-envoltura{margin-top:clamp(16px,2.4vw,28px)}
-.banner-primavera{position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(14px,2vw,26px);padding:clamp(16px,2.2vw,26px) clamp(18px,2.6vw,34px);border-radius:var(--r-lg);background:linear-gradient(118deg,#eaf1e2 0%,#fbf7f0 46%,#fbe6e8 100%);border:1px solid var(--linea);box-shadow:var(--sombra-1);overflow:hidden}
+.banner-primavera{position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(14px,2vw,26px);padding:clamp(16px,2.2vw,26px) clamp(18px,2.6vw,34px);border-radius:var(--r-lg);background:linear-gradient(118deg,#eaf1e2 0%,#fbf7f0 46%,#fbe6e8 100%);border:1px solid var(--linea);box-shadow:var(--sombra-1);overflow:hidden;cursor:pointer;text-decoration:none;color:inherit;transition:transform .22s var(--ease),box-shadow .28s}
+.banner-primavera:hover{transform:translateY(-2px);box-shadow:var(--sombra-2)}
+.banner-primavera:active{transform:translateY(0) scale(.995)}
+.banner-primavera:focus-visible{outline:2px solid var(--oso-deep);outline-offset:3px}
 .banner-primavera::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.6);pointer-events:none}
 .bp-flores{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .bp-flores span{position:absolute;font-size:clamp(1.5rem,3.2vw,2.8rem);line-height:1;opacity:.45}
@@ -650,15 +653,15 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 
 <!-- ══ banner primavera ══ -->
 <div class="envoltura bp-envoltura">
-<aside class="banner-primavera" aria-label="Promoción de primavera: 10% de descuento">
+<a class="banner-primavera" href="#catalogo" onclick="aplicarCuponDesdeBanner('PRIMAVERA')" aria-label="Aplicar el cupón PRIMAVERA: 10% de descuento en compras desde $70.000">
   <div class="bp-flores" aria-hidden="true"><span>🌸</span><span>🌼</span><span>🌸</span></div>
   <img class="bp-logo" src="logo.webp" alt="Osito Giorenatto" width="78" height="78" loading="lazy" decoding="async">
   <div class="bp-txt">
     <p class="bp-kicker">Feliz primavera</p>
     <p class="bp-tit">10% de descuento con el cupón <b>PRIMAVERA</b></p>
-    <p class="bp-sub">En compras desde <b>$70.000</b> · Envío gratis desde $60.000</p>
+    <p class="bp-sub">En compras desde <b>$70.000</b> · Envío gratis desde $60.000 · <b>Tocá y se aplica</b></p>
   </div>
-</aside>
+</a>
 </div>
 
 <main id="arriba">
@@ -2841,7 +2844,7 @@ function actualizar(){
   else{cont.innerHTML=items.map(i=>{const k=i.color||i.talle?`${i.producto.id}|${i.color||''}|${i.talle||''}`:i.producto.id;const foto=(i.producto.colores&&i.producto.colores.length)?((i.color&&i.producto.colores.find(c=>c.nombre===i.color)||i.producto.colores[0]).foto):(i.producto.img||"");const ico=foto?`<img src="${esc(foto)}" alt="" loading="lazy" decoding="async">`:(ICONOS[i.producto.cat]||"🧸");return `<div class="item"><div class="ico">${ico}</div><div class="info"><div class="n">${esc(i.producto.nombre)}</div><div class="p">${[i.color?esc(i.color):'',i.talle?('Talle '+esc(i.talle)):''].filter(Boolean).join(' · ')}${(i.color||i.talle)?' · ':''}${i.producto.precio>0?fmt(i.producto.precio)+" c/u":"Consultar"}</div></div><div class="qty"><button class="ios-press" onclick="cambiar('${esc(k)}',-1)">−</button><span>${i.cantidad}</span><button class="ios-press" onclick="cambiar('${esc(k)}',1)">+</button></div><button class="del ios-press" onclick="borrarItem('${esc(k)}')" aria-label="Quitar del carrito" title="Quitar">✕</button></div>`;}).join("");}
   renderDestacados();renderGrupos();
 }
-function abrirCarrito(){const d=document.getElementById("drawer");ultimoFoco=document.activeElement;d.inert=false;document.getElementById("overlay").classList.add("open");d.classList.add("open");sincronizarBloqueo();const c=d.querySelector(".close");if(c)c.focus();}
+function abrirCarrito(){const d=document.getElementById("drawer");ultimoFoco=document.activeElement;if(!cupon)restaurarCupon();d.inert=false;document.getElementById("overlay").classList.add("open");d.classList.add("open");sincronizarBloqueo();const c=d.querySelector(".close");if(c)c.focus();}
 function cerrarCarrito(){const d=document.getElementById("drawer");d.classList.remove("open");d.inert=true;document.getElementById("overlay").classList.remove("open");sincronizarBloqueo();if(ultimoFoco&&document.contains(ultimoFoco)){ultimoFoco.focus();ultimoFoco=null;}}
 let entrega='envio';
 let costoEnvio=0;let envioGratis=false;let envioZona=''; // estado del envío calculado (0 si retiro/sin calcular)
@@ -2879,6 +2882,15 @@ function sincronizarCupon(subtotal){
   pintarCuponUI();
 }
 function guardarCupon(){try{if(cupon)sessionStorage.setItem("gio_cupon",cupon.codigo);else sessionStorage.removeItem("gio_cupon");}catch(e){}}
+// El cartel de la home: deja el cupón armado y lo aplica apenas haya prendas.
+function aplicarCuponDesdeBanner(codigo){
+  try{sessionStorage.setItem("gio_cupon",codigo);}catch(e){}
+  const inp=document.getElementById("cuponInput");if(inp)inp.value=codigo;
+  const subtotal=Object.values(carrito).reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
+  if(subtotal>0){aplicarCupon();}
+  else{toast("Cupón "+codigo+" listo: se aplica solo en el carrito ✓");}
+  try{gioTrack("cupon_banner",{codigo:codigo});}catch(e){}
+}
 async function validarCupon(codigo,subtotal){
   const r=await fetch(BACKEND_URL+"/api/cupones",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"validar",codigo,subtotal})});
   return await r.json();
