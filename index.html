@@ -226,9 +226,15 @@ button{font:inherit;color:inherit}
 .bp-tit b{color:var(--oso-deep);font-weight:600;letter-spacing:.03em}
 .bp-sub{font-size:clamp(.79rem,1vw,.9rem);color:var(--tinta-2);margin-top:7px}
 .bp-sub b{color:var(--tinta)}
+.bp-cta{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:10px;flex-shrink:0;background:var(--oso-deep);color:#fff9f1;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(.8rem,1.02vw,.96rem);padding:15px 26px;border-radius:999px;white-space:nowrap;box-shadow:0 14px 30px -12px rgba(122,92,63,.85),0 0 0 4px rgba(227,150,154,.3);transition:transform .22s var(--ease),box-shadow .28s}
+.bp-cta::after{content:"";position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-18deg);animation:bpBrillo 3.2s var(--ease) infinite}
+@keyframes bpBrillo{0%{left:-60%}60%,100%{left:140%}}
+.banner-primavera:hover .bp-cta,.banner-primavera:focus-visible .bp-cta{transform:translateY(-2px) scale(1.06);box-shadow:0 18px 34px -12px rgba(122,92,63,.9),0 0 0 5px rgba(227,150,154,.45)}
+@media (prefers-reduced-motion:reduce){.bp-cta::after{display:none}}
 @media (max-width:760px){
   .banner-primavera{flex-direction:column;text-align:center;gap:12px}
   .bp-txt{text-align:center}
+  .bp-cta{width:100%;justify-content:center;margin-top:2px}
   .bp-flores span:nth-child(1){left:-3%}
 }
 
@@ -659,8 +665,9 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
   <div class="bp-txt">
     <p class="bp-kicker">Feliz primavera</p>
     <p class="bp-tit">10% de descuento con el cupón <b>PRIMAVERA</b></p>
-    <p class="bp-sub">En compras desde <b>$70.000</b> · Envío gratis desde $60.000 · <b>Tocá y se aplica</b></p>
+    <p class="bp-sub">En compras desde <b>$70.000</b> · Envío gratis desde $60.000</p>
   </div>
+  <span class="bp-cta">🎁 ¡Quiero mi 10%!</span>
 </a>
 </div>
 
