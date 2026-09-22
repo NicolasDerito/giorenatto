@@ -528,14 +528,20 @@ body.bloqueo-scroll{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 .toast.show{opacity:1;visibility:visible;transform:translate(-50%,0);transition:transform .45s var(--spring),opacity .3s,visibility 0s 0s}
 .fly-dot{position:fixed;z-index:200;width:22px;height:22px;border-radius:50%;background:var(--oso-deep);box-shadow:0 4px 14px rgba(0,0,0,.25);pointer-events:none;transition:transform .7s cubic-bezier(.2,.8,.2,1),opacity .7s;opacity:.95}
 
-/* ---------- lluvia de flores (al tocar el cartel de primavera) ---------- */
+/* ---------- pétalos que caen (al tocar el cartel de primavera) ---------- */
 .flores-capa{position:fixed;inset:0;pointer-events:none;z-index:130;overflow:hidden}
-.flor-cae{position:absolute;top:-10vh;line-height:1;will-change:transform;animation:florCae linear forwards}
-@keyframes florCae{
-  0%{transform:translateY(0) rotate(0deg);opacity:0}
-  10%{opacity:1}
-  85%{opacity:1}
-  100%{transform:translateY(116vh) rotate(var(--giro,220deg));opacity:0}
+.petalo-cae{position:absolute;top:0;display:block;line-height:0;will-change:transform;animation:petaloCae linear forwards}
+.petalo-cae svg{display:block;width:100%;height:100%}
+.petalo-onda{display:block;width:100%;height:100%;animation:petaloOnda ease-in-out infinite alternate}
+@keyframes petaloCae{
+  0%{transform:translateY(-14vh);opacity:0}
+  10%{opacity:var(--opa,.92)}
+  86%{opacity:var(--opa,.92)}
+  100%{transform:translateY(114vh);opacity:0}
+}
+@keyframes petaloOnda{
+  from{transform:translateX(-9px) rotate(calc(var(--giro,-22deg) - 13deg))}
+  to{transform:translateX(9px) rotate(calc(var(--giro,-22deg) + 13deg))}
 }
 
 /* ---------- efectos iOS (Etapa 1/2, conservados) ---------- */
@@ -2906,24 +2912,35 @@ function sincronizarCupon(subtotal){
 }
 function guardarCupon(){try{if(cupon)sessionStorage.setItem("gio_cupon",cupon.codigo);else sessionStorage.removeItem("gio_cupon");}catch(e){}}
 // El cartel de la home: deja el cupón armado y lo aplica apenas haya prendas.
-// Lluvia de flores al tocar el cartel (respeta "reducir movimiento").
+// Pétalos cayendo al tocar el cartel, en la paleta de la marca (respeta "reducir movimiento").
+// Cada pétalo va en dos capas: la de afuera cae y la de adentro se mece, así flota en vez de bajar en línea recta.
+const PETALO_SVG='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 .5C16.6 6 21 11 21 15.6c0 4.7-4 7.9-9 7.9s-9-3.2-9-7.9C3 11 7.4 6 12 .5Z" fill="currentColor"/></svg>';
 function lluviaDeFlores(){
   try{
     if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
     const capa=document.createElement("div");capa.className="flores-capa";capa.setAttribute("aria-hidden","true");
-    const flores=["🌸","🌼","🌷","🌺","🌻"];
-    for(let i=0;i<22;i++){
-      const f=document.createElement("span");f.className="flor-cae";
-      f.textContent=flores[Math.floor(Math.random()*flores.length)];
-      f.style.left=(Math.random()*98)+"vw";
-      f.style.fontSize=(15+Math.random()*24).toFixed(0)+"px";
-      f.style.animationDuration=(2.7+Math.random()*1.9).toFixed(2)+"s";
-      f.style.animationDelay=(Math.random()*0.7).toFixed(2)+"s";
-      f.style.setProperty("--giro",(Math.random()*700-350).toFixed(0)+"deg");
-      capa.appendChild(f);
+    const paleta=["#e3969a","#f0b9bd","#9caf88","#c9a57f","#ecdbc4","#b9c9a6"];
+    for(let i=0;i<24;i++){
+      const lejos=Math.random()<0.28;              // algunos chicos y desenfocados: dan profundidad
+      const tam=lejos?(9+Math.random()*6):(15+Math.random()*12);
+      const fuera=document.createElement("span");fuera.className="petalo-cae";
+      fuera.innerHTML='<span class="petalo-onda">'+PETALO_SVG+'</span>';
+      fuera.style.left=(Math.random()*100)+"vw";
+      fuera.style.width=tam.toFixed(1)+"px";
+      fuera.style.height=tam.toFixed(1)+"px";
+      fuera.style.color=paleta[Math.floor(Math.random()*paleta.length)];
+      fuera.style.setProperty("--opa",lejos?"0.45":"0.92");
+      if(lejos)fuera.style.filter="blur(0.7px)";
+      fuera.style.animationDuration=(4+Math.random()*2.8).toFixed(2)+"s";
+      fuera.style.animationDelay=(Math.random()*1).toFixed(2)+"s";
+      const onda=fuera.firstChild;
+      onda.style.animationDuration=(1.6+Math.random()*1.5).toFixed(2)+"s";
+      onda.style.animationDelay="-"+Math.random().toFixed(2)+"s";
+      onda.style.setProperty("--giro",(Math.random()*70-35).toFixed(0)+"deg");
+      capa.appendChild(fuera);
     }
     document.body.appendChild(capa);
-    setTimeout(function(){capa.remove();},5400);
+    setTimeout(function(){capa.remove();},7600);
   }catch(e){}
 }
 function aplicarCuponDesdeBanner(codigo){
