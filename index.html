@@ -529,13 +529,19 @@ body.bloqueo-scroll{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 .fly-dot{position:fixed;z-index:200;width:22px;height:22px;border-radius:50%;background:var(--oso-deep);box-shadow:0 4px 14px rgba(0,0,0,.25);pointer-events:none;transition:transform .7s cubic-bezier(.2,.8,.2,1),opacity .7s;opacity:.95}
 
 /* ---------- lluvia de flores (al tocar el cartel de primavera) ---------- */
+/* Dos capas por flor: la de afuera cae y la de adentro se mece, así flota en vez de bajar tiesa. */
 .flores-capa{position:fixed;inset:0;pointer-events:none;z-index:130;overflow:hidden}
-.flor-cae{position:absolute;top:-10vh;line-height:1;will-change:transform;animation:florCae linear forwards}
+.flor-cae{position:absolute;top:0;display:block;line-height:0;will-change:transform;animation:florCae linear forwards}
+.flor-onda{display:block;line-height:1;animation:florOnda ease-in-out infinite alternate}
 @keyframes florCae{
-  0%{transform:translateY(0) rotate(0deg);opacity:0}
-  10%{opacity:1}
-  85%{opacity:1}
-  100%{transform:translateY(116vh) rotate(var(--giro,220deg));opacity:0}
+  0%{transform:translateY(-14vh);opacity:0}
+  10%{opacity:var(--opa,1)}
+  86%{opacity:var(--opa,1)}
+  100%{transform:translateY(114vh);opacity:0}
+}
+@keyframes florOnda{
+  from{transform:translateX(-10px) rotate(calc(var(--giro,-20deg) - 14deg))}
+  to{transform:translateX(10px) rotate(calc(var(--giro,-20deg) + 14deg))}
 }
 
 /* ---------- efectos iOS (Etapa 1/2, conservados) ---------- */
@@ -2907,23 +2913,32 @@ function sincronizarCupon(subtotal){
 function guardarCupon(){try{if(cupon)sessionStorage.setItem("gio_cupon",cupon.codigo);else sessionStorage.removeItem("gio_cupon");}catch(e){}}
 // El cartel de la home: deja el cupón armado y lo aplica apenas haya prendas.
 // Lluvia de flores al tocar el cartel (respeta "reducir movimiento").
+// Un tercio van chicas, más transparentes y apenas desenfocadas: eso da profundidad de campo.
 function lluviaDeFlores(){
   try{
     if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
     const capa=document.createElement("div");capa.className="flores-capa";capa.setAttribute("aria-hidden","true");
     const flores=["🌸","🌼","🌷","🌺","🌻"];
-    for(let i=0;i<22;i++){
-      const f=document.createElement("span");f.className="flor-cae";
-      f.textContent=flores[Math.floor(Math.random()*flores.length)];
-      f.style.left=(Math.random()*98)+"vw";
-      f.style.fontSize=(15+Math.random()*24).toFixed(0)+"px";
-      f.style.animationDuration=(2.7+Math.random()*1.9).toFixed(2)+"s";
-      f.style.animationDelay=(Math.random()*0.7).toFixed(2)+"s";
-      f.style.setProperty("--giro",(Math.random()*700-350).toFixed(0)+"deg");
-      capa.appendChild(f);
+    for(let i=0;i<24;i++){
+      const lejos=Math.random()<0.33;
+      const tam=lejos?(13+Math.random()*7):(20+Math.random()*20);
+      const fuera=document.createElement("span");fuera.className="flor-cae";
+      const onda=document.createElement("span");onda.className="flor-onda";
+      onda.textContent=flores[Math.floor(Math.random()*flores.length)];
+      onda.style.fontSize=tam.toFixed(0)+"px";
+      fuera.appendChild(onda);
+      fuera.style.left=(Math.random()*98)+"vw";
+      fuera.style.setProperty("--opa",lejos?"0.5":"1");
+      if(lejos)fuera.style.filter="blur(0.8px)";
+      fuera.style.animationDuration=(3.4+Math.random()*2.4).toFixed(2)+"s";
+      fuera.style.animationDelay=(Math.random()*0.9).toFixed(2)+"s";
+      onda.style.animationDuration=(1.5+Math.random()*1.4).toFixed(2)+"s";
+      onda.style.animationDelay="-"+Math.random().toFixed(2)+"s";
+      onda.style.setProperty("--giro",(Math.random()*60-30).toFixed(0)+"deg");
+      capa.appendChild(fuera);
     }
     document.body.appendChild(capa);
-    setTimeout(function(){capa.remove();},5400);
+    setTimeout(function(){capa.remove();},7000);
   }catch(e){}
 }
 function aplicarCuponDesdeBanner(codigo){
