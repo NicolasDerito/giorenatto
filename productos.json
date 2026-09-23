@@ -1729,5 +1729,131 @@
    "|36 meses": 1
   },
   "talle": "0-3 meses, 3-6 meses, 6-11 meses, 12-24 meses, 36 meses"
+ },
+ {
+  "id": "GIO-0141",
+  "nombre": "Vestido Floreado",
+  "cat": "Vestidos",
+  "precio": 14000,
+  "stock": 2,
+  "desc": "Vestido con estampa floral.",
+  "talles": [
+   "2"
+  ],
+  "img": "assets/products/vestido-floreado.webp",
+  "stockVar": {
+   "|2": 2
+  },
+  "talle": "2"
+ },
+ {
+  "id": "GIO-0142",
+  "nombre": "Vestido Manzana",
+  "cat": "Vestidos",
+  "precio": 14000,
+  "stock": 1,
+  "desc": "Vestido blanco con estampa de manzanas.",
+  "talles": [
+   "2"
+  ],
+  "img": "assets/products/vestido-manzana.webp",
+  "stockVar": {
+   "|2": 1
+  },
+  "talle": "2"
+ },
+ {
+  "id": "GIO-0143",
+  "nombre": "Vestido Mariposa",
+  "cat": "Vestidos",
+  "precio": 14000,
+  "stock": 1,
+  "desc": "Vestido con estampa de mariposas.",
+  "talles": [
+   "1"
+  ],
+  "img": "assets/products/vestido-mariposa.webp",
+  "stockVar": {
+   "|1": 1
+  },
+  "talle": "1"
+ },
+ {
+  "id": "GIO-0144",
+  "nombre": "Legging Crudo",
+  "cat": "Pantalones",
+  "precio": 7000,
+  "stock": 6,
+  "desc": "Legging color crudo, talle 0 a 5.",
+  "talles": [
+   "0",
+   "1",
+   "2",
+   "3",
+   "4",
+   "5"
+  ],
+  "img": "assets/products/legging-crudo.webp",
+  "stockVar": {
+   "|0": 1,
+   "|1": 1,
+   "|2": 1,
+   "|3": 1,
+   "|4": 1,
+   "|5": 1
+  },
+  "talle": "0, 1, 2, 3, 4, 5"
+ },
+ {
+  "id": "GIO-0145",
+  "nombre": "Legging Rosa Viejo",
+  "cat": "Pantalones",
+  "precio": 7000,
+  "stock": 6,
+  "desc": "Legging color rosa viejo, talle 0 a 5.",
+  "talles": [
+   "0",
+   "1",
+   "2",
+   "3",
+   "4",
+   "5"
+  ],
+  "img": "assets/products/legging-rosa-viejo.webp",
+  "stockVar": {
+   "|0": 1,
+   "|1": 1,
+   "|2": 1,
+   "|3": 1,
+   "|4": 1,
+   "|5": 1
+  },
+  "talle": "0, 1, 2, 3, 4, 5"
+ },
+ {
+  "id": "GIO-0146",
+  "nombre": "Legging Verde",
+  "cat": "Pantalones",
+  "precio": 7000,
+  "stock": 6,
+  "desc": "Legging color verde, talle 0 a 5.",
+  "talles": [
+   "0",
+   "1",
+   "2",
+   "3",
+   "4",
+   "5"
+  ],
+  "img": "assets/products/legging-verde.webp",
+  "stockVar": {
+   "|0": 1,
+   "|1": 1,
+   "|2": 1,
+   "|3": 1,
+   "|4": 1,
+   "|5": 1
+  },
+  "talle": "0, 1, 2, 3, 4, 5"
  }
 ]

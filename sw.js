@@ -3,7 +3,7 @@
 // caché solo si no hay internet). Fotos, logo y manifest siguen cache-first porque no cambian.
 // IMPORTANTE: cada vez que subas cambios a index.html/sw.js, subí el número de CACHE (v3, v4…)
 // para que los celus que ya instalaron la app pisen la versión vieja.
-const CACHE = "giorenatto-v38"; // v38: alta Conjunto Cloud Vibes Rústico
+const CACHE = "giorenatto-v39"; // v39: alta de 6 productos (vestidos y leggings)
 const CORE = ["/", "/index.html", "/nosotros.html", "/404.html", "/logo.webp", "/logo-192.png", "/logo-512.png", "/manifest.webmanifest"];
 
 // Rutas que SIEMPRE se piden a la red primero
