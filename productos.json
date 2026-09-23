@@ -1705,5 +1705,29 @@
    "Azul|18-19": 1
   },
   "talle": "18-19, 20-21"
+ },
+ {
+  "id": "GIO-0140",
+  "nombre": "Conjunto Cloud Vibes Rústico",
+  "cat": "Conjuntos",
+  "precio": 28000,
+  "stock": 5,
+  "desc": "Conjunto rústico celeste con estampa Cloud Vibes: buzo con cierre y pantalón con elástico.",
+  "talles": [
+   "0-3 meses",
+   "3-6 meses",
+   "6-11 meses",
+   "12-24 meses",
+   "36 meses"
+  ],
+  "img": "assets/products/conjunto-cloud-vibes-rustico.webp",
+  "stockVar": {
+   "|0-3 meses": 1,
+   "|3-6 meses": 1,
+   "|6-11 meses": 1,
+   "|12-24 meses": 1,
+   "|36 meses": 1
+  },
+  "talle": "0-3 meses, 3-6 meses, 6-11 meses, 12-24 meses, 36 meses"
  }
 ]
