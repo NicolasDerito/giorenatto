@@ -1670,5 +1670,39 @@
   ],
   "img": "assets/products/toallon-unisex.webp",
   "talle": "Único"
+ },
+ {
+  "id": "GIO-0139",
+  "nombre": "Medias Caminantes Antideslizantes",
+  "cat": "Medias",
+  "precio": 16500,
+  "stock": 5,
+  "desc": "Medias caminantes con suela antideslizante, para acompañar los primeros pasos. Elegí color y talle.",
+  "talles": [
+   "18-19",
+   "20-21"
+  ],
+  "colores": [
+   {
+    "nombre": "Rosa",
+    "foto": "assets/products/medias-caminantes-rosa.webp"
+   },
+   {
+    "nombre": "Verde",
+    "foto": "assets/products/medias-caminantes-verde.webp"
+   },
+   {
+    "nombre": "Azul",
+    "foto": "assets/products/medias-caminantes-azul.webp"
+   }
+  ],
+  "stockVar": {
+   "Rosa|18-19": 1,
+   "Rosa|20-21": 1,
+   "Verde|18-19": 1,
+   "Verde|20-21": 1,
+   "Azul|18-19": 1
+  },
+  "talle": "18-19, 20-21"
  }
 ]
