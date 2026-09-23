@@ -1855,5 +1855,77 @@
    "|5": 1
   },
   "talle": "0, 1, 2, 3, 4, 5"
+ },
+ {
+  "id": "GIO-0147",
+  "nombre": "Remera Cute",
+  "cat": "Remeras",
+  "precio": 12000,
+  "stock": 3,
+  "desc": "Remera blanca con estampa de cerezas.",
+  "talles": [
+   "0",
+   "1",
+   "2"
+  ],
+  "img": "assets/products/remera-cute.webp",
+  "stockVar": {
+   "|0": 1,
+   "|1": 1,
+   "|2": 1
+  },
+  "talle": "0, 1, 2"
+ },
+ {
+  "id": "GIO-0148",
+  "nombre": "Legging Moños",
+  "cat": "Pantalones",
+  "precio": 10000,
+  "stock": 2,
+  "desc": "Legging blanco con moños negros.",
+  "talles": [
+   "2",
+   "4"
+  ],
+  "img": "assets/products/legging-monos.webp",
+  "stockVar": {
+   "|2": 1,
+   "|4": 1
+  },
+  "talle": "2, 4"
+ },
+ {
+  "id": "GIO-0149",
+  "nombre": "Body Americano Animales",
+  "cat": "Bodies",
+  "precio": 12000,
+  "stock": 2,
+  "desc": "Body americano gris con estampa de animales.",
+  "talles": [
+   "1",
+   "2"
+  ],
+  "img": "assets/products/body-americano-animales.webp",
+  "stockVar": {
+   "|1": 1,
+   "|2": 1
+  },
+  "talle": "1, 2"
+ },
+ {
+  "id": "GIO-0150",
+  "nombre": "Body Flowers Azul",
+  "cat": "Bodies",
+  "precio": 13000,
+  "stock": 1,
+  "desc": "Body blanco con estampa de flores azules.",
+  "talles": [
+   "0-3 meses"
+  ],
+  "img": "assets/products/body-flowers-azul.webp",
+  "stockVar": {
+   "|0-3 meses": 1
+  },
+  "talle": "0-3 meses"
  }
 ]
