@@ -1927,5 +1927,41 @@
    "|0-3 meses": 1
   },
   "talle": "0-3 meses"
+ },
+ {
+  "id": "GIO-0151",
+  "nombre": "Vestido Flores Rosa",
+  "cat": "Vestidos",
+  "precio": 0,
+  "stock": 2,
+  "desc": "Vestido rosa con estampa de flores.",
+  "talles": [
+   "9-12M",
+   "36M"
+  ],
+  "img": "assets/products/vestido-flores-rosa.webp",
+  "stockVar": {
+   "|9-12M": 1,
+   "|36M": 1
+  },
+  "talle": "9-12M, 36M"
+ },
+ {
+  "id": "GIO-0152",
+  "nombre": "Vestido Flores Blanco",
+  "cat": "Vestidos",
+  "precio": 0,
+  "stock": 2,
+  "desc": "Vestido blanco con estampa de flores.",
+  "talles": [
+   "9-12M",
+   "36M"
+  ],
+  "img": "assets/products/vestido-flores-blanco.webp",
+  "stockVar": {
+   "|9-12M": 1,
+   "|36M": 1
+  },
+  "talle": "9-12M, 36M"
  }
 ]
