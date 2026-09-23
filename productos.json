@@ -1963,5 +1963,101 @@
    "|36M": 1
   },
   "talle": "9-12M, 36M"
+ },
+ {
+  "id": "GIO-0153",
+  "nombre": "Body Mariposas Lila",
+  "cat": "Bodies",
+  "precio": 13000,
+  "stock": 1,
+  "desc": "Body lila con estampa de mariposas.",
+  "talles": [
+   "2"
+  ],
+  "img": "assets/products/body-mariposas-lila.webp",
+  "stockVar": {
+   "|2": 1
+  },
+  "talle": "2"
+ },
+ {
+  "id": "GIO-0154",
+  "nombre": "Body Estrellas",
+  "cat": "Bodies",
+  "precio": 13000,
+  "stock": 1,
+  "desc": "Body azul con estampa de estrellas.",
+  "talles": [
+   "9-11 meses"
+  ],
+  "img": "assets/products/body-estrellas.webp",
+  "stockVar": {
+   "|9-11 meses": 1
+  },
+  "talle": "9-11 meses"
+ },
+ {
+  "id": "GIO-0155",
+  "nombre": "Body Rosa Cerezas",
+  "cat": "Bodies",
+  "precio": 12000,
+  "stock": 1,
+  "desc": "Body rosa con estampa de cerezas.",
+  "talles": [
+   "12-18 meses"
+  ],
+  "img": "assets/products/body-rosa-cerezas.webp",
+  "stockVar": {
+   "|12-18 meses": 1
+  },
+  "talle": "12-18 meses"
+ },
+ {
+  "id": "GIO-0156",
+  "nombre": "Body Morley Celeste",
+  "cat": "Bodies",
+  "precio": 12000,
+  "stock": 1,
+  "desc": "Body celeste con estampa de animales.",
+  "talles": [
+   "6-9 meses"
+  ],
+  "img": "assets/products/body-morley-celeste.webp",
+  "stockVar": {
+   "|6-9 meses": 1
+  },
+  "talle": "6-9 meses"
+ },
+ {
+  "id": "GIO-0157",
+  "nombre": "Body Verde Selva",
+  "cat": "Bodies",
+  "precio": 12000,
+  "stock": 1,
+  "desc": "Body verde con estampa de animales.",
+  "talles": [
+   "12-18 meses"
+  ],
+  "img": "assets/products/body-verde-selva.webp",
+  "stockVar": {
+   "|12-18 meses": 1
+  },
+  "talle": "12-18 meses"
+ },
+ {
+  "id": "GIO-0158",
+  "nombre": "Legging Celeste Ositos",
+  "cat": "Pantalones",
+  "precio": 10000,
+  "stock": 1,
+  "desc": "Legging celeste con estampa de ositos.",
+  "talles": [
+   "9-11 meses"
+  ],
+  "img": "assets/products/legging-celeste-ositos.webp",
+  "stockVar": {
+   "|9-11 meses": 1
+  },
+  "talle": "9-11 meses"
  }
 ]
