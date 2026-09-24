@@ -662,6 +662,14 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 .rel-item img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:10px;background:var(--papel-2)}
 .rel-item b{font-size:.72rem;font-weight:700;color:var(--tinta-2);line-height:1.25;display:block;max-height:2.5em;overflow:hidden}
 .rel-item span{font-size:.8rem;font-weight:800;color:var(--oso-deep)}
+/* Franja "quiénes somos": prueba social con los datos reales de la tienda */
+.familia{margin-block:clamp(26px,4vw,50px)}
+.familia-caja{background:var(--papel-2);border:1px solid var(--linea);border-radius:var(--r-lg);padding:clamp(18px,2.6vw,30px);text-align:center}
+.familia-kicker{font-size:.7rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--salvia-deep);margin:0 0 6px}
+.familia-txt{font-family:var(--display);font-size:clamp(1.05rem,2.1vw,1.5rem);line-height:1.35;color:var(--tinta);margin:0 auto;max-width:46ch}
+.familia-pie{display:flex;gap:8px 18px;flex-wrap:wrap;justify-content:center;align-items:center;margin-top:12px;font-size:.85rem;color:var(--tinta-2)}
+.familia-pie a{font-weight:800;color:var(--oso-deep);text-decoration:none;border-bottom:1.5px solid var(--oso)}
+.familia-pie a:hover{color:var(--tinta)}
 </style>
 </head>
 <body>
@@ -764,6 +772,18 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
     <span>Algodón hipoalergénico</span><span>Envíos a todo el país</span><span>Cambios en 15 días</span><span>Retiro sin cargo en el local</span><span>Mercado Pago o transferencia</span><span>Viernes a domingo 10-20 hs</span>
   </div>
 </div>
+
+<!-- ══ quiénes somos (datos reales de nosotros.html) ══ -->
+<section class="familia envoltura" id="familia">
+  <div class="familia-caja">
+    <p class="familia-kicker">Hecho por una familia</p>
+    <p class="familia-txt">Detrás de Giorenatto hay una familia, un sueño y una inspiración muy especial: <b>nuestro Gio</b>.</p>
+    <div class="familia-pie">
+      <span>🧸 Ropa de bebé y primera infancia, hecha con amor · Quilmes, Buenos Aires</span>
+      <a href="nosotros.html">Conocé nuestra historia →</a>
+    </div>
+  </div>
+</section>
 
 <!-- ══ destacados (numerados) ══ -->
 <section class="section destacados" id="destacados">
@@ -3100,7 +3120,7 @@ function cardHTML(p,fav){
   const img=p.img?`<img class="thumb-img" src="${esc(p.img)}" alt="${esc(p.nombre)}" loading="lazy" decoding="async">`:(p.colores?`<img class="thumb-img" src="${esc(p.colores[0].foto)}" alt="${esc(p.nombre)}" loading="lazy" decoding="async">`:ICONOS[p.cat]||"🧸");
   const COLOR_HEX={rosa:'#f2b8c6',celeste:'#a8d8ea',blanco:'#f7f4ef',azul:'#8db3d9',verde:'#b5cc9e','verde oliva':'#a9a083',bordo:'#8e3b3b',gris:'#b9b4ac',crudo:'#ede3d0',beige:'#e8dcc5',amarillo:'#f4d67a',naranja:'#f2a65a',lila:'#c9b8e0',negro:'#3a3a3a'};
   const precio=p.precio>0?`<span class="precio">${fmt(p.precio)}</span>`:`<span class="precio consult">Consultar</span>`;
-  return `<div class="card" data-id="${esc(p.id)}" onclick="abrirModal('${esc(p.id)}')">
+  return `<div class="card" data-id="${esc(p.id)}" tabindex="0" role="button" aria-label="Ver ficha de ${esc(p.nombre)}" onclick="abrirModal('${esc(p.id)}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();abrirModal('${esc(p.id)}')}">
     <div class="glare"></div>
     <div class="thumb">${img}
       ${stockTag}
