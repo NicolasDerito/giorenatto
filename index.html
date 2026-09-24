@@ -651,6 +651,17 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
   .cart-btn{padding:10px 12px}
   .acciones{gap:6px}
 }
+/* Riel "Combiná con": la 2da prenda es la que deja margen (el envío ya está pago por pedido) */
+.modal-rel{margin-top:16px;border-top:1px dashed var(--linea);padding-top:14px}
+.modal-rel-t{font-family:var(--display);font-weight:600;font-size:1rem;color:var(--tinta);margin-bottom:9px}
+.modal-rel-t span{font-family:var(--texto);font-size:.76rem;font-weight:700;color:var(--salvia-deep)}
+.modal-rel-l{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.modal-rel-l::-webkit-scrollbar{display:none}
+.rel-item{flex:0 0 104px;border:1px solid var(--linea);background:var(--sup);border-radius:14px;padding:6px;cursor:pointer;text-align:left;font-family:var(--texto);display:flex;flex-direction:column;gap:4px;transition:transform .2s var(--ease),border-color .2s}
+.rel-item:hover{transform:translateY(-2px);border-color:var(--oso)}
+.rel-item img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:10px;background:var(--papel-2)}
+.rel-item b{font-size:.72rem;font-weight:700;color:var(--tinta-2);line-height:1.25;display:block;max-height:2.5em;overflow:hidden}
+.rel-item span{font-size:.8rem;font-weight:800;color:var(--oso-deep)}
 </style>
 </head>
 <body>
@@ -3162,6 +3173,17 @@ function abrirModal(id){
     const disp=!p.stockVar||p.stockVar[colorSel+"|"+t]>0;
     return `<button class="talle-btn ios-press ${i===ti?'on':''} ${disp?'':'off'}" onclick="elegirTalle('${esc(p.id)}',${i})" ${disp?'':'disabled'}>${esc(t)}</button>`;
   }).join("")}</div></div>`:"";
+  // Combiná con: misma categoría, con stock, del más barato al más caro (la 2da prenda es puro margen)
+  const rel=PRODUCTOS.filter(function(q){return q.id!==p.id&&q.cat===p.cat&&Number(q.precio)>0&&stockTotal(q)>0;}).sort(function(a,b){return a.precio-b.precio;}).slice(0,4);
+  let relHTML="";
+  if(rel.length){
+    relHTML='<div class="modal-rel"><div class="modal-rel-t">Combiná con <span>· el envío te sale lo mismo</span></div><div class="modal-rel-l">';
+    for(const q of rel){
+      const frel=(q.colores&&q.colores.length)?q.colores[0].foto:(q.img||"");
+      relHTML+='<button type="button" class="rel-item" onclick="abrirModal('+String.fromCharCode(39)+esc(q.id)+String.fromCharCode(39)+')">'+(frel?('<img src="'+esc(frel)+'" alt="" loading="lazy" decoding="async">'):(ICONOS[q.cat]||"&#129528;"))+'<b>'+esc(q.nombre)+'</b><span>'+fmt(q.precio)+'</span></button>';
+    }
+    relHTML+='</div></div>';
+  }
   document.getElementById("modalBox").innerHTML=`
     <button class="modal-close" onclick="cerrarModal()" aria-label="Cerrar">×</button>
     <div class="modal-img">${img}${stockTag}</div>
@@ -3181,6 +3203,7 @@ function abrirModal(id){
         <button type="button" class="modal-sec" onclick="waConsulta()">💬 Preguntar por WhatsApp</button>
       </div>
       <button class="modal-add ios-press" id="modalAdd" onclick="agregarDesdeModal('${esc(p.id)}',this)" ${(sinStock||agotado)?'disabled':''}>${sinStock?'Sin stock en ese color y talle':(agotado?'Ya tenés todo el stock en el carrito':'Agregar al carrito')}</button>
+      ${relHTML}
     </div>`;
   const ov=document.getElementById("modalOv");
   ultimoFoco=document.activeElement; // a11y: restaurar foco al cerrar
