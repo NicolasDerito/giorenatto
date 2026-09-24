@@ -3448,7 +3448,17 @@ function actualizarShipProgress(subtotal){
   const el=document.getElementById("shipProgress");if(!el)return;
   if(entrega!=='envio'||subtotal<=0){el.className="ship-progress";el.textContent="";return;}
   if(subtotal>=ENVIO_GRATIS_DESDE){el.className="ship-progress show ok";el.textContent="🎉 ¡Tenés envío gratis!";}
-  else{el.className="ship-progress show";el.textContent="🚚 Envío gratis desde "+fmt(ENVIO_GRATIS_DESDE)+" · te faltan "+fmt(ENVIO_GRATIS_DESDE-subtotal)+" para llegar";}
+  else{
+    const faltan=ENVIO_GRATIS_DESDE-subtotal;
+    // Traducir los pesos a prendas (precio mediano real del catálogo): "$35.100" no le dice nada a nadie
+    const precios=PRODUCTOS.map(p=>Number(p.precio)||0).filter(v=>v>0).sort((a,b)=>a-b);
+    const med=precios.length?precios[Math.floor(precios.length/2)]:14900;
+    const n=Math.max(1,Math.ceil(faltan/med));
+    el.className="ship-progress show";
+    el.textContent=(n<=3)
+      ?("🚚 Te faltan "+n+(n===1?" prenda":" prendas")+" para el envío gratis ("+fmt(faltan)+")")
+      :("🏠 Retiro sin cargo en el local (Quilmes) · envío gratis desde "+fmt(ENVIO_GRATIS_DESDE));
+  }
 }
 function pintarTotal(subtotal){
   sincronizarCupon(subtotal);
