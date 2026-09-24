@@ -3,7 +3,7 @@
 // caché solo si no hay internet). Fotos, logo y manifest siguen cache-first porque no cambian.
 // IMPORTANTE: cada vez que subas cambios a index.html/sw.js, subí el número de CACHE (v3, v4…)
 // para que los celus que ya instalaron la app pisen la versión vieja.
-const CACHE = "giorenatto-v46"; // v46: fotos 4:5, tarjetas por teclado, franja de la familia
+const CACHE = "giorenatto-v47"; // v47: promo 2ª prenda -15% (automatica, no se acumula con cupon)
 const CORE = ["/", "/index.html", "/nosotros.html", "/404.html", "/logo.webp", "/logo-192.png", "/logo-512.png", "/manifest.webmanifest"];
 
 // Rutas que SIEMPRE se piden a la red primero

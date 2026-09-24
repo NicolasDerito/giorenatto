@@ -928,13 +928,14 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
   </div>
   </div>
   <div class="drawer-foot">
-    <div class="trust-row" aria-label="Información de compra"><span>🚚 Envío gratis desde $60.000</span><span>📦 Envíos a todo el país</span><span>🔁 Cambios hasta 15 días</span></div>
+    <div class="trust-row" aria-label="Información de compra"><span>🚚 Envío gratis desde $60.000</span><span>🎁 2ª prenda −15%</span><span>📦 Envíos a todo el país</span><span>🔁 Cambios hasta 15 días</span></div>
     <div class="cupon-row" id="cuponRow"><input id="cuponInput" type="text" placeholder="¿Tenés un cupón?" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Código de cupón"><button type="button" class="cupon-btn ios-press" id="cuponBtn" onclick="aplicarCupon()">Aplicar</button></div>
     <div class="cupon-aplicado" id="cuponAplicado"><b id="cuponAplicadoTxt"></b><button type="button" onclick="quitarCupon()">Quitar</button></div>
     <div class="cupon-msg" id="cuponMsg" role="status" aria-live="polite"></div>
     <div class="ship-progress" id="shipProgress" role="status" aria-live="polite"></div>
     <div class="sub-row" id="subRow" style="display:flex;justify-content:space-between;font-size:.85rem;color:var(--ink-3);margin-bottom:3px"><span>Subtotal</span><span id="subtotal">$0</span></div>
     <div class="sub-row" id="cuponLine" style="display:none;justify-content:space-between;font-size:.85rem;color:var(--ink-3);margin-bottom:3px"><span id="cuponLbl">Cupón</span><span id="cuponTx" style="color:var(--salvia-deep);font-weight:800"></span></div>
+    <div class="sub-row" id="packLine" style="display:none;justify-content:space-between;font-size:.85rem;color:var(--ink-3);margin-bottom:3px"><span id="packLbl">2ª prenda −15%</span><span id="packTx" style="color:var(--salvia-deep);font-weight:800"></span></div>
     <div class="sub-row" id="envioRow" style="display:none;justify-content:space-between;font-size:.85rem;color:var(--ink-3);margin-bottom:3px"><span id="envioLbl">Envío</span><span id="envioTx"></span></div>
     <div class="total-row"><span class="lbl">Total</span><span class="val" id="total">$0</span></div>
     <div class="drawer-status" id="drawerStatus" role="status" aria-live="polite"></div>
@@ -3321,8 +3322,8 @@ function actualizar(){
   if(count>prev){badge.classList.remove("pop");void badge.offsetWidth;badge.classList.add("pop");if(badgeF){badgeF.classList.remove("pop");void badgeF.offsetWidth;badgeF.classList.add("pop");}const cb=document.querySelector(".cart-btn");cb.classList.remove("bump");void cb.offsetWidth;cb.classList.add("bump");}
   document.getElementById("subtotal").textContent=subtotal>0?fmt(subtotal):"$0";
   sincronizarCupon(subtotal);
-  const descCupon=cuponDescuento(subtotal);
-  const totalEl=document.getElementById("total");totalEl.textContent=subtotal>0?fmt(Math.max(0,subtotal-descCupon)+(entrega==='envio'?costoEnvio:0)):"Consultar";
+  const descAplicado=descuentoVigente(subtotal);
+  const totalEl=document.getElementById("total");totalEl.textContent=subtotal>0?fmt(Math.max(0,subtotal-descAplicado)+(entrega==='envio'?costoEnvio:0)):"Consultar";
   document.getElementById("checkout").disabled=count===0;const mpBtn=document.getElementById("mp-btn");mpBtn.disabled=count===0||subtotal===0;mpBtn.style.display=(BACKEND_URL||MP_LINK)?"":"none";
   recalcularEnvio();
   actualizarPaso();
@@ -3338,6 +3339,40 @@ let costoEnvio=0;let envioGratis=false;let envioZona=''; // estado del envío ca
 // ---- Cupones de descuento (el % SIEMPRE lo valida el backend, nunca la web) ----
 let cupon=null; // {codigo, porcentaje, descuento, minimo}
 function cuponDescuento(subtotal){return cupon?Math.round(subtotal*cupon.porcentaje/100):0;}
+// ---- Promo "2ª prenda al 15%" (misma regla que /api/preference) ----
+// La 2ª de cada par (la más barata del par) sale 15% menos. No alcanza a los
+// juguetes y NO se acumula con el cupón: si hay cupón aplicado, corre el cupón.
+const PROMO2DA_PORC=15;
+const PROMO2DA_EXCLUIDAS=["Juguetes"];
+function descuento2daPrenda(){
+  const precios=[];
+  Object.values(carrito).forEach(i=>{
+    if(PROMO2DA_EXCLUIDAS.indexOf(i.producto.cat)>=0)return;
+    const p=Number(i.producto.precio)||0;if(!(p>0))return;
+    for(let k=0;k<i.cantidad;k++)precios.push(p);
+  });
+  precios.sort((a,b)=>b-a);
+  let d=0;for(let i=1;i<precios.length;i+=2)d+=Math.round(precios[i]*PROMO2DA_PORC/100);
+  return d;
+}
+// Lo que descuenta el carrito: el cupón manda; sin cupón corre la promo.
+function descuentoVigente(subtotal){
+  if(cupon){const d=cuponDescuento(subtotal);if(d>0)return d;}
+  return descuento2daPrenda();
+}
+function pintarPromoUI(){
+  const linea=document.getElementById("packLine");
+  if(!linea)return;
+  const sub=Object.values(carrito).reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
+  const usaCupon=!!(cupon&&cuponDescuento(sub)>0);
+  const dPack=descuento2daPrenda();
+  if(!usaCupon&&dPack>0){
+    linea.style.display="flex";
+    const l=document.getElementById("packLbl"),x=document.getElementById("packTx");
+    if(l)l.textContent="2ª prenda −"+PROMO2DA_PORC+"%";
+    if(x)x.textContent="−"+fmt(dPack);
+  }else linea.style.display="none";
+}
 function cuponAviso(txt,tipo){
   const m=document.getElementById("cuponMsg");if(!m)return;
   m.className="cupon-msg"+(txt?(" show"+(tipo?(" "+tipo):"")):"");
@@ -3359,6 +3394,7 @@ function pintarCuponUI(){
       if(x)x.textContent="−"+fmt(cupon.descuento||0);
     }else linea.style.display="none";
   }
+  pintarPromoUI();
 }
 function sincronizarCupon(subtotal){
   if(cupon){
@@ -3582,15 +3618,16 @@ function finalizar(){
   const {datos}=chk;
   const total=items.reduce((s,i)=>s+i.cantidad*i.producto.precio,0);
   const NL="\n";
-  const descCupon=cuponDescuento(total);
+  const descAplicado=descuentoVigente(total);
   // El envío viaja SIEMPRE en el mensaje: el local tiene que ver el mismo total que vio la clienta
   const llevaEnvio=(typeof entrega!=="undefined"&&entrega==="envio");
   const envioMonto=llevaEnvio?(envioGratis?0:(costoEnvio||0)):0;
   const envioAConfirmar=(llevaEnvio&&!envioGratis&&!(costoEnvio>0));
-  const totalFinal=Math.max(0,total-descCupon)+envioMonto;
+  const totalFinal=Math.max(0,total-descAplicado)+envioMonto;
   let msg="¡Hola Giorenatto! 🐻 Quiero hacer este pedido:"+NL+NL;
   items.forEach(i=>{const importe=i.producto.precio>0?fmt(i.producto.precio*i.cantidad):"Consultar";msg+=`• ${i.cantidad}x ${i.producto.nombre}${i.color?(' · '+i.color):''}${i.talle?(' (Talle '+i.talle+')'):''} — ${importe}`+NL;});
-  if(cupon&&descCupon>0)msg+=`*Cupón ${cupon.codigo}:* −${fmt(descCupon)} (−${cupon.porcentaje}%)`+NL;
+  if(cupon&&descAplicado>0)msg+=`*Cupón ${cupon.codigo}:* −${fmt(descAplicado)} (−${cupon.porcentaje}%)`+NL;
+  else if(!cupon&&descAplicado>0)msg+=`*2ª prenda −${PROMO2DA_PORC}%:* −${fmt(descAplicado)}`+NL;
   if(llevaEnvio)msg+=`*Envío:* ${envioGratis?'GRATIS 🎉':(costoEnvio>0?fmt(costoEnvio):'A confirmar por WhatsApp')}${envioZona?(' · '+envioZona):''}`+NL;
   msg+=NL+`*Total: ${total>0?(fmt(totalFinal)+(envioAConfirmar?' + envío a confirmar':'')):"Consultar"}*`+NL+NL;
   msg+=`*Entrega:* ${datos.entrega==='envio'?'🚚 Envío':'🏠 Retiro'}`+NL;
