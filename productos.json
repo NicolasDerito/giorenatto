@@ -1117,7 +1117,7 @@
   "nombre": "Buzo Rústico Florcitas Rosa",
   "cat": "Buzos",
   "precio": 16900,
-  "stock": 3,
+  "stock": 2,
   "desc": "Buzo rústico rosa con estampa de florcitas, algodón suave.",
   "talles": [
    "12-18 meses",
@@ -1128,7 +1128,7 @@
   "stockVar": {
    "|12-18 meses": 1,
    "|24 meses": 1,
-   "|36 meses": 1
+   "|36 meses": 0
   },
   "talle": "12-18 meses, 24 meses, 36 meses"
  },
