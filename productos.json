@@ -964,7 +964,7 @@
   "cat": "Pijamas",
   "talle": "6",
   "precio": 22500,
-  "stock": 1,
+  "stock": 0,
   "desc": "Pijama de elefante rosa. Algodón suave, talle bebé.",
   "img": "assets/products/pijama-elefante-rosa.webp"
  },
