@@ -1137,7 +1137,7 @@
   "nombre": "Buzo Rústico Elefante Oliva",
   "cat": "Buzos",
   "precio": 19900,
-  "stock": 2,
+  "stock": 1,
   "desc": "Buzo rústico oliva con estampa de elefante, algodón suave.",
   "talles": [
    "12 meses",
@@ -1148,7 +1148,7 @@
   "stockVar": {
    "|12 meses": 0,
    "|18 meses": 1,
-   "|36 meses": 1
+   "|36 meses": 0
   },
   "talle": "12 meses, 18 meses, 36 meses"
  },
