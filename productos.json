@@ -1933,7 +1933,7 @@
   "nombre": "Vestido Flores Rosa",
   "cat": "Vestidos",
   "precio": 0,
-  "stock": 2,
+  "stock": 1,
   "desc": "Vestido rosa con estampa de flores.",
   "talles": [
    "9-12M",
@@ -1942,7 +1942,7 @@
   "img": "assets/products/vestido-flores-rosa.webp",
   "stockVar": {
    "|9-12M": 1,
-   "|36M": 1
+   "|36M": 0
   },
   "talle": "9-12M, 36M"
  },
