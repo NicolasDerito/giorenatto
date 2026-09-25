@@ -635,7 +635,7 @@
   "nombre": "Conjunto Flowers Gris",
   "cat": "Conjuntos",
   "precio": 24900,
-  "stock": 2,
+  "stock": 1,
   "desc": "Conjunto gris con estampa de flores, algodón suave.",
   "talles": [
    "12-18 meses",
@@ -644,7 +644,7 @@
   "img": "assets/products/conjunto-flowers-gris.webp",
   "stockVar": {
    "|12-18 meses": 1,
-   "|36 meses": 1
+   "|36 meses": 0
   },
   "talle": "12-18 meses, 36 meses"
  },
