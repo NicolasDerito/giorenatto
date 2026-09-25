@@ -387,14 +387,14 @@
   "nombre": "Remera Selva",
   "cat": "Remeras",
   "precio": 10900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Remera con estampa de selva, algodón suave.",
   "talles": [
    "36 meses"
   ],
   "img": "assets/products/remera-selva.webp",
   "stockVar": {
-   "|36 meses": 1
+   "|36 meses": 0
   },
   "talle": "36 meses"
  },
