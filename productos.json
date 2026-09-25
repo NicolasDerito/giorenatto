@@ -615,7 +615,7 @@
   "nombre": "Conjunto Flowers Rosa",
   "cat": "Conjuntos",
   "precio": 24900,
-  "stock": 3,
+  "stock": 2,
   "desc": "Conjunto rosa con estampa de flores, algodón suave.",
   "talles": [
    "6-9 meses",
@@ -626,7 +626,7 @@
   "stockVar": {
    "|6-9 meses": 1,
    "|14 meses": 1,
-   "|35 meses": 1
+   "|35 meses": 0
   },
   "talle": "6-9 meses, 14 meses, 35 meses"
  },
