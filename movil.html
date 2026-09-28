@@ -104,6 +104,16 @@
   .venta .acc button{flex:1;padding:9px;border-radius:9px;border:0;font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer}
   .b-editar{background:var(--verde-claro);color:var(--verde)}
   .b-borrar{background:#f3e6e4;color:var(--rojo)}
+  /* ---------- costos ---------- */
+  .costo{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--borde);border-radius:12px;padding:9px 11px;margin-bottom:8px}
+  .costo .n{flex:1;min-width:0;font-size:.92rem;line-height:1.25}
+  .costo .n span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .costo .n small{display:block;color:var(--gris);font-size:.74rem;margin-top:2px}
+  .costo input{width:108px;flex:0 0 auto;padding:9px;font-size:16px;border:1px solid var(--borde);border-radius:9px;text-align:right;font-family:inherit;color:var(--tinta);background:#fff}
+  .costo input:focus{outline:2px solid var(--verde);border-color:var(--verde)}
+  .costo.falta{background:#fdf7f6;border-color:#f0d9d5}
+  .aviso-costo{color:var(--gris);font-size:.78rem;margin-top:6px;line-height:1.4}
+  .aviso-costo.malo{color:var(--rojo)}
   /* ---------- modal ---------- */
   .modal{position:fixed;inset:0;background:rgba(28,36,26,.5);display:flex;align-items:flex-end;z-index:50}
   .modal .hoja{background:#fff;width:100%;border-radius:20px 20px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom))}
@@ -147,14 +157,15 @@
     <div class="tabs">
       <button class="tab activo" id="tabStock">Stock</button>
       <button class="tab" id="tabVentas">💰 Ventas</button>
-    </div>
-    <input id="buscar" type="search" placeholder="Buscar prenda…" autocomplete="off">
+      <button class="tab" id="tabCostos">💲 Costos</button>
+      <input id="buscar" type="search" placeholder="Buscar prenda…" autocomplete="off">
   </header>
   <main id="lista"></main>
   <div class="nota" id="notaStock">Tocá <strong>“Se vendió”</strong> cuando salga algo del local.<br>Se descuenta acá y en Mercado Libre.</div>
 
   <div id="paneVentas" hidden>
     <div class="resumen" id="resumen"></div>
+    <button class="btn btn-claro" id="btnIrCostos" style="margin-bottom:12px">💲 Cargar los costos de las prendas</button>
     <div class="form">
       <h2>Registrar una venta</h2>
       <div class="campo"><label>Prenda</label><select id="vProducto"></select></div>
@@ -169,6 +180,12 @@
       <div class="error" id="errVenta"></div>
     </div>
     <div id="listaVentas"></div>
+  </div>
+
+  <div id="paneCostos" hidden>
+    <div class="resumen" id="resumenCostos"></div>
+    <input id="buscarCosto" type="search" placeholder="Buscar prenda…" autocomplete="off" style="margin-bottom:12px">
+    <div id="listaCostos"></div>
   </div>
 </div>
 
@@ -359,7 +376,7 @@
   }
 
   // ---------- ventas (plata del día) ----------
-  var resumenDia = null, costos = {}, alquiler = 38000, verVentas = false;
+  var resumenDia = null, costos = {}, alquiler = 38000, verTab = "stock";
 
   function dinero(n){
     return "$" + (Math.round(Number(n) || 0)).toLocaleString("es-AR");
@@ -500,27 +517,97 @@
   }
 
   function mostrarTab(cual){
-    verVentas = (cual === "ventas");
-    $("tabStock").className = "tab" + (verVentas ? "" : " activo");
-    $("tabVentas").className = "tab" + (verVentas ? " activo" : "");
-    $("tituloApp").textContent = verVentas ? "Ventas" : "Stock";
-    $("buscar").hidden = verVentas;
-    $("lista").hidden = verVentas;
-    $("notaStock").hidden = verVentas;
-    $("paneVentas").hidden = !verVentas;
-    if(verVentas){
+    verTab = cual;
+    $("tabStock").className = "tab" + (cual === "stock" ? " activo" : "");
+    $("tabVentas").className = "tab" + (cual === "ventas" ? " activo" : "");
+    $("tabCostos").className = "tab" + (cual === "costos" ? " activo" : "");
+    $("tituloApp").textContent = (cual === "ventas") ? "Ventas" : (cual === "costos" ? "Costos" : "Stock");
+    var esStock = (cual === "stock");
+    $("buscar").hidden = !esStock;
+    $("lista").hidden = !esStock;
+    $("notaStock").hidden = !esStock;
+    $("paneVentas").hidden = (cual !== "ventas");
+    $("paneCostos").hidden = (cual !== "costos");
+    if(cual === "ventas"){
       if(!productos.length) cargar(); else llenarProductos();
       cargarVentas();
+    } else if(cual === "costos"){
+      if(!productos.length) cargar(); else pintarCostos();
     }
   }
+
+  // ---------- costos (una sola vez por prenda) ----------
+  var filtroCosto = "";
+
+  function faltanCostos(){
+    return productos.filter(function(p){ var c = costos[p.id]; return !(c && Number(c.costo) > 0); }).length;
+  }
+
+  function pintarCostos(){
+    var q = filtroCosto.trim().toLowerCase();
+    var lista = productos.filter(function(p){
+      if(!q) return true;
+      return (p.nombre || "").toLowerCase().indexOf(q) >= 0 || (p.id || "").toLowerCase().indexOf(q) >= 0;
+    });
+    var faltan = faltanCostos();
+    var cargados = productos.length - faltan;
+    $("resumenCostos").innerHTML = ''
+      + '<h2>Costos de las prendas</h2>'
+      + '<div class="fecha">Se cargan una sola vez. Con eso, cada venta te calcula la ganancia sola.</div>'
+      + '<div class="fila"><span>Cargados</span><b>' + cargados + ' de ' + productos.length + '</b></div>'
+      + (faltan ? '<div class="fila"><span>Faltan</span><b class="neto malo">' + faltan + '</b></div>' : '<div class="fila"><span>Estado</span><b class="neto bien">Están todos ✓</b></div>');
+    if(!lista.length){ $("listaCostos").innerHTML = '<div class="vacio">No encontré nada con “' + esc(filtroCosto) + '”.</div>'; return; }
+    $("listaCostos").innerHTML = lista.map(function(p){
+      var c = costos[p.id];
+      var v = (c && Number(c.costo) > 0) ? c.costo : "";
+      return '<div class="costo' + (v ? '' : ' falta') + '" data-id="' + esc(p.id) + '">'
+        + '<div class="n"><span>' + esc(p.nombre) + '</span><small>' + esc(p.id) + (p.precio ? ' · se vende ' + dinero(p.precio) : '') + '</small></div>'
+        + '<input type="number" inputmode="numeric" min="0" placeholder="costo" value="' + esc(v) + '">'
+        + '</div>';
+    }).join("");
+  }
+
+  function guardarCosto(el){
+    var fila = el.parentNode;
+    if(!fila) return;
+    var id = fila.getAttribute("data-id");
+    var p = productos.filter(function(x){ return x.id === id; })[0];
+    var valor = Number(el.value) || 0;
+    fetch(API + "/api/stock/ventas", {
+      method: "POST", headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ action: "costo", token: token(), id: id, nombre: p ? p.nombre : "", costo: valor })
+    }).then(function(r){ return r.json(); })
+      .then(function(j){
+        if(!j || !j.ok){ toast((j && j.error) || "No pude guardar el costo", true); return; }
+        costos = j.costos || costos;
+        fila.className = "costo" + (valor > 0 ? "" : " falta");
+        var faltan = faltanCostos();
+        var rc = $("resumenCostos");
+        if(rc){
+          var partes = rc.querySelectorAll(".fila b");
+          if(partes[0]) partes[0].textContent = (productos.length - faltan) + " de " + productos.length;
+          if(partes[1]) partes[1].textContent = faltan;
+        }
+        toast(valor > 0 ? "Costo guardado ✓" : "Costo borrado");
+      })
+      .catch(function(){ toast("Sin conexión", true); });
+  }
+
+  // ---------- eventos ----------
 
   // ---------- eventos ----------
   $("btnEntrar").addEventListener("click", entrar);
   $("clave").addEventListener("keydown", function(e){ if(e.key === "Enter") entrar(); });
   $("btnSalir").addEventListener("click", cerrarSesion);
-  $("btnRefrescar").addEventListener("click", function(){ if(verVentas){ cargarVentas(); } else { cargar(); } });
+  $("btnRefrescar").addEventListener("click", function(){ if(verTab === "ventas"){ cargarVentas(); } else if(verTab === "costos"){ pintarCostos(); } else { cargar(); } });
   $("tabStock").addEventListener("click", function(){ mostrarTab("stock"); });
   $("tabVentas").addEventListener("click", function(){ mostrarTab("ventas"); });
+  $("tabCostos").addEventListener("click", function(){ mostrarTab("costos"); });
+  $("btnIrCostos").addEventListener("click", function(){ mostrarTab("costos"); });
+  $("buscarCosto").addEventListener("input", function(e){ filtroCosto = e.target.value; pintarCostos(); });
+  $("listaCostos").addEventListener("change", function(e){
+    if(e.target.tagName === "INPUT") guardarCosto(e.target);
+  });
   $("vProducto").addEventListener("change", llenarTalles);
   $("btnVenta").addEventListener("click", registrarVenta);
   $("listaVentas").addEventListener("click", function(e){
