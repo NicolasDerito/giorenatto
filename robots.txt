@@ -4,5 +4,6 @@ Allow: /
 Disallow: /admin.html
 Disallow: /cupones.html
 Disallow: /movil.html
+Disallow: /caja.html
 
 Sitemap: https://giorenatto.com.ar/sitemap.xml
