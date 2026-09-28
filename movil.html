@@ -76,6 +76,34 @@
   .btn-baja[disabled]{background:#e6e8e2;color:#9aa396}
   .vacio{color:var(--gris);text-align:center;padding:40px 20px;font-size:.95rem}
   .nota{color:var(--gris);font-size:.78rem;text-align:center;padding:0 20px 30px;line-height:1.5}
+  /* ---------- pestañas ---------- */
+  .tabs{display:flex;gap:6px;margin-bottom:10px;background:#eceee8;padding:4px;border-radius:12px}
+  .tab{flex:1;padding:10px;border:0;border-radius:9px;background:none;font-family:inherit;font-size:.95rem;font-weight:600;color:var(--gris);cursor:pointer}
+  .tab.activo{background:#fff;color:var(--verde);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+  /* ---------- ventas ---------- */
+  #paneVentas{padding:12px 14px 40px}
+  .resumen,.form{background:#fff;border:1px solid var(--borde);border-radius:16px;padding:14px;margin-bottom:12px}
+  .resumen h2,.form h2{margin:0 0 2px;font-size:1rem}
+  .resumen .fecha{color:var(--gris);font-size:.8rem;margin-bottom:10px}
+  .fila{display:flex;justify-content:space-between;padding:5px 0;font-size:.95rem}
+  .fila span:first-child{color:var(--gris)}
+  .fila b{font-weight:700}
+  .fila.grande{border-top:1px solid var(--borde);margin-top:6px;padding-top:9px;font-size:1.05rem}
+  .neto.malo{color:var(--rojo)} .neto.bien{color:var(--verde)}
+  .campo{margin-bottom:10px}
+  .campo label{display:block;font-size:.78rem;color:var(--gris);margin-bottom:4px;text-transform:uppercase;letter-spacing:.03em}
+  .campo input,.campo select{width:100%;padding:12px;font-size:16px;border:1px solid var(--borde);border-radius:11px;background:#fff;color:var(--tinta);font-family:inherit}
+  .campo input:focus,.campo select:focus{outline:2px solid var(--verde);border-color:var(--verde)}
+  .dos{display:flex;gap:10px} .dos .campo{flex:1}
+  .check{display:flex;align-items:center;gap:9px;font-size:.88rem;color:var(--tinta);margin:2px 0 12px;line-height:1.3}
+  .check input{width:20px;height:20px;flex:0 0 auto}
+  .venta{background:#fff;border:1px solid var(--borde);border-radius:14px;padding:11px 12px;margin-bottom:9px}
+  .venta .t{font-weight:600;font-size:.95rem;margin-bottom:3px}
+  .venta .d{color:var(--gris);font-size:.82rem;margin-bottom:8px}
+  .venta .acc{display:flex;gap:8px}
+  .venta .acc button{flex:1;padding:9px;border-radius:9px;border:0;font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer}
+  .b-editar{background:var(--verde-claro);color:var(--verde)}
+  .b-borrar{background:#f3e6e4;color:var(--rojo)}
   /* ---------- modal ---------- */
   .modal{position:fixed;inset:0;background:rgba(28,36,26,.5);display:flex;align-items:flex-end;z-index:50}
   .modal .hoja{background:#fff;width:100%;border-radius:20px 20px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom))}
@@ -110,16 +138,38 @@
 <div id="vistaApp" class="pantalla" hidden>
   <header>
     <div class="barra">
-      <strong>Stock</strong>
+      <strong id="tituloApp">Stock</strong>
       <span>
         <button class="mini" id="btnRefrescar">Actualizar</button>
         <button class="mini" id="btnSalir">Salir</button>
       </span>
     </div>
+    <div class="tabs">
+      <button class="tab activo" id="tabStock">Stock</button>
+      <button class="tab" id="tabVentas">💰 Ventas</button>
+    </div>
     <input id="buscar" type="search" placeholder="Buscar prenda…" autocomplete="off">
   </header>
   <main id="lista"></main>
-  <div class="nota">Tocá <strong>“Se vendió”</strong> cuando salga algo del local.<br>Se descuenta acá y en Mercado Libre.</div>
+  <div class="nota" id="notaStock">Tocá <strong>“Se vendió”</strong> cuando salga algo del local.<br>Se descuenta acá y en Mercado Libre.</div>
+
+  <div id="paneVentas" hidden>
+    <div class="resumen" id="resumen"></div>
+    <div class="form">
+      <h2>Registrar una venta</h2>
+      <div class="campo"><label>Prenda</label><select id="vProducto"></select></div>
+      <div class="campo"><label>Talle / color</label><select id="vTalle"></select></div>
+      <div class="dos">
+        <div class="campo"><label>Cantidad</label><input id="vCant" type="number" inputmode="numeric" min="1" value="1"></div>
+        <div class="campo"><label>Me costó ($)</label><input id="vCosto" type="number" inputmode="numeric" min="0" placeholder="Costo"></div>
+      </div>
+      <div class="campo"><label>A cuánto lo vendí ($)</label><input id="vPrecio" type="number" inputmode="numeric" min="0" placeholder="Precio de venta"></div>
+      <label class="check"><input id="vDescontar" type="checkbox" checked> Descontar del stock (web + Mercado Libre)</label>
+      <button class="btn" id="btnVenta">Registrar venta</button>
+      <div class="error" id="errVenta"></div>
+    </div>
+    <div id="listaVentas"></div>
+  </div>
 </div>
 
 <!-- CONFIRMAR -->
@@ -308,11 +358,178 @@
       .catch(function(){ toast("Sin conexión — no se guardó", true); cargar(); });
   }
 
+  // ---------- ventas (plata del día) ----------
+  var resumenDia = null, costos = {}, alquiler = 38000, verVentas = false;
+
+  function dinero(n){
+    return "$" + (Math.round(Number(n) || 0)).toLocaleString("es-AR");
+  }
+
+  function pintarResumen(){
+    var h = (resumenDia && resumenDia.hoy) || {};
+    var neto = Number(h.neto) || 0;
+    var cant = Number(h.cantidad) || 0, und = Number(h.unidades) || 0;
+    $("resumen").innerHTML = ''
+      + '<h2>Hoy</h2>'
+      + '<div class="fecha">' + esc(h.dia || "") + ' · ' + cant + ' venta' + (cant === 1 ? '' : 's') + ' · ' + und + ' prenda' + (und === 1 ? '' : 's') + '</div>'
+      + '<div class="fila"><span>Vendí</span><b>' + dinero(h.facturado) + '</b></div>'
+      + '<div class="fila"><span>Me costó</span><b>' + dinero(h.costo) + '</b></div>'
+      + '<div class="fila"><span>Ganancia</span><b>' + dinero(h.ganancia) + '</b></div>'
+      + '<div class="fila"><span>Alquiler del día</span><b>−' + dinero(h.alquiler) + '</b></div>'
+      + '<div class="fila grande"><span>Me quedó</span><b class="neto ' + (neto >= 0 ? 'bien' : 'malo') + '">' + dinero(neto) + '</b></div>';
+  }
+
+  function pintarVentas(){
+    var vs = (resumenDia && resumenDia.ventas) || [];
+    if(!vs.length){ $("listaVentas").innerHTML = '<div class="vacio">Todavía no cargaste ventas hoy.</div>'; return; }
+    $("listaVentas").innerHTML = vs.map(function(v){
+      return '<div class="venta" data-id="' + esc(v.id) + '">'
+        + '<div class="t">' + esc(v.nombre || v.productoId || "Prenda") + (v.talle ? ' · ' + esc(v.talle) : '') + '</div>'
+        + '<div class="d">' + (Number(v.cantidad) || 1) + ' × ' + dinero(v.precio) + ' · costó ' + dinero(v.costo) + ' · dejó ' + dinero(v.ganancia) + '</div>'
+        + '<div class="acc"><button class="b-editar">Cambiar precio</button><button class="b-borrar">Borrar</button></div>'
+        + '</div>';
+    }).join("");
+  }
+
+  function llenarProductos(){
+    var sel = $("vProducto");
+    if(!sel) return;
+    var actual = sel.value;
+    sel.innerHTML = '<option value="">Elegí la prenda…</option>' + productos.map(function(p){
+      return '<option value="' + esc(p.id) + '">' + esc(p.nombre) + '</option>';
+    }).join("");
+    if(actual) sel.value = actual;
+    llenarTalles();
+  }
+
+  function llenarTalles(){
+    var sel = $("vTalle");
+    if(!sel) return;
+    var id = $("vProducto").value;
+    var p = productos.filter(function(x){ return x.id === id; })[0];
+    if(!p){ sel.innerHTML = '<option value="">—</option>'; return; }
+    var vs = variantes(p);
+    sel.innerHTML = vs.map(function(v){
+      return '<option value="' + esc(v.clave) + '">' + esc(v.etiqueta || "Único") + '</option>';
+    }).join("");
+    var c = costos[p.id];
+    $("vCosto").value = (c && c.costo) ? c.costo : "";
+    $("vPrecio").value = (p.precio != null) ? p.precio : "";
+  }
+
+  function cargarVentas(){
+    $("resumen").innerHTML = '<div class="vacio">Cargando…</div>';
+    fetch(API + "/api/stock/ventas?token=" + encodeURIComponent(token()), { cache: "no-store" })
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        if(!j || !j.ok){ toast((j && j.error) || "No pude leer las ventas", true); return; }
+        resumenDia = j; costos = j.costos || {}; alquiler = j.alquiler || 38000;
+        pintarResumen(); pintarVentas(); llenarProductos();
+      })
+      .catch(function(){ toast("Sin conexión con el servidor", true); });
+  }
+
+  function registrarVenta(){
+    var id = $("vProducto").value;
+    if(!id){ $("errVenta").textContent = "Elegí la prenda"; return; }
+    var precio = Number($("vPrecio").value) || 0;
+    if(!precio){ $("errVenta").textContent = "Poné a cuánto lo vendiste"; return; }
+    var p = productos.filter(function(x){ return x.id === id; })[0];
+    $("errVenta").textContent = "";
+    $("btnVenta").disabled = true;
+    fetch(API + "/api/stock/ventas", {
+      method: "POST", headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({
+        action: "cargar", token: token(), id: id,
+        nombre: p ? p.nombre : "",
+        talle: $("vTalle").value || "",
+        cantidad: Number($("vCant").value) || 1,
+        costo: Number($("vCosto").value) || 0,
+        precio: precio,
+        descontar: $("vDescontar").checked
+      })
+    }).then(function(r){ return r.json().then(function(j){ return {status:r.status, j:j||{}}; }); })
+      .then(function(res){
+        $("btnVenta").disabled = false;
+        if(res.status === 401){ borrarToken(); toast("Se venció la sesión — volvé a entrar", true); cerrarSesion(); return; }
+        var j = res.j;
+        if(!j.ok){ $("errVenta").textContent = j.error || "No pude guardar la venta"; return; }
+        resumenDia = j; costos = j.costos || {}; alquiler = j.alquiler || 38000;
+        pintarResumen(); pintarVentas(); llenarProductos();
+        $("vCant").value = 1;
+        var st = j.stock || {};
+        var aviso = "", malo = false;
+        if(st.intentado){
+          if(st.ok){ aviso = " · stock " + st.quedan; cargar(); }
+          else { aviso = " · ⚠️ stock: " + (st.error || "no se descontó"); malo = true; }
+        }
+        toast("Venta cargada" + aviso, malo);
+      })
+      .catch(function(){ $("btnVenta").disabled = false; toast("Sin conexión — no se guardó", true); });
+  }
+
+  function editarVenta(id){
+    var v = ((resumenDia && resumenDia.ventas) || []).filter(function(x){ return x.id === id; })[0];
+    if(!v) return;
+    var nuevo = window.prompt("¿A cuánto lo vendiste? (antes " + dinero(v.precio) + ")", v.precio);
+    if(nuevo == null) return;
+    var precio = Number(String(nuevo).replace(/[^0-9]/g, ""));
+    if(!precio){ toast("Poné un número", true); return; }
+    fetch(API + "/api/stock/ventas", {
+      method: "POST", headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ action: "editar", token: token(), ventaId: id, precio: precio })
+    }).then(function(r){ return r.json(); })
+      .then(function(j){
+        if(!j || !j.ok){ toast((j && j.error) || "No pude cambiar el precio", true); return; }
+        resumenDia = j; pintarResumen(); pintarVentas(); toast("Precio actualizado ✓");
+      })
+      .catch(function(){ toast("Sin conexión", true); });
+  }
+
+  function borrarVenta(id){
+    if(!window.confirm("¿Borro esta venta del registro?")) return;
+    fetch(API + "/api/stock/ventas", {
+      method: "POST", headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ action: "borrar", token: token(), ventaId: id })
+    }).then(function(r){ return r.json(); })
+      .then(function(j){
+        if(!j || !j.ok){ toast((j && j.error) || "No pude borrar", true); return; }
+        resumenDia = j; pintarResumen(); pintarVentas(); toast("Venta borrada");
+      })
+      .catch(function(){ toast("Sin conexión", true); });
+  }
+
+  function mostrarTab(cual){
+    verVentas = (cual === "ventas");
+    $("tabStock").className = "tab" + (verVentas ? "" : " activo");
+    $("tabVentas").className = "tab" + (verVentas ? " activo" : "");
+    $("tituloApp").textContent = verVentas ? "Ventas" : "Stock";
+    $("buscar").hidden = verVentas;
+    $("lista").hidden = verVentas;
+    $("notaStock").hidden = verVentas;
+    $("paneVentas").hidden = !verVentas;
+    if(verVentas){
+      if(!productos.length) cargar(); else llenarProductos();
+      cargarVentas();
+    }
+  }
+
   // ---------- eventos ----------
   $("btnEntrar").addEventListener("click", entrar);
   $("clave").addEventListener("keydown", function(e){ if(e.key === "Enter") entrar(); });
   $("btnSalir").addEventListener("click", cerrarSesion);
-  $("btnRefrescar").addEventListener("click", cargar);
+  $("btnRefrescar").addEventListener("click", function(){ if(verVentas){ cargarVentas(); } else { cargar(); } });
+  $("tabStock").addEventListener("click", function(){ mostrarTab("stock"); });
+  $("tabVentas").addEventListener("click", function(){ mostrarTab("ventas"); });
+  $("vProducto").addEventListener("change", llenarTalles);
+  $("btnVenta").addEventListener("click", registrarVenta);
+  $("listaVentas").addEventListener("click", function(e){
+    var c = e.target.closest(".venta");
+    if(!c) return;
+    var id = c.getAttribute("data-id");
+    if(e.target.closest(".b-editar")) editarVenta(id);
+    else if(e.target.closest(".b-borrar")) borrarVenta(id);
+  });
   $("buscar").addEventListener("input", function(e){ filtro = e.target.value; pintar(); });
   $("btnCancelar").addEventListener("click", function(){ $("confirmar").hidden = true; pendiente = null; pintar(); });
   $("btnConfirmar").addEventListener("click", darBaja);
