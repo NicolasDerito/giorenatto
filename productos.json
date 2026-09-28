@@ -845,14 +845,14 @@
   "nombre": "Remera M Larga Gris",
   "cat": "Remeras",
   "precio": 7900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Remera manga larga gris lisa, algodón suave.",
   "talles": [
    "4"
   ],
   "img": "assets/products/remera-m-larga-gris.webp",
   "stockVar": {
-   "|4": 1
+   "|4": 0
   },
   "talle": "4"
  },
