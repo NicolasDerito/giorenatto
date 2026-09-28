@@ -112,6 +112,10 @@
   .costo input{width:108px;flex:0 0 auto;padding:9px;font-size:16px;border:1px solid var(--borde);border-radius:9px;text-align:right;font-family:inherit;color:var(--tinta);background:#fff}
   .costo input:focus{outline:2px solid var(--verde);border-color:var(--verde)}
   .costo.falta{background:#fdf7f6;border-color:#f0d9d5}
+  /* ---------- periodos ---------- */
+  .periodos{display:flex;gap:6px;margin:0 0 12px}
+  .periodos .per{flex:1;padding:10px 4px;border:1px solid var(--borde);background:#fff;border-radius:10px;font-family:inherit;font-size:.9rem;font-weight:600;color:var(--gris);cursor:pointer}
+  .periodos .per.activo{background:var(--verde);color:#fff;border-color:var(--verde)}
   .aviso-costo{color:var(--gris);font-size:.78rem;margin-top:6px;line-height:1.4}
   .aviso-costo.malo{color:var(--rojo)}
   /* ---------- modal ---------- */
@@ -164,6 +168,12 @@
   <div class="nota" id="notaStock">Tocá <strong>“Se vendió”</strong> cuando salga algo del local.<br>Se descuenta acá y en Mercado Libre.</div>
 
   <div id="paneVentas" hidden>
+    <div class="periodos">
+      <button class="per activo" id="perDia">Día</button>
+      <button class="per" id="perSemana">Semana</button>
+      <button class="per" id="perMes">Mes</button>
+    </div>
+    <div class="campo" id="campoVerDia"><label>Ver el día</label><input id="vVerDia" type="date"></div>
     <div class="resumen" id="resumen"></div>
     <button class="btn btn-claro" id="btnIrCostos" style="margin-bottom:12px">💲 Cargar los costos de las prendas</button>
     <div class="form">
@@ -175,6 +185,7 @@
         <div class="campo"><label>Me costó ($)</label><input id="vCosto" type="number" inputmode="numeric" min="0" placeholder="Costo"></div>
       </div>
       <div class="campo"><label>A cuánto lo vendí ($)</label><input id="vPrecio" type="number" inputmode="numeric" min="0" placeholder="Precio de venta"></div>
+      <div class="campo"><label>Día de la venta</label><input id="vDia" type="date"></div>
       <label class="check"><input id="vDescontar" type="checkbox" checked> Descontar del stock (web + Mercado Libre)</label>
       <button class="btn" id="btnVenta">Registrar venta</button>
       <div class="error" id="errVenta"></div>
@@ -376,7 +387,7 @@
   }
 
   // ---------- ventas (plata del día) ----------
-  var resumenDia = null, costos = {}, alquiler = 38000, verTab = "stock";
+  var resumenDia = null, costos = {}, alquiler = 38000, verTab = "stock", periodo = "dia";
 
   function dinero(n){
     return "$" + (Math.round(Number(n) || 0)).toLocaleString("es-AR");
@@ -384,23 +395,29 @@
 
   function pintarResumen(){
     var h = (resumenDia && resumenDia.hoy) || {};
+    var r = resumenDia || {};
     var neto = Number(h.neto) || 0;
     var cant = Number(h.cantidad) || 0, und = Number(h.unidades) || 0;
+    var dias = Number(h.dias) || 1;
+    var cuando = (r.desde && r.hasta && r.desde !== r.hasta) ? (fechaCorta(r.desde) + " al " + fechaCorta(r.hasta)) : fechaCorta(r.desde || h.dia);
     $("resumen").innerHTML = ''
-      + '<h2>Hoy</h2>'
-      + '<div class="fecha">' + esc(h.dia || "") + ' · ' + cant + ' venta' + (cant === 1 ? '' : 's') + ' · ' + und + ' prenda' + (und === 1 ? '' : 's') + '</div>'
+      + '<h2>' + esc(tituloPeriodo()) + '</h2>'
+      + '<div class="fecha">' + esc(cuando) + ' · ' + cant + ' venta' + (cant === 1 ? '' : 's') + ' · ' + und + ' prenda' + (und === 1 ? '' : 's') + '</div>'
       + '<div class="fila"><span>Vendí</span><b>' + dinero(h.facturado) + '</b></div>'
       + '<div class="fila"><span>Me costó</span><b>' + dinero(h.costo) + '</b></div>'
       + '<div class="fila"><span>Ganancia</span><b>' + dinero(h.ganancia) + '</b></div>'
-      + '<div class="fila"><span>Alquiler del día</span><b>−' + dinero(h.alquiler) + '</b></div>'
+      + '<div class="fila"><span>Alquiler' + (dias > 1 ? ' (' + dias + ' días)' : ' del día') + '</span><b>−' + dinero(h.alquiler) + '</b></div>'
       + '<div class="fila grande"><span>Me quedó</span><b class="neto ' + (neto >= 0 ? 'bien' : 'malo') + '">' + dinero(neto) + '</b></div>';
   }
 
   function pintarVentas(){
     var vs = (resumenDia && resumenDia.ventas) || [];
-    if(!vs.length){ $("listaVentas").innerHTML = '<div class="vacio">Todavía no cargaste ventas hoy.</div>'; return; }
+    var rr = resumenDia || {};
+    var varios = rr.desde && rr.hasta && rr.desde !== rr.hasta;
+    if(!vs.length){ $("listaVentas").innerHTML = '<div class="vacio">No hay ventas cargadas en ' + esc(periodo === "dia" ? "ese día" : "ese período") + '.</div>'; return; }
     $("listaVentas").innerHTML = vs.map(function(v){
       return '<div class="venta" data-id="' + esc(v.id) + '">'
+        + (varios ? '<div class="d">' + esc(fechaCorta(v.dia)) + '</div>' : '')
         + '<div class="t">' + esc(v.nombre || v.productoId || "Prenda") + (v.talle ? ' · ' + esc(v.talle) : '') + '</div>'
         + '<div class="d">' + (Number(v.cantidad) || 1) + ' × ' + dinero(v.precio) + ' · costó ' + dinero(v.costo) + ' · dejó ' + dinero(v.ganancia) + '</div>'
         + '<div class="acc"><button class="b-editar">Cambiar precio</button><button class="b-borrar">Borrar</button></div>'
@@ -434,9 +451,45 @@
     $("vPrecio").value = (p.precio != null) ? p.precio : "";
   }
 
+  function isoHoy(){
+    var d = new Date();
+    return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+  }
+  function sumaDias(iso, n){
+    var f = iso.split("-").map(Number), d = new Date(f[0], f[1] - 1, f[2] + n);
+    return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+  }
+  function fechaCorta(iso){
+    var f = String(iso || "").split("-");
+    return f.length === 3 ? (f[2] + "/" + f[1]) : String(iso || "");
+  }
+  function rangoPeriodo(){
+    var hoy = isoHoy();
+    if(periodo === "semana") return { desde: sumaDias(hoy, -6), hasta: hoy };
+    if(periodo === "mes") return { desde: hoy.slice(0, 8) + "01", hasta: hoy };
+    var d = ($("vVerDia") && $("vVerDia").value) ? $("vVerDia").value : hoy;
+    if(d > hoy) d = hoy;
+    return { desde: d, hasta: d };
+  }
+  function tituloPeriodo(){
+    if(periodo === "semana") return "Últimos 7 días";
+    if(periodo === "mes") return "Este mes";
+    return (rangoPeriodo().desde === isoHoy()) ? "Hoy" : "Ese día";
+  }
+  function pintarPeriodo(){
+    $("perDia").className = "per" + (periodo === "dia" ? " activo" : "");
+    $("perSemana").className = "per" + (periodo === "semana" ? " activo" : "");
+    $("perMes").className = "per" + (periodo === "mes" ? " activo" : "");
+    $("campoVerDia").hidden = (periodo !== "dia");
+  }
+
   function cargarVentas(){
+    if($("vVerDia") && !$("vVerDia").value) $("vVerDia").value = isoHoy();
+    if($("vDia") && !$("vDia").value) $("vDia").value = (periodo === "dia") ? rangoPeriodo().desde : isoHoy();
+    pintarPeriodo();
     $("resumen").innerHTML = '<div class="vacio">Cargando…</div>';
-    fetch(API + "/api/stock/ventas?token=" + encodeURIComponent(token()), { cache: "no-store" })
+    var rg = rangoPeriodo();
+    fetch(API + "/api/stock/ventas?token=" + encodeURIComponent(token()) + "&desde=" + rg.desde + "&hasta=" + rg.hasta, { cache: "no-store" })
       .then(function(r){ return r.json(); })
       .then(function(j){
         if(!j || !j.ok){ toast((j && j.error) || "No pude leer las ventas", true); return; }
@@ -463,6 +516,8 @@
         cantidad: Number($("vCant").value) || 1,
         costo: Number($("vCosto").value) || 0,
         precio: precio,
+        dia: ($("vDia").value || isoHoy()),
+        desde: rangoPeriodo().desde, hasta: rangoPeriodo().hasta,
         descontar: $("vDescontar").checked
       })
     }).then(function(r){ return r.json().then(function(j){ return {status:r.status, j:j||{}}; }); })
@@ -494,7 +549,7 @@
     if(!precio){ toast("Poné un número", true); return; }
     fetch(API + "/api/stock/ventas", {
       method: "POST", headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ action: "editar", token: token(), ventaId: id, precio: precio })
+      body: JSON.stringify({ action: "editar", token: token(), ventaId: id, precio: precio, desde: rangoPeriodo().desde, hasta: rangoPeriodo().hasta })
     }).then(function(r){ return r.json(); })
       .then(function(j){
         if(!j || !j.ok){ toast((j && j.error) || "No pude cambiar el precio", true); return; }
@@ -507,7 +562,7 @@
     if(!window.confirm("¿Borro esta venta del registro?")) return;
     fetch(API + "/api/stock/ventas", {
       method: "POST", headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ action: "borrar", token: token(), ventaId: id })
+      body: JSON.stringify({ action: "borrar", token: token(), ventaId: id, desde: rangoPeriodo().desde, hasta: rangoPeriodo().hasta })
     }).then(function(r){ return r.json(); })
       .then(function(j){
         if(!j || !j.ok){ toast((j && j.error) || "No pude borrar", true); return; }
@@ -603,6 +658,10 @@
   $("tabStock").addEventListener("click", function(){ mostrarTab("stock"); });
   $("tabVentas").addEventListener("click", function(){ mostrarTab("ventas"); });
   $("tabCostos").addEventListener("click", function(){ mostrarTab("costos"); });
+  $("perDia").addEventListener("click", function(){ periodo = "dia"; cargarVentas(); });
+  $("perSemana").addEventListener("click", function(){ periodo = "semana"; cargarVentas(); });
+  $("perMes").addEventListener("click", function(){ periodo = "mes"; cargarVentas(); });
+  $("vVerDia").addEventListener("change", function(){ cargarVentas(); });
   $("btnIrCostos").addEventListener("click", function(){ mostrarTab("costos"); });
   $("buscarCosto").addEventListener("input", function(e){ filtroCosto = e.target.value; pintarCostos(); });
   $("listaCostos").addEventListener("change", function(e){
