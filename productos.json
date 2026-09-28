@@ -1676,7 +1676,7 @@
   "nombre": "Medias Caminantes Antideslizantes",
   "cat": "Medias",
   "precio": 16500,
-  "stock": 5,
+  "stock": 4,
   "desc": "Medias caminantes con suela antideslizante, para acompañar los primeros pasos. Elegí color y talle.",
   "img": "assets/products/medias-caminantes-grupal.webp",
   "talles": [
@@ -1700,7 +1700,7 @@
   "stockVar": {
    "Rosa|18-19": 1,
    "Rosa|20-21": 1,
-   "Verde|18-19": 1,
+   "Verde|18-19": 0,
    "Verde|20-21": 1,
    "Azul|18-19": 1
   },
