@@ -3,11 +3,11 @@
 // caché solo si no hay internet). Fotos, logo y manifest siguen cache-first porque no cambian.
 // IMPORTANTE: cada vez que subas cambios a index.html/sw.js, subí el número de CACHE (v3, v4…)
 // para que los celus que ya instalaron la app pisen la versión vieja.
-const CACHE = "giorenatto-v50"; // v50: alta de caja.html (stock y caja)
+const CACHE = "giorenatto-v51"; // v51: caja.html baja de la web (queda privada, solo en el celular)
 const CORE = ["/", "/index.html", "/nosotros.html", "/404.html", "/logo.webp", "/logo-192.png", "/logo-512.png", "/manifest.webmanifest"];
 
 // Rutas que SIEMPRE se piden a la red primero
-const NETWORK_FIRST = /^\/(index\.html)?$|^\/nosotros\.html$|^\/productos\.json$|^\/movil\.html$|^\/caja\.html$/;
+const NETWORK_FIRST = /^\/(index\.html)?$|^\/nosotros\.html$|^\/productos\.json$|^\/movil\.html$/;
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE).catch(() => {})).then(() => self.skipWaiting()));
