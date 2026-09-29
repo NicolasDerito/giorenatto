@@ -112,6 +112,12 @@
   .costo input{width:108px;flex:0 0 auto;padding:9px;font-size:16px;border:1px solid var(--borde);border-radius:9px;text-align:right;font-family:inherit;color:var(--tinta);background:#fff}
   .costo input:focus{outline:2px solid var(--verde);border-color:var(--verde)}
   .costo.falta{background:#fdf7f6;border-color:#f0d9d5}
+  .costo.pendiente{background:#fffdf4;border-color:#e6d9a8}
+  .costo.pendiente input{border-color:#c9a227}
+  .barra-costos{position:sticky;bottom:6px;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--borde);border-radius:12px;padding:10px 12px;margin-top:10px}
+  .barra-costos[hidden]{display:none}
+  .barra-costos span{flex:1;font-size:.85rem;color:var(--gris)}
+  .barra-costos .btn{flex:0 0 auto;width:auto;padding:10px 16px}
   /* ---------- periodos ---------- */
   .periodos{display:flex;gap:6px;margin:0 0 12px}
   .periodos .per{flex:1;padding:10px 4px;border:1px solid var(--borde);background:#fff;border-radius:10px;font-family:inherit;font-size:.9rem;font-weight:600;color:var(--gris);cursor:pointer}
@@ -197,6 +203,10 @@
     <div class="resumen" id="resumenCostos"></div>
     <input id="buscarCosto" type="search" placeholder="Buscar prenda…" autocomplete="off" style="margin-bottom:12px">
     <div id="listaCostos"></div>
+    <div id="barraCostos" class="barra-costos" hidden>
+      <span id="txtPendientes">Sin cambios</span>
+      <button class="btn" id="btnGuardarCostos" disabled>Guardar</button>
+    </div>
   </div>
 </div>
 
@@ -493,7 +503,7 @@
       .then(function(r){ return r.json(); })
       .then(function(j){
         if(!j || !j.ok){ toast((j && j.error) || "No pude leer las ventas", true); return; }
-        resumenDia = j; costos = j.costos || {}; alquiler = j.alquiler || 38000;
+        resumenDia = j; if(j.costos) costos = j.costos; alquiler = j.alquiler || 38000;
         pintarResumen(); pintarVentas(); llenarProductos();
       })
       .catch(function(){ toast("Sin conexión con el servidor", true); });
@@ -526,7 +536,7 @@
         if(res.status === 401){ borrarToken(); toast("Se venció la sesión — volvé a entrar", true); cerrarSesion(); return; }
         var j = res.j;
         if(!j.ok){ $("errVenta").textContent = j.error || "No pude guardar la venta"; return; }
-        resumenDia = j; costos = j.costos || {}; alquiler = j.alquiler || 38000;
+        resumenDia = j; if(j.costos) costos = j.costos; alquiler = j.alquiler || 38000;
         pintarResumen(); pintarVentas(); llenarProductos();
         $("vCant").value = 1;
         var st = j.stock || {};
@@ -572,6 +582,9 @@
   }
 
   function mostrarTab(cual){
+    if(cual !== "costos" && Object.keys(pendientes).length){
+      if(!window.confirm("Tenés " + Object.keys(pendientes).length + " costos sin guardar. ¿Salir igual y perderlos?")) return;
+    }
     verTab = cual;
     $("tabStock").className = "tab" + (cual === "stock" ? " activo" : "");
     $("tabVentas").className = "tab" + (cual === "ventas" ? " activo" : "");
@@ -587,7 +600,7 @@
       if(!productos.length) cargar(); else llenarProductos();
       cargarVentas();
     } else if(cual === "costos"){
-      if(!productos.length) cargar(); else pintarCostos();
+      if(!productos.length) cargar(); else cargarCostos();
     }
   }
 
@@ -595,7 +608,7 @@
   var filtroCosto = "";
 
   function faltanCostos(){
-    return productos.filter(function(p){ var c = costos[p.id]; return !(c && Number(c.costo) > 0); }).length;
+    return productos.filter(function(p){ if(Object.prototype.hasOwnProperty.call(pendientes, p.id)) return !(pendientes[p.id] > 0); var c = costos[p.id]; return !(c && Number(c.costo) > 0); }).length;
   }
 
   function pintarCostos(){
@@ -615,37 +628,87 @@
     $("listaCostos").innerHTML = lista.map(function(p){
       var c = costos[p.id];
       var v = (c && Number(c.costo) > 0) ? c.costo : "";
-      return '<div class="costo' + (v ? '' : ' falta') + '" data-id="' + esc(p.id) + '">'
+      if(Object.prototype.hasOwnProperty.call(pendientes, p.id)) v = pendientes[p.id];
+      var pen = Object.prototype.hasOwnProperty.call(pendientes, p.id);
+      return '<div class="costo' + (v ? '' : ' falta') + (pen ? ' pendiente' : '') + '" data-id="' + esc(p.id) + '">'
         + '<div class="n"><span>' + esc(p.nombre) + '</span><small>' + esc(p.id) + (p.precio ? ' · se vende ' + dinero(p.precio) : '') + '</small></div>'
         + '<input type="number" inputmode="numeric" min="0" placeholder="costo" value="' + esc(v) + '">'
         + '</div>';
     }).join("");
   }
 
-  function guardarCosto(el){
+  var pendientes = {};
+
+  function marcarCosto(el){
     var fila = el.parentNode;
     if(!fila) return;
     var id = fila.getAttribute("data-id");
-    var p = productos.filter(function(x){ return x.id === id; })[0];
+    if(!id) return;
     var valor = Number(el.value) || 0;
+    var c = costos[id];
+    var guardado = (c && Number(c.costo) > 0) ? Number(c.costo) : 0;
+    if(valor === guardado) delete pendientes[id]; else pendientes[id] = valor;
+    var pen = Object.prototype.hasOwnProperty.call(pendientes, id);
+    fila.className = "costo" + (valor > 0 ? "" : " falta") + (pen ? " pendiente" : "");
+    pintarBarraCostos();
+  }
+
+  function pintarBarraCostos(){
+    var barra = $("barraCostos");
+    if(!barra) return;
+    barra.hidden = false;
+    var cuantos = Object.keys(pendientes).length;
+    $("txtPendientes").textContent = cuantos ? (cuantos + (cuantos === 1 ? " cambio sin guardar" : " cambios sin guardar")) : "Sin cambios";
+    var b = $("btnGuardarCostos");
+    if(!b) return;
+    b.disabled = !cuantos;
+    b.textContent = cuantos ? ("Guardar (" + cuantos + ")") : "Guardar";
+  }
+
+  function guardarCostos(){
+    var ids = Object.keys(pendientes);
+    if(!ids.length) return;
+    var lote = {};
+    ids.forEach(function(id){
+      var p = productos.filter(function(x){ return x.id === id; })[0];
+      lote[id] = { costo: pendientes[id], nombre: p ? p.nombre : "" };
+    });
+    var btn = $("btnGuardarCostos");
+    btn.disabled = true;
+    btn.textContent = "Guardando…";
     fetch(API + "/api/stock/ventas", {
       method: "POST", headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ action: "costo", token: token(), id: id, nombre: p ? p.nombre : "", costo: valor })
-    }).then(function(r){ return r.json(); })
-      .then(function(j){
-        if(!j || !j.ok){ toast((j && j.error) || "No pude guardar el costo", true); return; }
-        costos = j.costos || costos;
-        fila.className = "costo" + (valor > 0 ? "" : " falta");
-        var faltan = faltanCostos();
-        var rc = $("resumenCostos");
-        if(rc){
-          var partes = rc.querySelectorAll(".fila b");
-          if(partes[0]) partes[0].textContent = (productos.length - faltan) + " de " + productos.length;
-          if(partes[1]) partes[1].textContent = faltan;
-        }
-        toast(valor > 0 ? "Costo guardado ✓" : "Costo borrado");
+      body: JSON.stringify({ action: "costos", token: token(), costos: lote })
+    }).then(function(r){ return r.json().then(function(j){ return {status:r.status, j:j||{}}; }); })
+      .then(function(res){
+        if(res.status === 401){ borrarToken(); toast("Se venció la sesión — volvé a entrar", true); cerrarSesion(); return; }
+        var j = res.j;
+        if(!j.ok){ toast(j.error || "No pude guardar los costos", true); pintarBarraCostos(); return; }
+        if(j.costos) costos = j.costos;
+        pendientes = {};
+        pintarCostos();
+        pintarBarraCostos();
+        toast("Guardé " + ids.length + (ids.length === 1 ? " costo ✓" : " costos ✓"));
       })
-      .catch(function(){ toast("Sin conexión", true); });
+      .catch(function(){ toast("Sin conexión — no se guardó", true); pintarBarraCostos(); });
+  }
+
+  function cargarCostos(){
+    var cont = $("listaCostos");
+    if(cont) cont.innerHTML = '<div class="vacio">Cargando…</div>';
+    fetch(API + "/api/stock/ventas?token=" + encodeURIComponent(token()), { cache: "no-store" })
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        if(!j || !j.ok){
+          if(cont) cont.innerHTML = '<div class="vacio">' + esc((j && j.error) || "No pude leer los costos") + '</div>';
+          return;
+        }
+        if(j.costos) costos = j.costos;
+        resumenDia = j; alquiler = j.alquiler || alquiler;
+        pintarCostos();
+        pintarBarraCostos();
+      })
+      .catch(function(){ if(cont) cont.innerHTML = '<div class="vacio">Sin conexión</div>'; });
   }
 
   // ---------- eventos ----------
@@ -654,7 +717,7 @@
   $("btnEntrar").addEventListener("click", entrar);
   $("clave").addEventListener("keydown", function(e){ if(e.key === "Enter") entrar(); });
   $("btnSalir").addEventListener("click", cerrarSesion);
-  $("btnRefrescar").addEventListener("click", function(){ if(verTab === "ventas"){ cargarVentas(); } else if(verTab === "costos"){ pintarCostos(); } else { cargar(); } });
+  $("btnRefrescar").addEventListener("click", function(){ if(verTab === "ventas"){ cargarVentas(); } else if(verTab === "costos"){ cargarCostos(); } else { cargar(); } });
   $("tabStock").addEventListener("click", function(){ mostrarTab("stock"); });
   $("tabVentas").addEventListener("click", function(){ mostrarTab("ventas"); });
   $("tabCostos").addEventListener("click", function(){ mostrarTab("costos"); });
@@ -665,8 +728,12 @@
   $("btnIrCostos").addEventListener("click", function(){ mostrarTab("costos"); });
   $("buscarCosto").addEventListener("input", function(e){ filtroCosto = e.target.value; pintarCostos(); });
   $("listaCostos").addEventListener("change", function(e){
-    if(e.target.tagName === "INPUT") guardarCosto(e.target);
+    if(e.target.tagName === "INPUT") marcarCosto(e.target);
   });
+  $("listaCostos").addEventListener("input", function(e){
+    if(e.target.tagName === "INPUT") marcarCosto(e.target);
+  });
+  $("btnGuardarCostos").addEventListener("click", guardarCostos);
   $("vProducto").addEventListener("change", llenarTalles);
   $("btnVenta").addEventListener("click", registrarVenta);
   $("listaVentas").addEventListener("click", function(e){
@@ -683,6 +750,10 @@
     var b = e.target.closest(".btn-baja");
     if(!b || b.disabled) return;
     pedirConfirmacion(b.getAttribute("data-id"), b.getAttribute("data-clave"));
+  });
+
+  window.addEventListener("beforeunload", function(e){
+    if(Object.keys(pendientes).length){ e.preventDefault(); e.returnValue = ""; }
   });
 
   // arranque
