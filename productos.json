@@ -1530,14 +1530,14 @@
   "nombre": "Enterito Happy Verde",
   "cat": "Enteritos",
   "precio": 15000,
-  "stock": 1,
+  "stock": 0,
   "desc": "Enterito verde con estampa Happy.",
   "talles": [
    "4"
   ],
   "img": "assets/products/enterito-happy-verde.webp",
   "stockVar": {
-   "|4": 1
+   "|4": 0
   },
   "talle": "4"
  },
