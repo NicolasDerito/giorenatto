@@ -2001,14 +2001,14 @@
   "nombre": "Body Rosa Cerezas",
   "cat": "Bodies",
   "precio": 12000,
-  "stock": 1,
+  "stock": 0,
   "desc": "Body rosa con estampa de cerezas.",
   "talles": [
    "12-18 meses"
   ],
   "img": "assets/products/body-rosa-cerezas.webp",
   "stockVar": {
-   "|12-18 meses": 1
+   "|12-18 meses": 0
   },
   "talle": "12-18 meses"
  },
