@@ -2049,14 +2049,14 @@
   "nombre": "Legging Celeste Ositos",
   "cat": "Pantalones",
   "precio": 10000,
-  "stock": 1,
+  "stock": 0,
   "desc": "Legging celeste con estampa de ositos.",
   "talles": [
    "9-11 meses"
   ],
   "img": "assets/products/legging-celeste-ositos.webp",
   "stockVar": {
-   "|9-11 meses": 1
+   "|9-11 meses": 0
   },
   "talle": "9-11 meses"
  }
