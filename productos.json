@@ -1193,7 +1193,7 @@
   "nombre": "Buzo Rústico Cocodrilo Celeste",
   "cat": "Buzos",
   "precio": 19900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Buzo rústico celeste con estampa de cocodrilo, algodón suave.",
   "talles": [
    "12 meses",
@@ -1204,7 +1204,7 @@
   "stockVar": {
    "|12 meses": 0,
    "|18 meses": 0,
-   "|36 meses": 1
+   "|36 meses": 0
   },
   "talle": "12 meses, 18 meses, 36 meses"
  },
