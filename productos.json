@@ -2065,7 +2065,7 @@
   "nombre": "Jardinero con Body Blanco",
   "cat": "Enteritos",
   "precio": 27500,
-  "stock": 4,
+  "stock": 3,
   "desc": "Jardinero con body blanco y estampado de dinosaurios.",
   "talles": [
    "3-6 meses",
@@ -2073,7 +2073,7 @@
   ],
   "img": "assets/products/jardinero-body-blanco.webp",
   "stockVar": {
-   "|3-6 meses": 2,
+   "|3-6 meses": 1,
    "|9-12 meses": 2
   },
   "talle": "3-6 meses, 9-12 meses"
