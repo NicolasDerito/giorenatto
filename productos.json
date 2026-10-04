@@ -653,7 +653,7 @@
   "nombre": "Conjunto Dinos Gris",
   "cat": "Conjuntos",
   "precio": 24900,
-  "stock": 2,
+  "stock": 1,
   "desc": "Conjunto gris con estampa de dinosaurios, algodón suave.",
   "talles": [
    "9-12 meses",
@@ -661,7 +661,7 @@
   ],
   "img": "assets/products/conjunto-dinos-gris.webp",
   "stockVar": {
-   "|9-12 meses": 1,
+   "|9-12 meses": 0,
    "|24 meses": 1
   },
   "talle": "9-12 meses, 24 meses"
