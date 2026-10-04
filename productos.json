@@ -729,7 +729,7 @@
   "nombre": "Pantalón Safari Verde",
   "cat": "Pantalones",
   "precio": 7900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Pantalón verde estilo safari, cómodo y resistente.",
   "talles": [
    "2",
@@ -738,7 +738,7 @@
   "img": "assets/products/pantalon-safari-verde.webp",
   "stockVar": {
    "|2": 0,
-   "|4": 1
+   "|4": 0
   },
   "talle": "2, 4"
  },
