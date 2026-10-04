@@ -1881,7 +1881,7 @@
   "nombre": "Legging Moños",
   "cat": "Pantalones",
   "precio": 10000,
-  "stock": 1,
+  "stock": 0,
   "desc": "Legging blanco con moños negros.",
   "talles": [
    "2",
@@ -1890,7 +1890,7 @@
   "img": "assets/products/legging-monos.webp",
   "stockVar": {
    "|2": 0,
-   "|4": 1
+   "|4": 0
   },
   "talle": "2, 4"
  },
