@@ -1400,14 +1400,14 @@
   "nombre": "Remera Baby Safari Celeste",
   "cat": "Remeras",
   "precio": 12000,
-  "stock": 1,
+  "stock": 0,
   "desc": "Remera celeste con estampa safari.",
   "talles": [
    "2"
   ],
   "img": "assets/products/remera-baby-safari-celeste.webp",
   "stockVar": {
-   "|2": 1
+   "|2": 0
   },
   "talle": "2"
  },
