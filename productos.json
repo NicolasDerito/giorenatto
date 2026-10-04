@@ -339,14 +339,14 @@
   "nombre": "Body Florcitas Rosas",
   "cat": "Bodies",
   "precio": 11900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Body rosa con estampa de florcitas, algodón suave.",
   "talles": [
    "4"
   ],
   "img": "assets/products/body-florcitas-rosas.webp",
   "stockVar": {
-   "|4": 1
+   "|4": 0
   },
   "talle": "4"
  },
