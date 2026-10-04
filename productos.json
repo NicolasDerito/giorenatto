@@ -71,14 +71,14 @@
   "nombre": "Body Americano Gris",
   "cat": "Bodies",
   "precio": 17900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Body americano gris, algodón con broches en la entrepierna.",
   "talles": [
    "4"
   ],
   "img": "assets/products/body-americano-gris.webp",
   "stockVar": {
-   "|4": 1
+   "|4": 0
   },
   "talle": "4"
  },
