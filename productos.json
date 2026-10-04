@@ -1448,14 +1448,14 @@
   "nombre": "Calza Corazones",
   "cat": "Pantalones",
   "precio": 10000,
-  "stock": 1,
+  "stock": 0,
   "desc": "Calza con estampa de corazones.",
   "talles": [
    "5"
   ],
   "img": "assets/products/calza-corazones.webp",
   "stockVar": {
-   "|5": 1
+   "|5": 0
   },
   "talle": "5"
  },
