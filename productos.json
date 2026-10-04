@@ -1767,14 +1767,14 @@
   "nombre": "Vestido Mariposa",
   "cat": "Vestidos",
   "precio": 14000,
-  "stock": 1,
+  "stock": 0,
   "desc": "Vestido con estampa de mariposas.",
   "talles": [
    "1"
   ],
   "img": "assets/products/vestido-mariposa.webp",
   "stockVar": {
-   "|1": 1
+   "|1": 0
   },
   "talle": "1"
  },
