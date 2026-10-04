@@ -671,7 +671,7 @@
   "nombre": "Pantalón Safari Celeste",
   "cat": "Pantalones",
   "precio": 7900,
-  "stock": 2,
+  "stock": 1,
   "desc": "Pantalón celeste estilo safari, cómodo y resistente.",
   "talles": [
    "2",
@@ -679,7 +679,7 @@
   ],
   "img": "assets/products/pantalon-safari-celeste.webp",
   "stockVar": {
-   "|2": 1,
+   "|2": 0,
    "|4": 1
   },
   "talle": "2, 4"
