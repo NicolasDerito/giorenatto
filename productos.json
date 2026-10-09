@@ -689,7 +689,7 @@
   "nombre": "Conjunto Dinos Celeste",
   "cat": "Conjuntos",
   "precio": 24900,
-  "stock": 5,
+  "stock": 4,
   "desc": "Conjunto celeste con estampa de dinosaurios, algodón suave.",
   "talles": [
    "6-9 meses",
@@ -704,7 +704,7 @@
    "|9-12 meses": 1,
    "|12-18 meses": 1,
    "|24 meses": 1,
-   "|36 meses": 1
+   "|36 meses": 0
   },
   "talle": "6-9 meses, 9-12 meses, 12-18 meses, 24 meses, 36 meses"
  },
