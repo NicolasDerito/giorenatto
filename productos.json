@@ -1480,14 +1480,14 @@
   "nombre": "Calza Moños Beige",
   "cat": "Pantalones",
   "precio": 10000,
-  "stock": 1,
+  "stock": 0,
   "desc": "Calza beige con estampa de moños.",
   "talles": [
    "4"
   ],
   "img": "assets/products/calza-monos-beige.webp",
   "stockVar": {
-   "|4": 1
+   "|4": 0
   },
   "talle": "4"
  },
