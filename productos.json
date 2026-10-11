@@ -1051,7 +1051,7 @@
   "nombre": "Pijama Elegante Crudo",
   "cat": "Pijamas",
   "precio": 22500,
-  "stock": 2,
+  "stock": 1,
   "desc": "Pijama elegante color crudo. Algodón suave.",
   "talles": [
    "5",
@@ -1059,7 +1059,7 @@
   ],
   "stockVar": {
    "|5": 0,
-   "|6": 2
+   "|6": 1
   },
   "img": "assets/products/pijama-elegante-crudo.webp",
   "talle": "5, 6"
