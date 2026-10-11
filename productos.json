@@ -713,14 +713,14 @@
   "nombre": "Remera M Larga Ositos",
   "cat": "Remeras",
   "precio": 7900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Remera manga larga con estampa de ositos, algodón suave.",
   "talles": [
    "4"
   ],
   "img": "assets/products/remera-m-larga-ositos.webp",
   "stockVar": {
-   "|4": 1
+   "|4": 0
   },
   "talle": "4"
  },
