@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#141219">
+<title>Giorenatto · Tablero</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:#141219;color:#ece8f4}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:15px}
+.wrap{max-width:640px;margin:0 auto;padding:18px 14px 46px}
+h1{font-size:21px;margin:0;font-weight:800;letter-spacing:-.01em}
+.sub{color:#9a92ad;font-size:12.5px;margin:3px 0 16px}
+.seg{display:flex;gap:6px;overflow-x:auto;margin-bottom:14px;padding-bottom:2px}
+.seg button{flex:1 0 auto;padding:9px 13px;border-radius:11px;border:1px solid #322c40;background:#1c1926;color:#cfc7e0;font-size:13px;font-weight:700;font-family:inherit}
+.seg button.on{background:#7a5c9e;border-color:#7a5c9e;color:#fff}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{background:#1c1926;border:1px solid #2a2437;border-radius:15px;padding:13px}
+.kpi .l{font-size:10.5px;color:#9a92ad;text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.kpi .v{font-size:21px;font-weight:800;margin-top:5px;letter-spacing:-.02em}
+.pos{color:#3ddc84}.neg{color:#ff6b6b}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.stat{background:#191622;border:1px solid #262131;border-radius:13px;padding:11px}
+.stat .l{font-size:10.5px;color:#9a92ad;font-weight:600}
+.stat .v{font-size:15px;font-weight:800;margin-top:4px}
+.sec{margin:24px 0 9px;font-size:12px;font-weight:800;color:#b9b1cc;text-transform:uppercase;letter-spacing:.07em}
+.card{background:#1c1926;border:1px solid #2a2437;border-radius:15px;overflow:hidden}
+.dia{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px;border-bottom:1px solid #241f30}
+.dia:last-child{border-bottom:0}
+.dia .izq{min-width:0}
+.dia .f{font-weight:700;font-size:14px;text-transform:capitalize}
+.dia .m{font-size:11px;color:#8f87a3;margin-top:3px}
+.dia .der{text-align:right;flex:0 0 auto}
+.dia .fact{font-size:13px;font-weight:700}
+.badge{display:inline-block;margin-top:4px;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:800}
+.badge.p{background:rgba(61,220,132,.13);color:#3ddc84}
+.badge.n{background:rgba(255,107,107,.13);color:#ff6b6b}
+.badge.z{background:rgba(154,146,173,.13);color:#9a92ad}
+.chip{display:inline-flex;align-items:center;gap:7px;background:#241f30;border-radius:999px;padding:6px 11px;font-size:12.5px;margin:0 7px 7px 0}
+.chip b{cursor:pointer;color:#ff8f8f;font-weight:800}
+.add{display:flex;gap:8px;margin-top:6px}
+.add input{flex:1;background:#141219;border:1px solid #322c40;color:#ece8f4;border-radius:11px;padding:10px;font-family:inherit;font-size:14px}
+.add button{background:#7a5c9e;border:0;color:#fff;border-radius:11px;padding:0 15px;font-weight:800;font-family:inherit;font-size:14px}
+.top{display:flex;justify-content:space-between;gap:10px;padding:10px 13px;border-bottom:1px solid #241f30;font-size:13.5px}
+.top:last-child{border-bottom:0}
+.vacio{padding:14px 13px;color:#8f87a3;font-size:13px}
+.pie{color:#6f6885;font-size:11px;line-height:1.6;margin-top:22px}
+.acc{margin-top:16px;display:flex;gap:8px}
+.ref{background:none;border:1px solid #322c40;color:#cfc7e0;border-radius:11px;padding:9px 14px;font-size:12.5px;font-weight:700;font-family:inherit}
+#porton{position:fixed;inset:0;z-index:50;background:#141219;display:flex;align-items:center;justify-content:center;padding:24px}
+#porton[hidden]{display:none}
+.login{width:100%;max-width:330px;text-align:center}
+.login input{width:100%;margin:14px 0;padding:13px;border-radius:13px;border:1px solid #322c40;background:#1c1926;color:#fff;font-size:16px;font-family:inherit}
+.login button{width:100%;padding:13px;border:0;border-radius:13px;background:#7a5c9e;color:#fff;font-size:15px;font-weight:800;font-family:inherit}
+.err{color:#ff6b6b;font-size:13px;min-height:18px;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app" hidden>
+  <h1>Tablero</h1>
+  <div class="sub" id="sub">Cargando…</div>
+  <div class="seg" id="seg">
+    <button data-p="dia">Hoy</button>
+    <button data-p="semana">Semana</button>
+    <button data-p="mes">Mes</button>
+    <button data-p="todo" class="on">Todo</button>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><div class="l">Facturado</div><div class="v" id="kFact">—</div></div>
+    <div class="kpi"><div class="l">Ganancia</div><div class="v" id="kGan">—</div></div>
+    <div class="kpi"><div class="l">Alquiler</div><div class="v" id="kAlq">—</div></div>
+    <div class="kpi"><div class="l">Neto</div><div class="v" id="kNet">—</div></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="l">Prendas vendidas</div><div class="v" id="sPre">—</div></div>
+    <div class="stat"><div class="l">Margen bruto</div><div class="v" id="sMar">—</div></div>
+    <div class="stat"><div class="l">Días de puesto</div><div class="v" id="sDia">—</div></div>
+    <div class="stat"><div class="l">Neto por día de puesto</div><div class="v" id="sNet">—</div></div>
+  </div>
+  <div class="sec">Día por día</div>
+  <div class="card" id="lista"></div>
+  <div class="sec">Feriados (suman día de puesto)</div>
+  <div class="card" style="padding:13px">
+    <div id="chips"></div>
+    <div class="add"><input type="date" id="nFer"><button id="bFer">Agregar</button></div>
+  </div>
+  <div class="sec">Lo más vendido</div>
+  <div class="card" id="top"></div>
+  <div class="pie">Alquiler del puesto: $38.000 por día. Se abre <b>viernes a domingo y feriados</b>.<br>Los datos son las ventas cargadas desde el celular (local y WhatsApp). Las ventas de la web todavía no entran acá.</div>
+  <div class="acc"><button class="ref" id="bRef">Actualizar</button><button class="ref" id="bSalir">Salir</button></div>
+</div>
+<div id="porton">
+  <div class="login">
+    <h1>Tablero</h1>
+    <div class="sub">Poné la clave del stock</div>
+    <input type="password" id="clave" placeholder="Clave" autocomplete="current-password">
+    <button id="bEntrar">Entrar</button>
+    <div class="err" id="err"></div>
+  </div>
+</div>
+<script>
+(function(){
+  var API = "https://backend-omega-smoky-28.vercel.app";
+  var CLAVE = "gio_stock_token";
+  var ALQ = 38000;
+  var DEF = ["2026-10-12"];
+  var DIAS = ["dom","lun","mar","mié","jue","vie","sáb"];
+  var ventas = [], periodo = "todo";
+  function $(id){ return document.getElementById(id); }
+  function token(){ try{ return localStorage.getItem(CLAVE) || ""; }catch(e){ return ""; } }
+  function setTok(t){ try{ localStorage.setItem(CLAVE,t); }catch(e){} }
+  function delTok(){ try{ localStorage.removeItem(CLAVE); }catch(e){} }
+  function dos(n){ return (n<10?"0":"")+n; }
+  function iso(d){ return d.getFullYear()+"-"+dos(d.getMonth()+1)+"-"+dos(d.getDate()); }
+  function hoy(){ return iso(new Date()); }
+  function feriados(){ try{ var x = JSON.parse(localStorage.getItem("gio_feriados")); return Array.isArray(x)?x:DEF.slice(); }catch(e){ return DEF.slice(); } }
+  function setFer(a){ try{ localStorage.setItem("gio_feriados", JSON.stringify(a)); }catch(e){} }
+  function esPuesto(f){ var w = new Date(f+"T12:00:00").getDay(); return w===5 || w===6 || w===0 || feriados().indexOf(f) >= 0; }
+  function money(n){ return "$" + new Intl.NumberFormat("es-AR",{maximumFractionDigits:0}).format(Math.round(n||0)); }
+  function nombreDia(f){ var p = f.split("-"); return DIAS[new Date(+p[0],+p[1]-1,+p[2]).getDay()]; }
+  function fmtFecha(f){ var p = f.split("-"); return p[2]+"/"+p[1]; }
+  function esc(s){ return String(s==null?"":s).replace(/[&<>\"\x27]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","\x27":"&#39;"}[c]; }); }
+  function dias(a,b){ var d = new Date(a+"T12:00:00"), f = new Date(b+"T12:00:00"), o = []; while(d<=f){ o.push(iso(d)); d.setDate(d.getDate()+1); } return o; }
+  function tot(vs){ var u=0,f=0,c=0; (vs||[]).forEach(function(v){ var q=Number(v.cantidad)||1; u+=q; f+=(Number(v.precio)||0)*q; c+=(Number(v.costo)||0)*q; }); return {u:u,f:f,c:c,g:f-c}; }
+  function agrupar(vs){ var m={}; (vs||[]).forEach(function(v){ var d=v.dia||""; (m[d]=m[d]||[]).push(v); }); return m; }
+  function rango(p){
+    var h = hoy();
+    if(p==="dia") return [h,h];
+    if(p==="semana"){ var d = new Date(h+"T12:00:00"); d.setDate(d.getDate()-6); return [iso(d),h]; }
+    if(p==="mes") return [h.slice(0,8)+"01", h];
+    var f = ventas.map(function(v){ return v.dia; }).sort()[0] || h;
+    return [f,h];
+  }
+  function pintar(){
+    var r = rango(periodo), a = r[0], b = r[1];
+    var vs = ventas.filter(function(v){ return v.dia >= a && v.dia <= b; });
+    var t = tot(vs), dd = dias(a,b), dp = dd.filter(esPuesto).length, alq = dp*ALQ, net = t.g-alq;
+    $("kFact").textContent = money(t.f);
+    $("kGan").textContent = money(t.g);
+    $("kAlq").textContent = money(alq);
+    $("kNet").textContent = money(net);
+    $("kNet").className = "v " + (net>=0?"pos":"neg");
+    $("sPre").textContent = t.u;
+    $("sMar").textContent = (t.f ? Math.round(100*t.g/t.f) : 0) + "%";
+    $("sDia").textContent = dp;
+    $("sNet").textContent = dp ? money(net/dp) : "—";
+    $("sNet").className = "v " + (net>=0?"pos":"neg");
+    $("sub").textContent = fmtFecha(a) + " al " + fmtFecha(b) + " · " + vs.length + " ventas";
+    var m = agrupar(vs), out = "";
+    dd.slice().reverse().forEach(function(d1){
+      var dv = m[d1] || [], dt = tot(dv), pue = esPuesto(d1), n = pue ? dt.g-ALQ : dt.g;
+      var cls = n>0 ? "p" : (n<0 ? "n" : "z");
+      var meta = dv.length ? dv.length + " ventas · " + dt.u + " u" : "sin ventas";
+      meta += pue ? " · puesto −" + money(ALQ) : " · sin puesto";
+      out += '<div class="dia"><div class="izq"><div class="f">' + nombreDia(d1) + " " + fmtFecha(d1) + '</div><div class="m">' + meta + '</div></div><div class="der"><div class="fact">' + money(dt.f) + '</div><span class="badge ' + cls + '">' + money(n) + "</span></div></div>";
+    });
+    $("lista").innerHTML = out || '<div class="vacio">Sin días para mostrar</div>';
+    var pr = {};
+    vs.forEach(function(v){ var k = (v.productoId||"") + "|" + (v.nombre||""); var q = Number(v.cantidad)||1; pr[k] = pr[k] || {u:0,f:0}; pr[k].u += q; pr[k].f += (Number(v.precio)||0)*q; });
+    var arr = Object.keys(pr).map(function(k){ return {k:k,u:pr[k].u,f:pr[k].f}; }).sort(function(x,y){ return y.f-x.f; }).slice(0,6);
+    var to = "";
+    arr.forEach(function(x){ var n = x.k.split("|"); to += '<div class="top"><span>' + esc(n[1]) + '</span><span><b>' + x.u + "u</b> · " + money(x.f) + "</span></div>"; });
+    $("top").innerHTML = to || '<div class="vacio">Sin ventas en este período</div>';
+  }
+  function pintarFer(){
+    var f = feriados();
+    if(!f.length){ $("chips").innerHTML = '<div class="vacio" style="padding:0 0 8px">Sin feriados cargados</div>'; return; }
+    var h = "";
+    f.slice().sort().forEach(function(x){ h += '<span class="chip">' + fmtFecha(x) + ' <b data-q="' + x + '">×</b></span>'; });
+    $("chips").innerHTML = h;
+  }
+  function cargar(){
+    $("sub").textContent = "Cargando…";
+    fetch(API + "/api/stock/ventas?token=" + encodeURIComponent(token()) + "&desde=2026-09-01&hasta=" + hoy(), { cache:"no-store" })
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        if(!j || !j.ok){ if(j && /vencida/i.test(j.error||"")){ salir(); } else { $("sub").textContent = "No pude leer los datos"; } return; }
+        ventas = j.ventas || [];
+        pintar(); pintarFer();
+      })
+      .catch(function(){ $("sub").textContent = "Sin conexión — probá de nuevo"; });
+  }
+  function entrar(){
+    var p = $("clave").value || "";
+    $("err").textContent = "";
+    fetch(API + "/api/stock/login", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({password:p}) })
+      .then(function(r){ return r.json(); })
+      .then(function(j){ if(j && j.token){ setTok(j.token); $("porton").hidden = true; cargar(); } else { $("err").textContent = (j && j.error) || "Clave incorrecta"; } })
+      .catch(function(){ $("err").textContent = "No pude conectar"; });
+  }
+  function salir(){ delTok(); ventas = []; $("app").hidden = true; $("porton").hidden = false; $("clave").value = ""; }
+  $("bEntrar").addEventListener("click", entrar);
+  $("clave").addEventListener("keydown", function(e){ if(e.key === "Enter") entrar(); });
+  $("bRef").addEventListener("click", cargar);
+  $("bSalir").addEventListener("click", salir);
+  Array.prototype.forEach.call(document.querySelectorAll("#seg button"), function(b){
+    b.addEventListener("click", function(){
+      periodo = b.getAttribute("data-p");
+      Array.prototype.forEach.call(document.querySelectorAll("#seg button"), function(x){ x.classList.remove("on"); });
+      b.classList.add("on"); pintar();
+    });
+  });
+  $("bFer").addEventListener("click", function(){
+    var v = $("nFer").value; if(!v) return;
+    var f = feriados(); if(f.indexOf(v) < 0) f.push(v); setFer(f); $("nFer").value = ""; pintarFer(); pintar();
+  });
+  $("chips").addEventListener("click", function(e){
+    var q = e.target && e.target.getAttribute && e.target.getAttribute("data-q");
+    if(!q) return;
+    setFer(feriados().filter(function(x){ return x !== q; })); pintarFer(); pintar();
+  });
+  var p = document.getElementById("porton");
+  if(token()){ p.hidden = true; $("app").hidden = false; cargar(); } else { p.hidden = false; $("app").hidden = true; }
+})();
+</script>
+</body>
+</html>
