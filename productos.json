@@ -747,14 +747,14 @@
   "nombre": "Remera M Larga Moños",
   "cat": "Remeras",
   "precio": 7900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Remera manga larga con estampa de moños, algodón suave.",
   "talles": [
    "2"
   ],
   "img": "assets/products/remera-m-larga-monos.webp",
   "stockVar": {
-   "|2": 1
+   "|2": 0
   },
   "talle": "2"
  },
