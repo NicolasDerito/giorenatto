@@ -1229,14 +1229,14 @@
   "nombre": "Buzo Frizado Ositos",
   "cat": "Buzos",
   "precio": 19900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Buzo frizado con ositos, calentito y súper cómodo.",
   "talles": [
    "24M"
   ],
   "img": "assets/products/buzo-frizado-ositos.webp",
   "stockVar": {
-   "|24M": 1
+   "|24M": 0
   },
   "talle": "24M"
  },
