@@ -1003,7 +1003,7 @@
   "nombre": "Pijama Conejito Crudo",
   "cat": "Pijamas",
   "precio": 22500,
-  "stock": 2,
+  "stock": 1,
   "desc": "Pijama de conejito color crudo. Algodón suave.",
   "talles": [
    "3",
@@ -1011,7 +1011,7 @@
   ],
   "stockVar": {
    "|3": 0,
-   "|6": 2
+   "|6": 1
   },
   "img": "assets/products/pijama-conejito-crudo.webp",
   "talle": "3, 6"
