@@ -2125,7 +2125,7 @@
   "nombre": "Vestido Alegría Coral",
   "cat": "Vestidos",
   "precio": 12000,
-  "stock": 6,
+  "stock": 5,
   "desc": "Vestido coral de mangas cortas.",
   "talles": [
    "0",
@@ -2139,7 +2139,7 @@
   "stockVar": {
    "|0": 1,
    "|1": 1,
-   "|2": 1,
+   "|2": 0,
    "|3": 1,
    "|4": 1,
    "|5": 1
