@@ -763,14 +763,14 @@
   "nombre": "Remera M Larga Gris Bosque",
   "cat": "Remeras",
   "precio": 7900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Remera manga larga gris bosque, algodón suave.",
   "talles": [
    "2"
   ],
   "img": "assets/products/remera-m-larga-gris-bosque.webp",
   "stockVar": {
-   "|2": 1
+   "|2": 0
   },
   "talle": "2"
  },
