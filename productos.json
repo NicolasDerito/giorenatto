@@ -1157,7 +1157,7 @@
   "nombre": "Buzo Rústico Florcitas",
   "cat": "Buzos",
   "precio": 16900,
-  "stock": 3,
+  "stock": 2,
   "desc": "Buzo rústico beige con estampa de florcitas, algodón suave.",
   "talles": [
    "12-18 meses",
@@ -1166,7 +1166,7 @@
   ],
   "img": "assets/products/buzo-rustico-florcitas.webp",
   "stockVar": {
-   "|12-18 meses": 1,
+   "|12-18 meses": 0,
    "|24 meses": 1,
    "|36 meses": 1
   },
