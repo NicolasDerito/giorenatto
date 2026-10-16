@@ -275,14 +275,14 @@
   "nombre": "Body Musculosa",
   "cat": "Bodies",
   "precio": 14900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Body musculosa de algodón, ideal para el calor.",
   "talles": [
    "3"
   ],
   "img": "assets/products/body-musculosa.webp",
   "stockVar": {
-   "|3": 1
+   "|3": 0
   },
   "talle": "3"
  },
