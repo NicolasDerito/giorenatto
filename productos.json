@@ -984,7 +984,7 @@
   "cat": "Pijamas",
   "talle": "5",
   "precio": 22500,
-  "stock": 1,
+  "stock": 0,
   "desc": "Pijama de perrito rosa viejo. Algodón suave, talle bebé.",
   "img": "assets/products/pijama-perrito-rosa-viejo.webp"
  },
