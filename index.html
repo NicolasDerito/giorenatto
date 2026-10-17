@@ -390,6 +390,7 @@ button{font:inherit;color:inherit}
 body.bloqueo-scroll{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 .modal,.modal-info,.talles-ov,.talles-modal{overscroll-behavior:contain}
 .items{padding:6px var(--gutter) 18px;display:flex;flex-direction:column;gap:11px}
+.checkout-stage-title{padding:12px var(--gutter) 0;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-3)}
 .empty{text-align:center;color:var(--tinta-2);margin-top:60px;padding:0 var(--gutter)}
 .empty .emoji{font-size:3.4rem;display:block;margin-bottom:14px;opacity:.8}
 .empty-cta{margin-top:18px;border:none;cursor:pointer;background:var(--oso-deep);color:#fff;font-family:var(--texto);font-weight:800;font-size:.92rem;padding:12px 22px;border-radius:var(--r-sm)}
@@ -460,6 +461,8 @@ body.bloqueo-scroll{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 .datos input.err,.datos select.err{border-color:#e5484d;background:#fff5f5}
 .datos input.err:focus,.datos select.err:focus{border-color:#e5484d;box-shadow:0 0 0 3px rgba(229,72,77,.12)}
 .entrega{display:flex;gap:8px;margin-bottom:10px}
+.entrega-ayuda,.datos-ayuda{font-size:.78rem;line-height:1.45;color:var(--tinta-3);margin:0 0 11px}
+.datos-ayuda{margin:12px 0 0;padding-top:10px;border-top:1px dashed var(--linea)}
 .entrega button{flex:1;border:1.5px solid var(--linea);background:var(--sup);border-radius:var(--r-xs);padding:9px;font-family:var(--texto);font-weight:700;font-size:.85rem;color:var(--tinta-2);cursor:pointer;transition:all .15s}
 .entrega button.on{border-color:var(--salvia-deep);background:var(--salvia-soft);color:var(--tinta)}
 #campoDireccion,#campoCiudad,#campoCP,#campoProvincia{display:none}
@@ -895,12 +898,13 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Tu carrito">
   <div class="drawer-head"><div><h3>Tu carrito</h3><p class="sub">Pedido · Giorenatto</p></div><button class="close" onclick="cerrarCarrito()" aria-label="Cerrar carrito">×</button></div>
   <div class="drawer-body">
+  <h4 class="checkout-stage-title">1 · Revisá tu pedido</h4>
   <div class="items" id="items"></div>
   <div class="datos" id="datos">
-    <h4>Datos para la entrega</h4>
+    <h4>2 · Elegí cómo recibirlo</h4><p class="entrega-ayuda" id="entregaAyuda">Envío a domicilio: completá la dirección para calcularlo. Gratis desde $60.000.</p>
     <div class="entrega">
-      <button type="button" id="btnEnvio" class="on" onclick="elegirEntrega('envio')">🚚 Envío</button>
-      <button type="button" id="btnRetiro" onclick="elegirEntrega('retiro')">🏠 Retiro en el local</button>
+      <button type="button" id="btnEnvio" class="on" onclick="elegirEntrega('envio')">🚚 Envío a domicilio</button>
+      <button type="button" id="btnRetiro" onclick="elegirEntrega('retiro')">🏠 Retiro sin cargo en Quilmes</button>
     </div>
     <div class="grid">
       <div><label for="fNombre">Nombre</label><input id="fNombre" placeholder="Tu nombre" autocomplete="given-name" aria-describedby="fNombreErr"><small class="field-err" id="fNombreErr" aria-live="polite"></small></div>
@@ -911,6 +915,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
       <div class="full show" id="campoCiudad"><label for="fCiudad">Ciudad</label><input id="fCiudad" placeholder="Ciudad" autocomplete="address-level2" aria-describedby="fCiudadErr"><small class="field-err" id="fCiudadErr" aria-live="polite"></small></div>
       <div class="full show" id="campoCP"><label for="fCP">Código postal</label><input id="fCP" inputmode="numeric" placeholder="1878" autocomplete="postal-code" aria-describedby="fCPErr"><small class="field-err" id="fCPErr" aria-live="polite"></small></div>
       <div class="full show" id="campoProvincia"><label for="fProvincia">Provincia</label><select id="fProvincia" autocomplete="address-level1" aria-describedby="fProvinciaErr"><option value="">Elegí tu provincia</option><option>Buenos Aires</option><option>Ciudad Autónoma de Buenos Aires</option><option>Catamarca</option><option>Chaco</option><option>Chubut</option><option>Córdoba</option><option>Corrientes</option><option>Entre Ríos</option><option>Formosa</option><option>Jujuy</option><option>La Pampa</option><option>La Rioja</option><option>Mendoza</option><option>Misiones</option><option>Neuquén</option><option>Río Negro</option><option>Salta</option><option>San Juan</option><option>San Luis</option><option>Santa Cruz</option><option>Santa Fe</option><option>Santiago del Estero</option><option>Tierra del Fuego</option><option>Tucumán</option></select><small class="field-err" id="fProvinciaErr" aria-live="polite"></small></div>
+      <p class="datos-ayuda">Usamos estos datos para preparar tu pedido y coordinar la entrega. No se realiza ningún cobro hasta que elijas “Pagar ahora con Mercado Pago”.</p>
     </div>
   </div>
   </div>
@@ -930,10 +935,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
       <p>Se abrió WhatsApp con tu pedido listo. Si no se abrió, <a href="#" id="waReintento" target="_blank" rel="noopener">reenviá el pedido desde acá</a>.</p>
       <a href="#catalogo" role="button" onclick="cerrarCarrito();return false">Seguir comprando →</a>
     </div>
-    <div class="checkout-title" id="pasoTitle">Paso final</div>
-    <button class="checkout ios-press" id="checkout" onclick="finalizar()" disabled><svg viewBox="0 0 32 32" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg> Finalizar por WhatsApp</button>
-    <button class="mp-btn ios-press" id="mp-btn" onclick="pagarMercadoPago()" disabled>Pagar con Mercado Pago</button>
-    <p class="pago-nota">Coordinás el pago por Mercado Pago o transferencia</p>
+    <div class="checkout-title" id="pasoTitle">3 · Completá los datos y elegí cómo pagar</div>
+    <button class="checkout ios-press" id="checkout" onclick="finalizar()" disabled><svg viewBox="0 0 32 32" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg> Enviar pedido por WhatsApp</button>
+    <button class="mp-btn ios-press" id="mp-btn" onclick="pagarMercadoPago()" disabled>Pagar ahora con Mercado Pago</button>
+    <p class="pago-nota">Mercado Pago: pagás ahora en su plataforma. WhatsApp: enviás el pedido y coordinás el pago con el local.</p>
   </div>
 </aside>
 
@@ -3632,6 +3637,7 @@ async function restaurarCupon(){
 }
 function elegirEntrega(t){
   entrega=t;
+  const ayuda=document.getElementById("entregaAyuda");if(ayuda)ayuda.textContent=t==="retiro"?"Retiro sin cargo en el local de Quilmes.":"Envío a domicilio: completá la dirección para calcularlo. Gratis desde $60.000.";
   document.getElementById("btnEnvio").classList.toggle("on",t==='envio');
   document.getElementById("btnRetiro").classList.toggle("on",t==='retiro');
   document.getElementById("campoDireccion").classList.toggle("show",t==='envio');
@@ -3717,7 +3723,9 @@ function actualizarPaso(){
   if(!Object.keys(carrito).length){t.textContent="Para empezar: sumá prendas desde el catálogo";return;}
   const ids=entrega==='envio'?IDS_DATOS:IDS_DATOS.slice(0,4);
   const faltan=ids.filter(id=>{const el=document.getElementById(id);return el&&!(el.value||"").trim();});
-  t.textContent=faltan.length?("Paso siguiente: completá tus datos ("+faltan.length+" campo"+(faltan.length===1?"":"s")+") y elegí cómo terminar"):"Todo listo: elegí cómo terminar tu pedido";
+  const etapa=document.querySelector(".checkout-stage-title");
+  if(etapa)etapa.textContent="1 · Revisá tu pedido ("+Object.values(carrito).reduce((n,i)=>n+i.cantidad,0)+")";
+  t.textContent=faltan.length?("3 · Completá tus datos ("+faltan.length+" campo"+(faltan.length===1?"":"s")+") y después elegí cómo pagar"):"3 · Datos completos: elegí cómo pagar";
 }
 // Valida los datos de entrega/envio. Devuelve {ok:true,datos} o {ok:false,msg}.
 // Si falta algo, marca cada campo con su mensaje y enfoca el primero.
