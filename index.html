@@ -3788,6 +3788,7 @@ function validarContactoCheckout(){
 }
 function moverPasoCheckout(delta){
   if(!window.matchMedia("(max-width: 760px)").matches)return;
+  if(delta>0&&pasoCheckout===1&&!Object.keys(carrito).length){aviso("Sumá al menos una prenda antes de continuar.","err");return;}
   if(delta>0&&pasoCheckout===1&&!validarContactoCheckout())return;
   if(delta>0&&pasoCheckout===2){const r=validarDatos();if(!r.ok)return;}
   pasoCheckout=Math.max(1,Math.min(3,pasoCheckout+delta));actualizarCheckoutMovil();
