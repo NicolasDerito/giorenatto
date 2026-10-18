@@ -388,6 +388,7 @@ button{font:inherit;color:inherit}
 .close{width:38px;height:38px;border-radius:50%;border:1px solid var(--linea);background:var(--sup);cursor:pointer;display:grid;place-items:center;color:var(--tinta-2);font-size:1.3rem;line-height:1;transition:all .2s;flex-shrink:0}
 .close:hover{background:var(--tinta);color:#fff;border-color:var(--tinta)}
 .drawer-body{flex:1;overflow-y:auto;min-height:0;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.checkout-mobile-progress,.checkout-mobile-nav{display:none}
 /* Con el carrito, la ficha o la guia de talles abiertos, la pagina de atras no debe moverse */
 body.bloqueo-scroll{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 .modal,.modal-info,.talles-ov,.talles-modal{overscroll-behavior:contain}
@@ -616,8 +617,34 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
   /* Carrito en celular: el resumen (474px) aplastaba la lista de productos a 41px */
   .drawer-head{padding:15px var(--gutter) 11px}
   .drawer-head h3{font-size:1.3rem}
-  .drawer-foot{padding:13px var(--gutter) 15px}
+  .drawer-foot{padding:10px var(--gutter) max(12px, env(safe-area-inset-bottom))}
   .drawer-foot .trust-row{display:none}
+  .checkout-mobile-progress{display:flex}
+  .checkout-mobile-step{display:none}
+  .checkout-mobile-step.current{display:block}
+  .checkout-mobile-nav{display:flex}
+  .checkout-mobile-nav button{min-height:46px}
+  .checkout-payment-actions{display:none}
+  .drawer-foot.checkout-payment .checkout-payment-actions{display:block}
+  .drawer-foot:not(.checkout-payment) .cupon-row,.drawer-foot:not(.checkout-payment) .cupon-aplicado,.drawer-foot:not(.checkout-payment) .cupon-msg{display:none!important}
+  .drawer-foot:not(.checkout-payment) .checkout-payment-actions,.drawer-foot:not(.checkout-payment) .checkout-title{display:none!important}
+  .drawer-foot:not(.checkout-payment) .drawer-status{margin:6px 0}
+  .drawer-foot:not(.checkout-payment) .sub-row,.drawer-foot:not(.checkout-payment) .total-row,.drawer-foot:not(.checkout-payment) .ship-progress{display:none!important}
+  .drawer-foot{max-height:38dvh;overflow-y:auto;overscroll-behavior:contain}
+  .drawer-body{padding-bottom:8px}
+  .checkout-mobile-nav{display:flex;gap:9px;margin-top:8px}
+  .checkout-mobile-nav button{flex:1;border:1px solid var(--linea);border-radius:var(--r-xs);font:700 .92rem var(--texto);background:var(--papel);color:var(--tinta);padding:10px}
+  .checkout-mobile-nav .next{background:var(--oso-deep);border-color:var(--oso-deep);color:white}
+  .checkout-mobile-progress{align-items:center;gap:6px;padding:0 var(--gutter) 10px;color:var(--tinta-3);font-size:.72rem;font-weight:800;letter-spacing:.04em}
+  .checkout-mobile-progress span{flex:1;text-align:center;padding:7px 3px;border-bottom:2px solid var(--linea)}
+  .checkout-mobile-progress span.active{color:var(--oso-deep);border-color:var(--oso-deep)}
+  .checkout-step-heading{font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--oso-deep);padding:15px var(--gutter) 4px}
+  #datosContacto .grid{grid-template-columns:1fr 1fr}
+  #datosContacto .datos{padding:12px var(--gutter)}
+  #datos .grid{grid-template-columns:1fr 1fr}
+  .checkout-summary-mobile{display:flex;justify-content:space-between;align-items:center;margin:12px var(--gutter);padding:12px 16px;background:var(--sup);border:1px solid var(--linea);border-radius:var(--r-sm);font-weight:800}
+  #checkoutItemsCount{color:var(--tinta-2);font-size:.9rem}
+  #checkoutStepTotal{font-family:var(--display);font-size:1.55rem;color:var(--oso-deep)}
   .ship-progress{padding:8px 11px;margin-bottom:8px;font-size:.79rem}
   .total-row .val{font-size:1.5rem}
   .checkout-title{margin-bottom:7px}
@@ -899,9 +926,22 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 <div class="overlay" id="overlay" onclick="cerrarCarrito()"></div>
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Tu carrito">
   <div class="drawer-head"><div><h3>Tu carrito</h3><p class="sub">Pedido · Giorenatto</p></div><button class="close" onclick="cerrarCarrito()" aria-label="Cerrar carrito">×</button></div>
+  <div class="checkout-mobile-progress" aria-label="Pasos de compra"><span data-checkout-progress="1">1 · Datos</span><span data-checkout-progress="2">2 · Entrega</span><span data-checkout-progress="3">3 · Pago</span></div>
   <div class="drawer-body">
-  <h4 class="checkout-stage-title">1 · Revisá tu pedido</h4>
-  <div class="items" id="items"></div>
+  <section class="checkout-mobile-step current" data-checkout-step="1">
+    <h4 class="checkout-stage-title">1 · Revisá tu pedido</h4>
+    <div class="items" id="items"></div>
+    <div class="checkout-step-heading">Tus datos de contacto</div>
+    <div id="datosContacto">
+      <div class="datos"><div class="grid">
+        <div><label for="fNombre">Nombre</label><input id="fNombre" placeholder="Tu nombre" autocomplete="given-name" aria-describedby="fNombreErr"><small class="field-err" id="fNombreErr" aria-live="polite"></small></div>
+        <div><label for="fApellido">Apellido</label><input id="fApellido" placeholder="Tu apellido" autocomplete="family-name" aria-describedby="fApellidoErr"><small class="field-err" id="fApellidoErr" aria-live="polite"></small></div>
+        <div class="full"><label for="fTelefono">Teléfono</label><input id="fTelefono" type="tel" inputmode="tel" placeholder="11 2345-6789" autocomplete="tel" aria-describedby="fTelefonoErr"><small class="field-err" id="fTelefonoErr" aria-live="polite"></small></div>
+        <div class="full"><label for="fMail">Email</label><input id="fMail" type="email" placeholder="tu@mail.com" autocomplete="email" aria-describedby="fMailErr"><small class="field-err" id="fMailErr" aria-live="polite"></small></div>
+      </div></div>
+    </div>
+  </section>
+  <section class="checkout-mobile-step" data-checkout-step="2">
   <div class="datos" id="datos">
     <h4>2 · Elegí cómo recibirlo</h4><p class="entrega-ayuda" id="entregaAyuda">Envío a domicilio: completá la dirección para calcularlo. Gratis desde $60.000.</p>
     <div class="entrega">
@@ -909,10 +949,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
       <button type="button" id="btnRetiro" onclick="elegirEntrega('retiro')">🏠 Retiro sin cargo en Quilmes</button>
     </div>
     <div class="grid">
-      <div><label for="fNombre">Nombre</label><input id="fNombre" placeholder="Tu nombre" autocomplete="given-name" aria-describedby="fNombreErr"><small class="field-err" id="fNombreErr" aria-live="polite"></small></div>
-      <div><label for="fApellido">Apellido</label><input id="fApellido" placeholder="Tu apellido" autocomplete="family-name" aria-describedby="fApellidoErr"><small class="field-err" id="fApellidoErr" aria-live="polite"></small></div>
-      <div class="full"><label for="fTelefono">Teléfono</label><input id="fTelefono" type="tel" inputmode="tel" placeholder="11 2345-6789" autocomplete="tel" aria-describedby="fTelefonoErr"><small class="field-err" id="fTelefonoErr" aria-live="polite"></small></div>
-      <div class="full"><label for="fMail">Email</label><input id="fMail" type="email" placeholder="tu@mail.com" autocomplete="email" aria-describedby="fMailErr"><small class="field-err" id="fMailErr" aria-live="polite"></small></div>
       <div class="full show" id="campoDireccion"><label for="fCalle">Calle y número</label><input id="fCalle" placeholder="Av. Siempre Viva 123" autocomplete="street-address" aria-describedby="fCalleErr"><small class="field-err" id="fCalleErr" aria-live="polite"></small></div>
       <div class="full show" id="campoCiudad"><label for="fCiudad">Ciudad</label><input id="fCiudad" placeholder="Ciudad" autocomplete="address-level2" aria-describedby="fCiudadErr"><small class="field-err" id="fCiudadErr" aria-live="polite"></small></div>
       <div class="full show" id="campoCP"><label for="fCP">Código postal</label><input id="fCP" inputmode="numeric" placeholder="1878" autocomplete="postal-code" aria-describedby="fCPErr"><small class="field-err" id="fCPErr" aria-live="polite"></small></div>
@@ -920,6 +956,11 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
       <p class="datos-ayuda">Usamos estos datos para preparar tu pedido y coordinar la entrega. No se realiza ningún cobro hasta que elijas “Pagar ahora con Mercado Pago”.</p>
     </div>
   </div>
+  </section>
+  <section class="checkout-mobile-step" data-checkout-step="3">
+    <div class="checkout-step-heading">3 · Pagá con Mercado Pago</div>
+    <div class="checkout-summary-mobile"><span id="checkoutItemsCount">0 prendas</span><span id="checkoutStepTotal">$0</span></div>
+  </section>
   </div>
   <div class="drawer-foot">
     <div class="trust-row" aria-label="Información de compra"><span>🚚 Envío gratis desde $60.000</span><span>📦 Envíos a todo el país</span><span>🔁 Cambios hasta 15 días</span></div>
@@ -937,10 +978,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
       <p>Se abrió WhatsApp con tu pedido listo. Si no se abrió, <a href="#" id="waReintento" target="_blank" rel="noopener">reenviá el pedido desde acá</a>.</p>
       <a href="#catalogo" role="button" onclick="cerrarCarrito();return false">Seguir comprando →</a>
     </div>
-    <div class="checkout-title" id="pasoTitle">3 · Completá los datos y elegí cómo pagar</div>
-    <button class="checkout ios-press" id="checkout" onclick="finalizar()" disabled><svg viewBox="0 0 32 32" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M16.003 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.257.59 4.463 1.71 6.408L3.2 28.8l6.56-1.71a12.74 12.74 0 0 0 6.24 1.59h.005c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.332-6.635-3.75-9.052A12.716 12.716 0 0 0 16.003 3.2Zm0 23.36h-.004a10.63 10.63 0 0 1-5.42-1.485l-.388-.23-4.028 1.055 1.075-3.928-.253-.403a10.6 10.6 0 0 1-1.626-5.67c0-5.867 4.774-10.64 10.646-10.64a10.57 10.57 0 0 1 7.522 3.122 10.57 10.57 0 0 1 3.116 7.526c0 5.868-4.774 10.646-10.64 10.646Zm5.837-7.972c-.32-.16-1.893-.934-2.186-1.04-.293-.107-.507-.16-.72.16-.213.32-.826 1.04-1.013 1.253-.187.213-.373.24-.693.08-.32-.16-1.35-.498-2.573-1.588-.951-.848-1.593-1.895-1.78-2.215-.187-.32-.02-.493.14-.652.144-.143.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.734-.986-2.374-.26-.624-.524-.539-.72-.549l-.613-.011c-.213 0-.56.08-.853.4-.293.32-1.12 1.094-1.12 2.667 0 1.573 1.146 3.093 1.306 3.307.16.213 2.253 3.44 5.46 4.823.763.33 1.358.526 1.822.674.766.243 1.463.209 2.014.127.614-.092 1.893-.774 2.16-1.52.267-.747.267-1.387.187-1.52-.08-.133-.293-.213-.613-.373Z"/></svg> Enviar pedido por WhatsApp</button>
-    <button class="mp-btn ios-press" id="mp-btn" onclick="pagarMercadoPago()" disabled>Pagar ahora con Mercado Pago</button>
-    <p class="pago-nota">Mercado Pago: pagás ahora en su plataforma. WhatsApp: enviás el pedido y coordinás el pago con el local.</p>
+    <div class="checkout-title" id="pasoTitle">3 · Pagá con Mercado Pago</div>
+
+    <div class="checkout-mobile-nav" aria-label="Navegación de compra"><button type="button" id="checkoutBack" onclick="moverPasoCheckout(-1)">Volver</button><button type="button" class="next" id="checkoutNext" onclick="moverPasoCheckout(1)">Continuar</button></div>
+    <div class="checkout-payment-actions">
+      <button class="mp-btn ios-press" id="mp-btn" onclick="pagarMercadoPago()" disabled>Pagar ahora con Mercado Pago</button>
+    </div>
   </div>
 </aside>
 
@@ -3508,7 +3551,7 @@ function actualizar(){
   sincronizarCupon(subtotal);
   const descAplicado=descuentoVigente(subtotal);
   const totalEl=document.getElementById("total");totalEl.textContent=subtotal>0?fmt(Math.max(0,subtotal-descAplicado)+(entrega==='envio'?costoEnvio:0)):"Consultar";
-  document.getElementById("checkout").disabled=count===0;const mpBtn=document.getElementById("mp-btn");mpBtn.disabled=count===0||subtotal===0;mpBtn.style.display=(BACKEND_URL||MP_LINK)?"":"none";
+  const mpBtn=document.getElementById("mp-btn");mpBtn.disabled=count===0||subtotal===0;mpBtn.style.display=(BACKEND_URL||MP_LINK)?"":"none";
   recalcularEnvio();
   actualizarPaso();
   const cont=document.getElementById("items");
@@ -3516,7 +3559,7 @@ function actualizar(){
   else{cont.innerHTML=items.map(i=>{const k=i.color||i.talle?`${i.producto.id}|${i.color||''}|${i.talle||''}`:i.producto.id;const foto=(i.producto.colores&&i.producto.colores.length)?((i.color&&i.producto.colores.find(c=>c.nombre===i.color)||i.producto.colores[0]).foto):(i.producto.img||"");const ico=foto?`<img src="${esc(foto)}" alt="" loading="lazy" decoding="async">`:(ICONOS[i.producto.cat]||"🧸");return `<div class="item"><div class="ico">${ico}</div><div class="info"><div class="n">${esc(i.producto.nombre)}</div><div class="p">${[i.color?esc(i.color):'',i.talle?('Talle '+esc(i.talle)):''].filter(Boolean).join(' · ')}${(i.color||i.talle)?' · ':''}${i.producto.precio>0?fmt(i.producto.precio)+" c/u":"Consultar"}</div></div><div class="qty"><button class="ios-press" onclick="cambiar('${esc(k)}',-1)">−</button><span>${i.cantidad}</span><button class="ios-press" onclick="cambiar('${esc(k)}',1)">+</button></div><button class="del ios-press" onclick="borrarItem('${esc(k)}')" aria-label="Quitar del carrito" title="Quitar">✕</button></div>`;}).join("");}
   renderDestacados();renderGrupos();
 }
-function abrirCarrito(){const d=document.getElementById("drawer");ultimoFoco=document.activeElement;if(!cupon)restaurarCupon();d.inert=false;document.getElementById("overlay").classList.add("open");d.classList.add("open");sincronizarBloqueo();const c=d.querySelector(".close");if(c)c.focus();}
+function abrirCarrito(){const d=document.getElementById("drawer");ultimoFoco=document.activeElement;if(!cupon)restaurarCupon();d.inert=false;document.getElementById("overlay").classList.add("open");d.classList.add("open");sincronizarBloqueo();const c=d.querySelector(".close");if(c)c.focus();actualizarCheckoutMovil();}
 function cerrarCarrito(){const d=document.getElementById("drawer");d.classList.remove("open");d.inert=true;document.getElementById("overlay").classList.remove("open");sincronizarBloqueo();if(ultimoFoco&&document.contains(ultimoFoco)){ultimoFoco.focus();ultimoFoco=null;}}
 let entrega='envio';
 let costoEnvio=0;let envioGratis=false;let envioZona=''; // estado del envío calculado (0 si retiro/sin calcular)
@@ -3720,14 +3763,48 @@ function aviso(msg,tipo){
   el.textContent=msg;
 }
 // Paso siguiente siempre a la vista: qué falta para terminar el pedido
+let pasoCheckout=1;
+function actualizarCheckoutMovil(){
+  const movil=window.matchMedia("(max-width: 760px)").matches;
+  const pie=document.querySelector(".drawer-foot");
+  const body=document.querySelector(".drawer-body");
+  document.querySelectorAll("[data-checkout-step]").forEach(el=>el.classList.toggle("current",!movil||Number(el.dataset.checkoutStep)===pasoCheckout));
+  document.querySelectorAll("[data-checkout-progress]").forEach(el=>{const n=Number(el.dataset.checkoutProgress);el.classList.toggle("active",n===pasoCheckout);el.setAttribute("aria-current",n===pasoCheckout?"step":"false");});
+  if(pie)pie.classList.toggle("checkout-payment",!movil||pasoCheckout===3);
+  if(body)body.classList.toggle("checkout-payment-step",!movil||pasoCheckout===3);
+  const back=document.getElementById("checkoutBack"),next=document.getElementById("checkoutNext");
+  if(back)back.hidden=pasoCheckout===1;
+  if(next){next.hidden=pasoCheckout===3;next.textContent=pasoCheckout===2?"Ver pago":"Continuar";}
+  const count=Object.values(carrito).reduce((n,i)=>n+i.cantidad,0);
+  const countEl=document.getElementById("checkoutItemsCount"),totalEl=document.getElementById("checkoutStepTotal");
+  if(countEl)countEl.textContent=count+" "+(count===1?"prenda":"prendas");
+  if(totalEl)totalEl.textContent=document.getElementById("total")?.textContent||"$0";
+}
+function validarContactoCheckout(){
+  const ids=IDS_DATOS.slice(0,4);ids.forEach(limpiarErrorCampo);const v={};ids.forEach(id=>v[id]=(document.getElementById(id).value||"").trim());const e=[];
+  if(!v.fNombre)e.push(["fNombre",MSG_ERR.fNombre]);if(!v.fApellido)e.push(["fApellido",MSG_ERR.fApellido]);if(!v.fTelefono)e.push(["fTelefono",MSG_ERR.fTelefono]);
+  if(!v.fMail)e.push(["fMail","Poné tu email"]);else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.fMail))e.push(["fMail",MSG_ERR.fMail]);
+  if(e.length){e.forEach(([id,m])=>marcarError(id,m));aviso("Revisá los datos de contacto marcados en rojo.","err");document.getElementById(e[0][0]).focus();return false;}aviso("");return true;
+}
+function moverPasoCheckout(delta){
+  if(!window.matchMedia("(max-width: 760px)").matches)return;
+  if(delta>0&&pasoCheckout===1&&!validarContactoCheckout())return;
+  if(delta>0&&pasoCheckout===2){const r=validarDatos();if(!r.ok)return;}
+  pasoCheckout=Math.max(1,Math.min(3,pasoCheckout+delta));actualizarCheckoutMovil();
+  const body=document.querySelector(".drawer-body");if(body)body.scrollTop=0;
+  document.querySelector(".drawer-head")?.scrollIntoView({block:"nearest"});
+  (pasoCheckout===3?document.getElementById("mp-btn"):document.getElementById("checkoutNext"))?.focus({preventScroll:true});
+}
+window.addEventListener("resize",actualizarCheckoutMovil);
 function actualizarPaso(){
+  actualizarCheckoutMovil();
   const t=document.getElementById("pasoTitle");if(!t)return;
   if(!Object.keys(carrito).length){t.textContent="Para empezar: sumá prendas desde el catálogo";return;}
   const ids=entrega==='envio'?IDS_DATOS:IDS_DATOS.slice(0,4);
   const faltan=ids.filter(id=>{const el=document.getElementById(id);return el&&!(el.value||"").trim();});
   const etapa=document.querySelector(".checkout-stage-title");
   if(etapa)etapa.textContent="1 · Revisá tu pedido ("+Object.values(carrito).reduce((n,i)=>n+i.cantidad,0)+")";
-  t.textContent=faltan.length?("3 · Completá tus datos ("+faltan.length+" campo"+(faltan.length===1?"":"s")+") y después elegí cómo pagar"):"3 · Datos completos: elegí cómo pagar";
+  t.textContent=faltan.length?("3 · Completá tus datos ("+faltan.length+" campo"+(faltan.length===1?"":"s")+") para pagar con Mercado Pago"):"3 · Pagá con Mercado Pago";
 }
 // Valida los datos de entrega/envio. Devuelve {ok:true,datos} o {ok:false,msg}.
 // Si falta algo, marca cada campo con su mensaje y enfoca el primero.
@@ -3765,7 +3842,7 @@ function limpiarErrores(e){
   const el=e.target.closest("input,select");if(el&&el.id)limpiarErrorCampo(el.id);
   actualizarPaso();
 }
-document.querySelectorAll("#datos input,#datos select").forEach(i=>i.addEventListener("input",limpiarErrores));
+document.querySelectorAll("#datos input,#datos select,#datosContacto input").forEach(i=>i.addEventListener("input",limpiarErrores));
 document.getElementById("datos").addEventListener("change",limpiarErrores);
 function finalizar(){
   const items=Object.values(carrito);if(!items.length)return;
@@ -3822,13 +3899,13 @@ function pagarMercadoPago(){
     fetch(BACKEND_URL+"/api/preference",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
       .then(r=>r.json()).then(d=>{if(d&&d.init_point){window.location.href=d.init_point;return;}
         setLoad(false);
-        aviso("No pudimos iniciar el pago"+(d&&d.error?(" ("+d.error+")"):"")+". Probá de nuevo o finalizá por WhatsApp.","err");
-        toast("No se pudo iniciar el pago, usá WhatsApp");
+        aviso("No pudimos iniciar el pago"+(d&&d.error?(" ("+d.error+")"):"")+". Probá de nuevo o escribinos para consultar.","err");
+        toast("No se pudo iniciar el pago. Probá de nuevo");
       })
-      .catch(()=>{setLoad(false);aviso("No pudimos iniciar el pago (sin conexión). Finalizá por WhatsApp y lo coordinamos.","err");toast("No se pudo iniciar el pago, usá WhatsApp");});
+      .catch(()=>{setLoad(false);aviso("No pudimos iniciar el pago por falta de conexión. Probá de nuevo más tarde.","err");toast("No se pudo iniciar el pago. Probá de nuevo");});
     return;
   }
-  if(!MP_LINK){aviso("Mercado Pago todavía no está disponible: finalizá por WhatsApp.","info");toast("Aún no configuramos Mercado Pago, usá WhatsApp");return;}
+  if(!MP_LINK){aviso("Mercado Pago todavía no está disponible. Escribinos para consultar.","info");toast("Mercado Pago todavía no está disponible");return;}
   window.open(MP_LINK,"_blank");
 }
 function waConsulta(){gioTrack("whatsapp_click",{origen:"consulta"});window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent("¡Hola Giorenatto! 🐻 Tengo una consulta")}`,"_blank");}
@@ -3846,7 +3923,7 @@ fetch("productos.json").then(r=>r.ok?r.json():null).then(lista=>{
 (function(){const q=new URLSearchParams(location.search);const pago=q.get("pago");if(!pago)return;
   if(pago==="ok"){sessionStorage.removeItem("gio_carrito");sessionStorage.removeItem("gio_cupon");cupon=null;pintarCuponUI();Object.keys(carrito).forEach(k=>delete carrito[k]);actualizar();toast("¡Pago aprobado! Te escribimos por WhatsApp 🐻");}
   else if(pago==="pendiente")toast("Pago pendiente. Te avisamos cuando se acredite.");
-  else toast("El pago no se completó. Podés reintentar o pedir por WhatsApp.");
+  else toast("El pago no se completó. Podés intentarlo de nuevo.");
   history.replaceState(null,"",location.pathname);})();
 window.addEventListener("scroll",()=>{document.getElementById("header").classList.toggle("scrolled",window.scrollY>10);});
 // PWA: registro del service worker (permite instalar la web como app en el celu)
