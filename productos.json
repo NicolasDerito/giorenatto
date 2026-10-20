@@ -403,7 +403,7 @@
   "nombre": "Conjunto Cheito",
   "cat": "Conjuntos",
   "precio": 22900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Conjunto de bebé, algodón suave.",
   "talles": [
    "10 meses",
@@ -412,7 +412,7 @@
   "img": "assets/products/conjunto-cheito.webp",
   "stockVar": {
    "|10 meses": 0,
-   "|12 meses": 1
+   "|12 meses": 0
   },
   "talle": "10 meses, 12 meses"
  },
