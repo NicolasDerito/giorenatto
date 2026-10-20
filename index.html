@@ -3876,13 +3876,6 @@ function finalizar(){
   const relink=document.getElementById("waReintento");if(relink)relink.href=url;
   const okPanel=document.getElementById("checkoutOk");if(okPanel)okPanel.classList.add("show");
   aviso("Pedido enviado por WhatsApp. Si no se abrió, usá el enlace del cartel verde.","ok");
-  // mail de confirmación al cliente (si el backend está configurado)
-  if(BACKEND_URL&&datos.mail){
-    fetch(BACKEND_URL+"/api/confirm",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
-      email:datos.mail,nombre:datos.nombreSolo,apellido:datos.apellido,telefono:datos.telefono,entrega:datos.entrega,direccion:datos.direccion,total,
-      items:items.map(i=>({nombre:i.producto.nombre,cantidad:i.cantidad,precio:i.producto.precio,color:i.color||"",talle:i.talle||""}))
-    })}).catch(()=>{});
-  }
 }
 // Mercado Pago: link de pago configurable (se completa cuando Nicolas tenga su cuenta MP)
 const MP_LINK=""; // sin backend, dejalo vacío: el botón de MP se oculta solo. Si tenés un link de pago real de MP, pegalo acá.
@@ -3922,7 +3915,7 @@ fetch("productos.json").then(r=>r.ok?r.json():null).then(lista=>{
 }).catch(()=>{});
 // Vuelta desde Mercado Pago
 (function(){const q=new URLSearchParams(location.search);const pago=q.get("pago");if(!pago)return;
-  if(pago==="ok"){sessionStorage.removeItem("gio_carrito");sessionStorage.removeItem("gio_cupon");cupon=null;pintarCuponUI();Object.keys(carrito).forEach(k=>delete carrito[k]);actualizar();toast("¡Pago aprobado! Te escribimos por WhatsApp 🐻");}
+  if(pago==="ok"){toast("Mercado Pago informa que el pago se procesó. Estamos verificando la acreditación; no hace falta volver a pagar.");}
   else if(pago==="pendiente")toast("Pago pendiente. Te avisamos cuando se acredite.");
   else toast("El pago no se completó. Podés intentarlo de nuevo.");
   history.replaceState(null,"",location.pathname);})();
