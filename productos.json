@@ -2250,5 +2250,48 @@
    "Beige|5": 1
   },
   "talle": "0, 1, 2, 3, 4, 5"
+ },
+ {
+  "id": "GIO-0166",
+  "nombre": "Conjunto Remera Algodón + Short Waffle",
+  "cat": "Conjuntos",
+  "precio": 15000,
+  "stock": 12,
+  "desc": "Conjunto de remera de algodón y short waffle. Elegí el color.",
+  "talles": [
+   "1",
+   "2",
+   "3",
+   "4"
+  ],
+  "colores": [
+   {
+    "nombre": "Celeste",
+    "foto": "assets/products/conjunto-algodon-short-waffle-celeste.webp"
+   },
+   {
+    "nombre": "Rosa",
+    "foto": "assets/products/conjunto-algodon-short-waffle-rosa.webp"
+   },
+   {
+    "nombre": "Beige",
+    "foto": "assets/products/conjunto-algodon-short-waffle-beige.webp"
+   }
+  ],
+  "stockVar": {
+   "Celeste|1": 1,
+   "Celeste|2": 1,
+   "Celeste|3": 1,
+   "Celeste|4": 1,
+   "Rosa|1": 1,
+   "Rosa|2": 1,
+   "Rosa|3": 1,
+   "Rosa|4": 1,
+   "Beige|1": 1,
+   "Beige|2": 1,
+   "Beige|3": 1,
+   "Beige|4": 1
+  },
+  "talle": "1, 2, 3, 4"
  }
 ]
