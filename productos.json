@@ -1783,7 +1783,7 @@
   "nombre": "Legging Crudo",
   "cat": "Pantalones",
   "precio": 7000,
-  "stock": 5,
+  "stock": 4,
   "desc": "Legging color crudo, talle 0 a 5.",
   "talles": [
    "0",
@@ -1799,7 +1799,7 @@
    "|1": 1,
    "|2": 1,
    "|3": 1,
-   "|4": 1,
+   "|4": 0,
    "|5": 0
   },
   "talle": "0, 1, 2, 3, 4, 5"
