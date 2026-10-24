@@ -2293,5 +2293,273 @@
    "Beige|4": 1
   },
   "talle": "1, 2, 3, 4"
+ },
+ {
+  "id": "GIO-0167",
+  "nombre": "Jardinero Dinos Gris con Body",
+  "cat": "Enteritos",
+  "precio": 22500,
+  "stock": 3,
+  "desc": "Jardinero Dinos Gris con Body.",
+  "talles": [
+   "0-3",
+   "6-9",
+   "9-12"
+  ],
+  "img": "assets/products/jardinero-dinos-gris-con-body.webp",
+  "stockVar": {
+   "|0-3": 1,
+   "|6-9": 1,
+   "|9-12": 1
+  },
+  "talle": "0-3, 6-9, 9-12"
+ },
+ {
+  "id": "GIO-0168",
+  "nombre": "Pantalón Bambula Verde Oliva",
+  "cat": "Pantalones",
+  "precio": 10000,
+  "stock": 6,
+  "desc": "Pantalón Bambula Verde Oliva.",
+  "talles": [
+   "RN",
+   "0-3",
+   "6-9",
+   "9-12"
+  ],
+  "img": "assets/products/pantalon-bambula-verde-oliva.webp",
+  "stockVar": {
+   "|RN": 2,
+   "|0-3": 1,
+   "|6-9": 2,
+   "|9-12": 1
+  },
+  "talle": "RN, 0-3, 6-9, 9-12"
+ },
+ {
+  "id": "GIO-0169",
+  "nombre": "Body Americano de Morley",
+  "cat": "Bodies",
+  "precio": 14900,
+  "stock": 10,
+  "desc": "Body Americano de Morley. Elegí el color.",
+  "talles": [
+   "1",
+   "3",
+   "4",
+   "0",
+   "2"
+  ],
+  "img": "assets/products/body-americano-de-morley-gris.webp",
+  "colores": [
+   {
+    "nombre": "Gris",
+    "foto": "assets/products/body-americano-de-morley-gris.webp"
+   },
+   {
+    "nombre": "Blanco",
+    "foto": "assets/products/body-americano-de-morley-blanco.webp"
+   },
+   {
+    "nombre": "Beige",
+    "foto": "assets/products/body-americano-de-morley-beige.webp"
+   }
+  ],
+  "stockVar": {
+   "Gris|1": 1,
+   "Gris|3": 1,
+   "Gris|4": 2,
+   "Blanco|0": 1,
+   "Beige|1": 3,
+   "Beige|2": 1,
+   "Beige|3": 1
+  },
+  "talle": "1, 3, 4, 0, 2"
+ },
+ {
+  "id": "GIO-0170",
+  "nombre": "Body Gamise",
+  "cat": "Bodies",
+  "precio": 13500,
+  "stock": 16,
+  "desc": "Body Gamise. Elegí el color.",
+  "talles": [
+   "0",
+   "1",
+   "2",
+   "3",
+   "4"
+  ],
+  "img": "assets/products/body-gamise-rosa-pastel.webp",
+  "colores": [
+   {
+    "nombre": "Rosa pastel",
+    "foto": "assets/products/body-gamise-rosa-pastel.webp"
+   },
+   {
+    "nombre": "Celeste pastel",
+    "foto": "assets/products/body-gamise-celeste-pastel.webp"
+   },
+   {
+    "nombre": "Beige",
+    "foto": "assets/products/body-gamise-beige.webp"
+   }
+  ],
+  "stockVar": {
+   "Rosa pastel|0": 2,
+   "Rosa pastel|1": 1,
+   "Rosa pastel|2": 1,
+   "Rosa pastel|3": 1,
+   "Rosa pastel|4": 1,
+   "Celeste pastel|1": 1,
+   "Celeste pastel|2": 1,
+   "Celeste pastel|3": 1,
+   "Celeste pastel|4": 2,
+   "Beige|2": 2,
+   "Beige|3": 1,
+   "Beige|4": 2
+  },
+  "talle": "0, 1, 2, 3, 4"
+ },
+ {
+  "id": "GIO-0171",
+  "nombre": "Remera de Beba Lila",
+  "cat": "Remeras",
+  "precio": 8500,
+  "stock": 4,
+  "desc": "Remera de Beba Lila.",
+  "talles": [
+   "2",
+   "3",
+   "4",
+   "5"
+  ],
+  "img": "assets/products/remera-de-beba-lila.webp",
+  "stockVar": {
+   "|2": 1,
+   "|3": 1,
+   "|4": 1,
+   "|5": 1
+  },
+  "talle": "2, 3, 4, 5"
+ },
+ {
+  "id": "GIO-0172",
+  "nombre": "Remera Gio a Rayas",
+  "cat": "Remeras",
+  "precio": 10000,
+  "stock": 14,
+  "desc": "Remera Gio a Rayas. Elegí el color.",
+  "talles": [
+   "2",
+   "3",
+   "4",
+   "5",
+   "6"
+  ],
+  "img": "assets/products/remera-gio-a-rayas-beige.webp",
+  "colores": [
+   {
+    "nombre": "Beige",
+    "foto": "assets/products/remera-gio-a-rayas-beige.webp"
+   },
+   {
+    "nombre": "Verde agua",
+    "foto": "assets/products/remera-gio-a-rayas-verde-agua.webp"
+   },
+   {
+    "nombre": "Gris",
+    "foto": "assets/products/remera-gio-a-rayas-gris.webp"
+   }
+  ],
+  "stockVar": {
+   "Beige|2": 1,
+   "Beige|3": 1,
+   "Beige|4": 1,
+   "Beige|5": 1,
+   "Beige|6": 1,
+   "Verde agua|2": 1,
+   "Verde agua|3": 1,
+   "Verde agua|4": 1,
+   "Verde agua|5": 1,
+   "Verde agua|6": 1,
+   "Gris|3": 1,
+   "Gris|4": 1,
+   "Gris|5": 1,
+   "Gris|6": 1
+  },
+  "talle": "2, 3, 4, 5, 6"
+ },
+ {
+  "id": "GIO-0173",
+  "nombre": "Remera Hello Gris",
+  "cat": "Remeras",
+  "precio": 8500,
+  "stock": 5,
+  "desc": "Remera Hello Gris.",
+  "talles": [
+   "2",
+   "3",
+   "4",
+   "5",
+   "6"
+  ],
+  "img": "assets/products/remera-hello-gris.webp",
+  "stockVar": {
+   "|2": 1,
+   "|3": 1,
+   "|4": 1,
+   "|5": 1,
+   "|6": 1
+  },
+  "talle": "2, 3, 4, 5, 6"
+ },
+ {
+  "id": "GIO-0174",
+  "nombre": "Remera Beba Circo",
+  "cat": "Remeras",
+  "precio": 8500,
+  "stock": 5,
+  "desc": "Remera Beba Circo.",
+  "talles": [
+   "2",
+   "3",
+   "4",
+   "5",
+   "6"
+  ],
+  "img": "assets/products/remera-beba-circo.webp",
+  "stockVar": {
+   "|2": 1,
+   "|3": 1,
+   "|4": 1,
+   "|5": 1,
+   "|6": 1
+  },
+  "talle": "2, 3, 4, 5, 6"
+ },
+ {
+  "id": "GIO-0175",
+  "nombre": "Remera Beba Jardín",
+  "cat": "Remeras",
+  "precio": 8500,
+  "stock": 5,
+  "desc": "Remera Beba Jardín.",
+  "talles": [
+   "2",
+   "3",
+   "4",
+   "5",
+   "6"
+  ],
+  "img": "assets/products/remera-beba-jardin.webp",
+  "stockVar": {
+   "|2": 1,
+   "|3": 1,
+   "|4": 1,
+   "|5": 1,
+   "|6": 1
+  },
+  "talle": "2, 3, 4, 5, 6"
  }
 ]
