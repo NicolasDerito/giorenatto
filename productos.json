@@ -1546,14 +1546,14 @@
   "nombre": "Body Conejos Pink",
   "cat": "Bodies",
   "precio": 10000,
-  "stock": 2,
+  "stock": 1,
   "desc": "Body rosa con estampa de conejos.",
   "talles": [
    "2"
   ],
   "img": "assets/products/body-conejos-pink.webp",
   "stockVar": {
-   "|2": 2
+   "|2": 1
   },
   "talle": "2"
  },
