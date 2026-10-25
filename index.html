@@ -279,6 +279,13 @@ button{font:inherit;color:inherit}
 .catbar{position:sticky;top:74px;z-index:40;background:rgba(251,247,240,.9);backdrop-filter:blur(12px);border-block:1px solid var(--linea)}
 .catbar-inner{display:flex;gap:8px;padding-block:12px;overflow-x:auto;scrollbar-width:none;align-items:center}
 .catbar-inner::-webkit-scrollbar{display:none}
+.atajos-categorias{margin-top:clamp(22px,3vw,34px);max-width:610px}
+.atajos-etiqueta{display:block;margin-bottom:10px;color:var(--tinta-3);font-size:.7rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+.atajos-lista{display:flex;flex-wrap:wrap;gap:8px}
+.atajo-categoria{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border:1px solid var(--linea);border-radius:999px;background:rgba(255,253,250,.76);color:var(--tinta-2);font-size:.82rem;font-weight:700;text-decoration:none;transition:background .2s,border-color .2s,transform .2s}
+.atajo-categoria:hover{background:var(--sup);border-color:var(--oso);transform:translateY(-1px)}
+.atajo-categoria .cantidad{color:var(--tinta-3);font-size:.7rem;font-weight:600}
+@media(prefers-reduced-motion:reduce){.atajo-categoria{transition:none}}
 .chip,.pill{border:1px solid var(--linea);background:var(--sup);border-radius:999px;padding:8px 17px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;font-family:var(--texto);font-size:.83rem;font-weight:700;color:var(--tinta-2);cursor:pointer;white-space:nowrap;transition:transform .2s var(--ease),border-color .2s,color .2s}
 .chip:hover,.pill:hover{border-color:var(--oso);color:var(--tinta)}
 @media(hover:hover){.chip:hover,.pill:hover{transform:scale(1.035)}}
@@ -763,6 +770,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
         <a href="#catalogo" class="btn-primario ios-press">Descubrir el catálogo <span class="flecha" aria-hidden="true">→</span></a>
         <a href="#como" class="btn-texto">Cómo comprar</a>
       </div>
+      <nav class="atajos-categorias" aria-label="Explorar categorías">
+        <span class="atajos-etiqueta">Explorá por categoría</span>
+        <div id="atajosCategorias" class="atajos-lista"></div>
+      </nav>
       <div class="datos-local">
         <div class="dato"><b>Algodón</b>suave y premium</div>
         <div class="dato"><b>Envíos</b>a todo el país</div>
@@ -3584,6 +3595,16 @@ function tallesDisponibles(){
   PRODUCTOS.forEach(p=>(p.talles||[]).forEach(t=>set.add(String(t))));
   return [...set].sort((a,b)=>a.localeCompare(b,"es",{numeric:true}));
 }
+function renderAtajosCategorias(){
+  const el=document.getElementById("atajosCategorias");if(!el)return;
+  const preferidas=["Ajuar","Bodies","Pijamas","Conjuntos"];
+  const visibles=preferidas.filter(cat=>CATS.includes(cat)&&PRODUCTOS.some(p=>p.cat===cat&&stockTotal(p)>0&&(p.img||(p.colores&&p.colores.length))));
+  el.innerHTML=visibles.map(cat=>{
+    const cantidad=PRODUCTOS.filter(p=>p.cat===cat&&stockTotal(p)>0&&(p.img||(p.colores&&p.colores.length))).length;
+    return `<a class="atajo-categoria" href="#${slug(cat)}">${esc(cat)} <span class="cantidad">${cantidad}</span></a>`;
+  }).join("");
+  el.parentElement.hidden=!visibles.length;
+}
 function renderNav(){
   const catsConFoto=CATS.filter(cat=>PRODUCTOS.some(p=>p.cat===cat && (p.img||(p.colores&&p.colores.length))));
   document.getElementById("catbar").innerHTML=
@@ -4217,12 +4238,12 @@ function waConsulta(){gioTrack("whatsapp_click",{origen:"consulta"});window.open
 let toastTimer;
 function toast(t){const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),1700);}
 
-restaurarCarrito();renderNav();renderDestacados();renderGrupos();actualizar();
+restaurarCarrito();renderNav();renderAtajosCategorias();renderDestacados();renderGrupos();actualizar();
 // A11Y: los diálogos cerrados no deben ser alcanzables con Tab
 ["drawer","modalOv","tallesOv"].forEach(id=>{const el=document.getElementById(id);if(el&&"inert" in el)el.inert=true;});
 // Catálogo dinámico: si existe productos.json (editado desde el Admin), se usa en vez del array fijo.
 fetch("productos.json").then(r=>r.ok?r.json():null).then(lista=>{
-  if(lista&&Array.isArray(lista)&&lista.length){PRODUCTOS.splice(0,PRODUCTOS.length,...lista);CATS.length=0;CATS.push(...new Set(PRODUCTOS.map(p=>p.cat)));Object.keys(carrito).forEach(k=>delete carrito[k]);restaurarCarrito();renderNav();renderDestacados();renderGrupos();actualizar();}
+  if(lista&&Array.isArray(lista)&&lista.length){PRODUCTOS.splice(0,PRODUCTOS.length,...lista);CATS.length=0;CATS.push(...new Set(PRODUCTOS.map(p=>p.cat)));Object.keys(carrito).forEach(k=>delete carrito[k]);restaurarCarrito();renderNav();renderAtajosCategorias();renderDestacados();renderGrupos();actualizar();}
 }).catch(()=>{});
 // Vuelta desde Mercado Pago
 (function(){const q=new URLSearchParams(location.search);const pago=q.get("pago");if(!pago)return;
