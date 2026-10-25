@@ -2017,14 +2017,14 @@
   "nombre": "Body Morley Celeste",
   "cat": "Bodies",
   "precio": 12000,
-  "stock": 1,
+  "stock": 0,
   "desc": "Body celeste con estampa de animales.",
   "talles": [
    "6-9 meses"
   ],
   "img": "assets/products/body-morley-celeste.webp",
   "stockVar": {
-   "|6-9 meses": 1
+   "|6-9 meses": 0
   },
   "talle": "6-9 meses"
  },
