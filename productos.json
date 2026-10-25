@@ -2341,7 +2341,7 @@
   "nombre": "Body Americano de Morley",
   "cat": "Bodies",
   "precio": 14900,
-  "stock": 8,
+  "stock": 7,
   "desc": "Body Americano de Morley. Elegí el color.",
   "talles": [
    "1",
@@ -2367,7 +2367,7 @@
   ],
   "stockVar": {
    "Gris|1": 0,
-   "Gris|3": 1,
+   "Gris|3": 0,
    "Gris|4": 2,
    "Blanco|0": 0,
    "Beige|1": 3,
