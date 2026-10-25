@@ -1375,14 +1375,14 @@
   "nombre": "Ajuar Beige 0-3",
   "cat": "Ajuar",
   "precio": 24900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Ajuar talle 0-3 meses en tono beige, algodón suave.",
   "talles": [
    "0-3"
   ],
   "img": "assets/products/ajuar-beige-0-3.webp",
   "stockVar": {
-   "|0-3": 1
+   "|0-3": 0
   }
  },
  {
