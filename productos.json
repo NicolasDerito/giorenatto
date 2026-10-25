@@ -779,14 +779,14 @@
   "nombre": "Remera M Larga Rosa Bosque",
   "cat": "Remeras",
   "precio": 7900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Remera manga larga rosa bosque, algodón suave.",
   "talles": [
    "2"
   ],
   "img": "assets/products/remera-m-larga-rosa-bosque.webp",
   "stockVar": {
-   "|2": 1
+   "|2": 0
   },
   "talle": "2"
  },
