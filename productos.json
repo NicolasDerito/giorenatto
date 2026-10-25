@@ -189,7 +189,7 @@
   "nombre": "Body Conejitos Crudo",
   "cat": "Bodies",
   "precio": 14900,
-  "stock": 4,
+  "stock": 3,
   "desc": "Body crudo con estampa de conejitos, algodón suave.",
   "talles": [
    "1",
@@ -198,7 +198,7 @@
   ],
   "img": "assets/products/body-conejitos-crudo.webp",
   "stockVar": {
-   "|1": 1,
+   "|1": 0,
    "|5": 1,
    "|6": 2
   },
