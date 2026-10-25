@@ -1245,7 +1245,7 @@
   "nombre": "Vestido Rosa Flores",
   "cat": "Vestidos",
   "precio": 19900,
-  "stock": 2,
+  "stock": 1,
   "desc": "Vestido rosa con flores, tela suave y liviana.",
   "talles": [
    "18M",
@@ -1253,7 +1253,7 @@
   ],
   "img": "assets/products/vestido-rosa-flores.webp",
   "stockVar": {
-   "|18M": 1,
+   "|18M": 0,
    "|12-18M": 1
   },
   "talle": "18M, 12-18M"
