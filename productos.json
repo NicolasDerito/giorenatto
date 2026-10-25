@@ -1263,7 +1263,7 @@
   "nombre": "Buzo Rústico Zorritos",
   "cat": "Buzos",
   "precio": 19900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Buzo rústico con estampa de zorritos, tela suave y abrigada.",
   "talles": [
    "18M",
@@ -1272,7 +1272,7 @@
   "img": "assets/products/buzo-rustico-zorritos.webp",
   "stockVar": {
    "|18M": 0,
-   "|36M": 1
+   "|36M": 0
   },
   "talle": "18M, 36M"
  },
