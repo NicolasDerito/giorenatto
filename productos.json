@@ -1751,14 +1751,14 @@
   "nombre": "Vestido Manzana",
   "cat": "Vestidos",
   "precio": 14000,
-  "stock": 1,
+  "stock": 0,
   "desc": "Vestido blanco con estampa de manzanas.",
   "talles": [
    "2"
   ],
   "img": "assets/products/vestido-manzana.webp",
   "stockVar": {
-   "|2": 1
+   "|2": 0
   },
   "talle": "2"
  },
