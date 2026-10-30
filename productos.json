@@ -87,14 +87,14 @@
   "nombre": "Body Gelato Rosa",
   "cat": "Bodies",
   "precio": 14900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Body gelato rosa, algodón suave y delicado.",
   "talles": [
    "1"
   ],
   "img": "assets/products/body-gelato-rosa.webp",
   "stockVar": {
-   "|1": 1
+   "|1": 0
   },
   "talle": "1"
  },
