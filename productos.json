@@ -1177,14 +1177,14 @@
   "nombre": "Vestido Blanco con Rosas",
   "cat": "Vestidos",
   "precio": 19900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Vestido blanco con estampa de rosas, algodón suave.",
   "talles": [
    "24 meses"
   ],
   "img": "assets/products/vestido-blanco-rosas.webp",
   "stockVar": {
-   "|24 meses": 1
+   "|24 meses": 0
   },
   "talle": "24 meses"
  },
