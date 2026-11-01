@@ -64,9 +64,10 @@ h1{font-size:21px;margin:0;font-weight:800;letter-spacing:-.01em}
   <div class="seg" id="seg">
     <button data-p="dia">Hoy</button>
     <button data-p="semana">Semana</button>
-    <button data-p="mes">Mes</button>
+    <button data-p="mes">Mes actual</button>
     <button data-p="todo" class="on">Todo</button>
   </div>
+  <label id="mesWrap" style="display:none;align-items:center;gap:9px;margin:-6px 0 14px;color:#b9b1cc;font-size:13px;font-weight:700">Ver mes <input type="month" id="mesElegido" style="background:#1c1926;border:1px solid #322c40;color:#ece8f4;border-radius:10px;padding:8px;font:inherit"></label>
   <div class="kpis">
     <div class="kpi"><div class="l">Facturado</div><div class="v" id="kFact">—</div></div>
     <div class="kpi"><div class="l">Ganancia</div><div class="v" id="kGan">—</div></div>
@@ -107,7 +108,7 @@ h1{font-size:21px;margin:0;font-weight:800;letter-spacing:-.01em}
   var ALQ = 38000;
   var DEF = ["2026-10-12"];
   var DIAS = ["dom","lun","mar","mié","jue","vie","sáb"];
-  var ventas = [], periodo = "todo";
+  var ventas = [], periodo = "todo", mesElegido = hoy().slice(0,7);
   function $(id){ return document.getElementById(id); }
   function token(){ try{ return localStorage.getItem(CLAVE) || ""; }catch(e){ return ""; } }
   function setTok(t){ try{ localStorage.setItem(CLAVE,t); }catch(e){} }
@@ -129,7 +130,7 @@ h1{font-size:21px;margin:0;font-weight:800;letter-spacing:-.01em}
     var h = hoy();
     if(p==="dia") return [h,h];
     if(p==="semana"){ var d = new Date(h+"T12:00:00"); d.setDate(d.getDate()-6); return [iso(d),h]; }
-    if(p==="mes") return [h.slice(0,8)+"01", h];
+    if(p==="mes") { var m=mesElegido || h.slice(0,7), ini=m+"-01", fin=new Date(+m.slice(0,4),+m.slice(5,7),0), ultimo=iso(fin); return [ini, ultimo>h ? h : ultimo]; }
     var f = ventas.map(function(v){ return v.dia; }).sort()[0] || h;
     return [f,h];
   }
@@ -198,10 +199,15 @@ h1{font-size:21px;margin:0;font-weight:800;letter-spacing:-.01em}
   Array.prototype.forEach.call(document.querySelectorAll("#seg button"), function(b){
     b.addEventListener("click", function(){
       periodo = b.getAttribute("data-p");
+      $("mesWrap").style.display = periodo === "mes" ? "flex" : "none";
       Array.prototype.forEach.call(document.querySelectorAll("#seg button"), function(x){ x.classList.remove("on"); });
       b.classList.add("on"); pintar();
     });
   });
+  $("mesElegido").min = "2026-09";
+  $("mesElegido").max = hoy().slice(0,7);
+  $("mesElegido").value = mesElegido;
+  $("mesElegido").addEventListener("change", function(){ mesElegido=this.value || hoy().slice(0,7); pintar(); });
   $("bFer").addEventListener("click", function(){
     var v = $("nFer").value; if(!v) return;
     var f = feriados(); if(f.indexOf(v) < 0) f.push(v); setFer(f); $("nFer").value = ""; pintarFer(); pintar();
