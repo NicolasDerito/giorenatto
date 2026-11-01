@@ -3,7 +3,7 @@
 // caché solo si no hay internet). Fotos, logo y manifest siguen cache-first porque no cambian.
 // IMPORTANTE: cada vez que subas cambios a index.html/sw.js, subí el número de CACHE (v3, v4…)
 // para que los celus que ya instalaron la app pisen la versión vieja.
-const CACHE = "giorenatto-v65"; // v65: altas biker lila, sirena, sandía y helados // v64: lote de 15 variantes, 68 unidades
+const CACHE = "giorenatto-v66"; // v66: altas Body vestido Tokio y Jumper celeste con corazones
 const CORE = ["/", "/index.html", "/nosotros.html", "/404.html", "/logo.webp", "/logo-192.png", "/logo-512.png", "/manifest.webmanifest"];
 
 // Rutas que SIEMPRE se piden a la red primero

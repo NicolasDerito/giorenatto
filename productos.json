@@ -2642,4 +2642,61 @@
   },
   "talle": "0, 4, 3"
  }
+,
+{
+  "id": "GIO-0180",
+  "nombre": "Body vestido Tokio rosa",
+  "cat": "Vestidos",
+  "precio": 13000,
+  "stock": 3,
+  "desc": "Body vestido Tokio rosa.",
+  "talles": [
+   "3",
+   "5"
+  ],
+  "img": "assets/products/body-vestido-tokio-rosa.webp",
+  "stockVar": {
+   "|3": 2,
+   "|5": 1
+  },
+  "talle": "3, 5"
+ },
+{
+  "id": "GIO-0181",
+  "nombre": "Body vestido Tokio celeste",
+  "cat": "Vestidos",
+  "precio": 13000,
+  "stock": 5,
+  "desc": "Body vestido Tokio celeste.",
+  "talles": [
+   "2",
+   "4"
+  ],
+  "img": "assets/products/body-vestido-tokio-celeste.webp",
+  "stockVar": {
+   "|2": 2,
+   "|4": 3
+  },
+  "talle": "2, 4"
+ },
+{
+  "id": "GIO-0182",
+  "nombre": "Jumper celeste con corazones",
+  "cat": "Enteritos",
+  "precio": 15000,
+  "stock": 3,
+  "desc": "Jumper celeste con corazones.",
+  "talles": [
+   "1",
+   "4",
+   "3"
+  ],
+  "img": "assets/products/jumper-celeste-corazones.webp",
+  "stockVar": {
+   "|1": 1,
+   "|4": 1,
+   "|3": 1
+  },
+  "talle": "1, 4, 3"
+ }
 ]
