@@ -861,7 +861,7 @@
   "nombre": "Ajuar Animalitos",
   "cat": "Ajuar",
   "precio": 16900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Ajuar de bebé con estampa de animalitos: remera, pantalón, gorro y más. Elegí el color.",
   "talles": [
    "2",
@@ -884,7 +884,7 @@
   "stockVar": {
    "Celeste|2": 0,
    "Celeste|3": 0,
-   "Rosa|2": 1,
+   "Rosa|2": 0,
    "Rosa|3": 0,
    "Blanco|2": 0,
    "Blanco|3": 0
