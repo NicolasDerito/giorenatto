@@ -1213,14 +1213,14 @@
   "nombre": "Vestido Rosa Frutillita",
   "cat": "Vestidos",
   "precio": 19900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Vestido rosa con estampa de frutillitas, algodón suave.",
   "talles": [
    "36 meses"
   ],
   "img": "assets/products/vestido-rosa-frutillita.webp",
   "stockVar": {
-   "|36 meses": 1
+   "|36 meses": 0
   },
   "talle": "36 meses"
  },
