@@ -2641,9 +2641,8 @@
    "|3": 1
   },
   "talle": "0, 4, 3"
- }
-,
-{
+ },
+ {
   "id": "GIO-0180",
   "nombre": "Body vestido Tokio rosa",
   "cat": "Vestidos",
@@ -2661,12 +2660,12 @@
   },
   "talle": "3, 5"
  },
-{
+ {
   "id": "GIO-0181",
   "nombre": "Body vestido Tokio celeste",
   "cat": "Vestidos",
   "precio": 13000,
-  "stock": 5,
+  "stock": 4,
   "desc": "Body vestido Tokio celeste.",
   "talles": [
    "2",
@@ -2674,12 +2673,12 @@
   ],
   "img": "assets/products/body-vestido-tokio-celeste.webp",
   "stockVar": {
-   "|2": 2,
+   "|2": 1,
    "|4": 3
   },
   "talle": "2, 4"
  },
-{
+ {
   "id": "GIO-0182",
   "nombre": "Jumper celeste con corazones",
   "cat": "Enteritos",
