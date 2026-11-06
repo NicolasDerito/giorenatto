@@ -2683,7 +2683,7 @@
   "nombre": "Jumper celeste con corazones",
   "cat": "Enteritos",
   "precio": 15000,
-  "stock": 3,
+  "stock": 2,
   "desc": "Jumper celeste con corazones.",
   "talles": [
    "1",
@@ -2693,7 +2693,7 @@
   "img": "assets/products/jumper-celeste-corazones.webp",
   "stockVar": {
    "|1": 1,
-   "|4": 1,
+   "|4": 0,
    "|3": 1
   },
   "talle": "1, 4, 3"
