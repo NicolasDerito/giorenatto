@@ -2299,7 +2299,7 @@
   "nombre": "Jardinero Dinos Gris con Body",
   "cat": "Enteritos",
   "precio": 22500,
-  "stock": 3,
+  "stock": 2,
   "desc": "Jardinero Dinos Gris con Body.",
   "talles": [
    "0-3",
@@ -2308,7 +2308,7 @@
   ],
   "img": "assets/products/jardinero-dinos-gris-con-body.webp",
   "stockVar": {
-   "|0-3": 1,
+   "|0-3": 0,
    "|6-9": 1,
    "|9-12": 1
   },
