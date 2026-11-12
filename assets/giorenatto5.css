@@ -64,6 +64,23 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid #5e9
 .salto{position:fixed!important;top:-100px!important;left:12px!important;z-index:999;background:#2c5061;color:#fff;padding:9px 15px;border-radius:12px}.salto:focus,.salto:focus-visible{top:9px!important}
 .talles-float .talles-icon.gio5-talles-fallback::before{content:'↔';color:#698da1;font-size:1.45rem;font-weight:700}
 @media(max-width:620px){.gio5-hero-content{padding-top:21px;padding-bottom:25px}.gio5-hero h1{font-size:clamp(2.4rem,10vw,3.5rem)}.gio5-mini-trust{display:none}.gio5-primary{margin-bottom:1px}.flotantes{right:8px;bottom:12px;gap:8px}.wa-float{width:44px;height:44px}.talles-float .talles-icon{width:43px;height:43px}.talles-float .talles-badge{font-size:.54rem}}
+/* Compact featured product tiles, especially on small phone screens. */
+.destacados-simples{padding-top:26px;padding-bottom:32px}
+.destacados-simples>.cabecera{margin:0 0 16px;align-items:center}
+.destacados-simples .cabecera h2{font-family:Georgia,'Times New Roman',serif;font-size:1.75rem;font-weight:500}
+.destacados-simples .destacados-lista{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.destacados-simples .destacado{display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0;border:1px solid #e2eaed;border-radius:15px;background:#fffefa;overflow:hidden;box-shadow:0 5px 15px #4765750b}
+.destacados-simples .destacado:last-child{border-bottom:1px solid #e2eaed}
+.destacados-simples .destacado .num,.destacados-simples .destacado .info p:not(.cat),.destacados-simples .destacado .ver{display:none}
+.destacados-simples .destacado .foto{order:0;width:100%;max-width:none;aspect-ratio:1/1.08;justify-self:stretch;border-radius:0;box-shadow:none;background:#f0f6f8}
+.destacados-simples .destacado .info{order:1;padding:10px 11px 12px}
+.destacados-simples .destacado .info .cat{font-size:.6rem;letter-spacing:.1em;margin:0 0 4px}
+.destacados-simples .destacado .info h3{font:600 .87rem/1.25 system-ui,-apple-system,sans-serif;letter-spacing:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.2em}
+.destacados-simples .destacado .info .fila{margin-top:7px;gap:6px}
+.destacados-simples .destacado .info .precio{font:700 1rem/1.2 system-ui,-apple-system,sans-serif}
+@media(max-width:760px){.destacados-simples .destacados-lista{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.destacados-simples{padding-top:20px;padding-bottom:26px}}
+@media(max-width:380px){.destacados-simples .destacados-lista{gap:8px}.destacados-simples .destacado .info{padding:9px}.destacados-simples .destacado .info h3{font-size:.81rem}}
+
 /* Mobile catalog category filters remain available while scrolling. */
 @media(max-width:760px){
   .catbar{position:sticky!important;top:0!important;z-index:68!important;background:rgba(250,247,242,.96)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
