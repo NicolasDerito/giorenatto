@@ -711,6 +711,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 .familia-pie a:hover{color:var(--tinta)}
 </style>
 <link rel="stylesheet" href="assets/giorenatto5.css">
+<script defer src="assets/giorenatto5.js"></script>
+<script defer src="assets/gio5-banner.js"></script>
 </head>
 <body>
 
@@ -733,8 +735,9 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 </div>
 
 <!-- ══ encabezado ══ -->
-<div class="gio5-announcement" aria-label="Beneficios de Giorenatto">
-  <div class="gio5-wrap"><span>✧ Ropita para sus primeros momentos</span><span class="gio5-ann-sep"></span><span>Envíos a todo el país</span><span class="gio5-ann-sep"></span><span>Retiro en Outlet de Quilmes · Local J5</span></div>
+<div class="gio5-announcement" aria-label="Novedades de Giorenatto">
+  <div class="gio5-ticker" aria-hidden="true"><div class="gio5-ticker-track"><div class="gio5-ticker-group"><span>✧ Ropita para sus primeros momentos</span><span>Envíos a todo el país</span><span>Retiro en Outlet de Quilmes · Local J5</span><span>Consultas por WhatsApp</span></div><div class="gio5-ticker-group"><span>✧ Ropita para sus primeros momentos</span><span>Envíos a todo el país</span><span>Retiro en Outlet de Quilmes · Local J5</span><span>Consultas por WhatsApp</span></div></div></div>
+  <ul class="gio5-sr-only"><li>Ropita para sus primeros momentos</li><li>Envíos a todo el país</li><li>Retiro en Outlet de Quilmes, Local J5</li><li>Consultas por WhatsApp</li></ul>
 </div>
 <header id="header" class="encabezado gio5-header">
   <div class="gio5-header-main gio5-wrap">
@@ -756,15 +759,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
   <article><span class="gio5-bicon"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 14h22v14H5zM4 14l3-9h18l3 9M12 28V19h8v9"/></svg></span><div><strong>Retiro en Quilmes</strong><small>Outlet · Local J5</small></div></article>
   <article><span class="gio5-bicon"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3 27 8v8c0 6-4 10-11 13C9 26 5 22 5 16V8zM11 16l4 4 7-8"/></svg></span><div><strong>Comprá con confianza</strong><small>Te ayudamos en cada paso</small></div></article>
 </section>
-<section class="gio5-categories gio5-wrap" id="gio5-categories" aria-labelledby="gio5-categories-title">
-  <div class="gio5-heading"><span class="gio5-eyebrow">DESCUBRÍ LO QUE TENEMOS PARA VOS</span><h2 id="gio5-categories-title">Nuestras <em>categorías</em></h2><p>Un montón de ternura para cada etapa.</p></div>
-  <div class="gio5-categories-grid"><a class="gio5-cat" href="#catalogo" onclick="gio5Filtrar('Bodies')" aria-label="Explorar Bodys"><span class="gio5-cat-picture"><img src="assets/body.svg" alt="Ilustración de bodys" width="190" height="180" loading="lazy"></span><span class="gio5-cat-label">Bodys <span aria-hidden="true">↗</span></span></a>
-<a class="gio5-cat" href="#catalogo" onclick="gio5Filtrar('Conjuntos')" aria-label="Explorar Conjuntos"><span class="gio5-cat-picture"><img src="assets/conjunto.svg" alt="Ilustración de conjuntos" width="190" height="180" loading="lazy"></span><span class="gio5-cat-label">Conjuntos <span aria-hidden="true">↗</span></span></a>
-<a class="gio5-cat" href="#catalogo" onclick="gio5Filtrar('Enteritos')" aria-label="Explorar Enteritos"><span class="gio5-cat-picture"><img src="assets/enterito.svg" alt="Ilustración de enteritos" width="190" height="180" loading="lazy"></span><span class="gio5-cat-label">Enteritos <span aria-hidden="true">↗</span></span></a>
-<a class="gio5-cat" href="#catalogo" onclick="gio5Filtrar('Vestidos')" aria-label="Explorar Vestidos"><span class="gio5-cat-picture"><img src="assets/vestido.svg" alt="Ilustración de vestidos" width="190" height="180" loading="lazy"></span><span class="gio5-cat-label">Vestidos <span aria-hidden="true">↗</span></span></a>
-<a class="gio5-cat" href="#catalogo" onclick="gio5Filtrar('Accesorios')" aria-label="Explorar Accesorios"><span class="gio5-cat-picture"><img src="assets/juguete.svg" alt="Ilustración de accesorios" width="190" height="180" loading="lazy"></span><span class="gio5-cat-label">Accesorios <span aria-hidden="true">↗</span></span></a></div>
-  <div class="gio5-category-foot"><a href="#catalogo" class="gio5-textlink" onclick="gio5Filtrar('')">Explorar todos los productos <span aria-hidden="true">↗</span></a></div>
-</section>
+
 <!-- ══ cinta ══ -->
 <div class="cinta" aria-hidden="true">
   <div class="cinta-pista">
@@ -785,14 +780,9 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
   </div>
 </section>
 
-<!-- ══ destacados (numerados) ══ -->
-<section class="section destacados" id="destacados">
-  <div class="cabecera">
-    <p class="rotulo">Elegidos del taller</p>
-    <h2>Destacados</h2>
-    <div class="raya"></div>
-    <p>Prendas elegidas del catálogo, con el stock real de hoy.</p>
-  </div>
+<!-- ══ destacados sencillos ══ -->
+<section class="section destacados destacados-simples" id="destacados">
+  <div class="cabecera"><h2>Destacados</h2></div>
   <div class="destacados-lista" id="grid-destacados"></div>
 </section>
 

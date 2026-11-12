@@ -13,6 +13,14 @@
  // Fallbacks for missing original product imagery. Do NOT represent these as real merchandise.
  document.addEventListener('error',e=>{const im=e.target;if(!(im instanceof HTMLImageElement)||im.dataset.gio5Fallback)return;if((im.getAttribute('src')||'').includes('assets/products/')){im.dataset.gio5Fallback='true';im.src='assets/foto-pendiente.svg';im.classList.add('gio5-missing')}},true);
  document.querySelectorAll('img[src*="assets/products/"]').forEach(im=>{if(im.complete&&!im.naturalWidth){im.dispatchEvent(new Event('error'))}});
+ // PRODUCTOS is declared later in the page's classic inline script; wait until parsing completes.
+ document.addEventListener('DOMContentLoaded',()=>{
+  const categoryMap={Bodies:['Bodies'],Conjuntos:['Conjuntos'],Enteritos:['Enteritos'],Vestidos:['Vestidos'],Accesorios:['Juguetes','Medias','Mantas']};
+  const stockOf=p=>Object.values(p.stockVar||{}).length?Object.values(p.stockVar).reduce((n,v)=>n+(Number(v)||0),0):Number(p.stock)||0;
+  const timers=[];
+  document.querySelectorAll('.gio5-cat').forEach(card=>{const img=card.querySelector('img');if(!img)return;const label=(card.getAttribute('aria-label')||'').replace('Explorar ','');const names=categoryMap[label]||[];const products=PRODUCTOS.filter(p=>names.includes(p.cat)&&stockOf(p)>0).map(p=>({src:p.colores?.find(c=>c.foto)?.foto||p.img,name:p.nombre})).filter(p=>p.src&&!p.src.includes('foto-pendiente.svg'));if(!products.length)return;let index=-1;const show=()=>{index=(index+1)%products.length;const p=products[index];img.src=p.src;img.alt=p.name;img.dataset.stockPhoto='true'};show();if(products.length>1)timers.push(setInterval(show,3000));});
+  window.addEventListener('pagehide',()=>timers.forEach(clearInterval),{once:true});
+ });
 })();
 function gio5Filtrar(cat){
  try{
