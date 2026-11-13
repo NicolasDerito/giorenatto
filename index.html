@@ -611,8 +611,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
   .talle-btn{padding:8px 14px;min-height:44px}
   .modal-meta .row{align-items:flex-start;flex-wrap:wrap}
   .modal-meta .row b{min-width:64px}
-  .modal-add{position:sticky;bottom:0;z-index:2;margin-top:6px;box-shadow:0 -12px 18px -10px var(--sup),0 -1px 0 var(--linea)}
-  .modal-add{position:sticky;bottom:0;z-index:2;margin-top:12px;box-shadow:0 -14px 20px -8px var(--sup),0 -1px 0 var(--linea)}
+  .modal-add{position:sticky;bottom:0;z-index:2;margin-top:4px;min-height:52px;padding:14px 16px;box-shadow:0 -12px 18px -10px var(--sup),0 -1px 0 var(--linea)}
   .pie-grilla{grid-template-columns:1fr}
   .etiqueta-flotante{left:auto;right:14px;bottom:14px;max-width:200px}
   .medallon{width:88px;height:88px;top:-10px;right:auto;left:-10px}
@@ -903,7 +902,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 <div class="overlay" id="overlay" onclick="cerrarCarrito()"></div>
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Tu carrito">
   <div class="drawer-head"><div><h3>Tu carrito</h3><p class="sub">Pedido · Giorenatto</p></div><button class="close" onclick="cerrarCarrito()" aria-label="Cerrar carrito">×</button></div>
-  <div class="checkout-mobile-progress" aria-label="Pasos de compra"><span data-checkout-progress="1">1 · Datos</span><span data-checkout-progress="2">2 · Entrega</span><span data-checkout-progress="3">3 · Pago</span></div>
+  <div class="checkout-mobile-progress" aria-label="Pasos de compra" role="list" aria-live="polite"><span role="listitem" data-checkout-progress="1">1 · Pedido y datos</span><span role="listitem" data-checkout-progress="2">2 · Entrega</span><span role="listitem" data-checkout-progress="3">3 · Pago</span></div>
   <div class="drawer-body">
   <section class="checkout-mobile-step current" data-checkout-step="1">
     <h4 class="checkout-stage-title">1 · Revisá tu pedido</h4>
@@ -4037,6 +4036,7 @@ function abrirModal(id){
       ${stockNote}
       ${selectorColor}
       ${selectorTalle}
+      <button class="modal-add ios-press" id="modalAdd" onclick="agregarDesdeModal('${esc(p.id)}',this)" ${(sinStock||agotado)?'disabled':''}>${sinStock?'Sin stock en ese color y talle':(agotado?'Ya tenés todo el stock en el carrito':'Agregar al carrito')}</button>
       <div class="modal-meta">
         <div class="row"><b>Detalle</b> <span>${esc(p.desc||"")}</span></div>
       </div>
@@ -4044,7 +4044,6 @@ function abrirModal(id){
         <button type="button" class="modal-sec" onclick="abrirTalles()">📏 Tabla de talles</button>
         <button type="button" class="modal-sec" onclick="waConsulta()">💬 Preguntar por WhatsApp</button>
       </div>
-      <button class="modal-add ios-press" id="modalAdd" onclick="agregarDesdeModal('${esc(p.id)}',this)" ${(sinStock||agotado)?'disabled':''}>${sinStock?'Sin stock en ese color y talle':(agotado?'Ya tenés todo el stock en el carrito':'Agregar al carrito')}</button>
       ${relHTML}
     </div>`;
   const ov=document.getElementById("modalOv");
@@ -4368,7 +4367,7 @@ function actualizarCheckoutMovil(){
   if(body)body.classList.toggle("checkout-payment-step",!movil||pasoCheckout===3);
   const back=document.getElementById("checkoutBack"),next=document.getElementById("checkoutNext");
   if(back)back.hidden=pasoCheckout===1;
-  if(next){next.hidden=pasoCheckout===3;next.textContent=pasoCheckout===2?"Ver pago":"Continuar";}
+  if(next){next.hidden=pasoCheckout===3;next.textContent=pasoCheckout===2?"Ver resumen y pago":"Continuar a entrega";}
   const count=Object.values(carrito).reduce((n,i)=>n+i.cantidad,0);
   const countEl=document.getElementById("checkoutItemsCount"),totalEl=document.getElementById("checkoutStepTotal");
   if(countEl)countEl.textContent=count+" "+(count===1?"prenda":"prendas");
