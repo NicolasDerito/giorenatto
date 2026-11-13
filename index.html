@@ -598,9 +598,20 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
   .card .name{font-size:.98rem}
   .card .precio{font-size:1.25rem}
   .catbar{top:64px}
-  .modal{grid-template-columns:1fr;max-height:94dvh;overflow-y:auto}
-  .modal-img{aspect-ratio:4/5;min-height:0;height:min(44dvh,360px);width:auto;justify-self:center;border-radius:var(--r-sm);margin-top:10px}
-  .modal-info{overflow:visible}
+  .modal{grid-template-columns:minmax(0,1fr);max-height:calc(100dvh - 16px);max-height:calc(100svh - 16px);overflow-y:auto;overscroll-behavior:contain;border-radius:16px;width:min(100%,560px)}
+  .modal-ov{padding:8px;place-items:center}
+  .modal-img{aspect-ratio:4/3;min-height:0;height:clamp(170px,30svh,270px);width:100%;justify-self:stretch;border-radius:0;margin:0}
+  .modal-img .modal-img-foto{object-fit:contain;padding:8px}
+  .modal-info{overflow:visible;padding:18px 18px calc(18px + env(safe-area-inset-bottom));gap:10px}
+  .modal-info h3{font-size:clamp(1.35rem,5vw,1.75rem);line-height:1.15;padding-right:32px;overflow-wrap:anywhere}
+  .modal-price{font-size:1.7rem}
+  .stock-state{white-space:normal;max-width:100%;flex-wrap:wrap;border-radius:12px}
+  .modal-stock-note{margin:0}
+  .modal-talles{gap:8px}
+  .talle-btn{padding:8px 14px;min-height:44px}
+  .modal-meta .row{align-items:flex-start;flex-wrap:wrap}
+  .modal-meta .row b{min-width:64px}
+  .modal-add{position:sticky;bottom:0;z-index:2;margin-top:6px;box-shadow:0 -12px 18px -10px var(--sup),0 -1px 0 var(--linea)}
   .modal-add{position:sticky;bottom:0;z-index:2;margin-top:12px;box-shadow:0 -14px 20px -8px var(--sup),0 -1px 0 var(--linea)}
   .pie-grilla{grid-template-columns:1fr}
   .etiqueta-flotante{left:auto;right:14px;bottom:14px;max-width:200px}
@@ -749,7 +760,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
       <button type="button" class="gio5-cart cart-btn" onclick="abrirCarrito()" aria-haspopup="dialog" aria-label="Abrir carrito"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.1 10.5h11.6l2.2-8.5H6"/><circle cx="10" cy="20" r="1.1"/><circle cx="18" cy="20" r="1.1"/></svg><span>Mi carrito</span><span class="cart-count" id="cartCount" style="display:none">0</span><span class="cart-cupon" id="cartCupon" hidden>Descuento</span></button>
     </div>
   </div>
-  <nav class="gio5-menu" id="gio5-menu" aria-label="Navegación principal"><a href="#arriba">Inicio</a><a href="#destacados">Favoritos</a><a href="#catalogo" onclick="gio5Filtrar('Bodies')">Bodies</a><a href="#catalogo" onclick="gio5Filtrar('Conjuntos')">Conjuntos</a><a href="#catalogo" onclick="gio5Filtrar('Enteritos')">Enteritos</a><a href="#catalogo" onclick="gio5Filtrar('Vestidos')">Vestidos</a><a href="#catalogo" onclick="gio5Filtrar('Accesorios')">Accesorios</a><a href="nosotros.html">Nosotros</a></nav>
+  <nav class="gio5-menu" id="gio5-menu" aria-label="Navegación principal"><a href="#arriba">Inicio</a><a href="#catalogo" onclick="gio5Filtrar('Bodies')">Bodies</a><a href="#catalogo" onclick="gio5Filtrar('Conjuntos')">Conjuntos</a><a href="#catalogo" onclick="gio5Filtrar('Enteritos')">Enteritos</a><a href="#catalogo" onclick="gio5Filtrar('Vestidos')">Vestidos</a><a href="#catalogo" onclick="gio5Filtrar('Accesorios')">Accesorios</a><a href="nosotros.html">Nosotros</a></nav>
 </header>
 <main id="arriba">
 <!-- ══ hero ══ -->
@@ -778,12 +789,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
       <a href="nosotros.html">Conocé nuestra historia →</a>
     </div>
   </div>
-</section>
-
-<!-- ══ destacados sencillos ══ -->
-<section class="section destacados destacados-simples" id="destacados">
-  <div class="cabecera"><h2>Destacados</h2></div>
-  <div class="destacados-lista" id="grid-destacados"></div>
 </section>
 
 <!-- ══ catálogo ══ -->
@@ -3913,11 +3918,7 @@ function destacadoHTML(p,i){
   </article>`;
 }
 function renderDestacados(){
-  const cont=document.getElementById("grid-destacados");
-  const lista=DESTACADOS.map(id=>PRODUCTOS.find(x=>x.id===id)).filter(p=>p&&stockTotal(p)>0&&(p.img||(p.colores&&p.colores.length)));
-  const destacados=lista.map((p,i)=>destacadoHTML(p,i)).join("");
-  cont.innerHTML=destacados;
-  document.getElementById("destacados").style.display=destacados?"block":"none";
+  // Sección retirada por pedido; mantener la llamada legacy sin renderizar nada.
   etiquetaHero();
 }
 function renderGrupos(){
@@ -3934,8 +3935,6 @@ function renderGrupos(){
   });
   if(total===0){html=`<div class="no-results"><span class="e">🔍</span>No encontramos prendas con ese filtro.<br>Probá con otra búsqueda o talle.</div>`;}
   cont.innerHTML=html;
-  // destacados solo sin filtro
-  document.getElementById("destacados").style.display=hayFiltro?"none":"block";
 }
 function cardHTML(p,fav){
   const enCarrito=Object.values(carrito).filter(i=>i.producto.id===p.id).reduce((s,i)=>s+i.cantidad,0);
@@ -4146,7 +4145,7 @@ function actualizar(){
   sincronizarCupon(subtotal);
   const descAplicado=descuentoVigente(subtotal);
   const totalEl=document.getElementById("total");totalEl.textContent=subtotal>0?fmt(Math.max(0,subtotal-descAplicado)+(entrega==='envio'?costoEnvio:0)):"Consultar";
-  const mpBtn=document.getElementById("mp-btn");mpBtn.disabled=count===0||subtotal===0;mpBtn.style.display=(BACKEND_URL||MP_LINK)?"":"none";
+  const mpBtn=document.getElementById("mp-btn");if(mpBtn){mpBtn.disabled=count===0||subtotal===0;mpBtn.style.display=(BACKEND_URL||MP_LINK)?"":"none";}
   recalcularEnvio();
   actualizarPaso();
   const cont=document.getElementById("items");
