@@ -2256,7 +2256,7 @@
   "nombre": "Conjunto Remera Algodón + Short Waffle",
   "cat": "Conjuntos",
   "precio": 15000,
-  "stock": 12,
+  "stock": 11,
   "desc": "Conjunto de remera de algodón y short waffle. Elegí el color.",
   "talles": [
    "1",
@@ -2288,7 +2288,7 @@
    "Rosa|3": 1,
    "Rosa|4": 1,
    "Beige|1": 1,
-   "Beige|2": 1,
+   "Beige|2": 0,
    "Beige|3": 1,
    "Beige|4": 1
   },
