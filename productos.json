@@ -2495,7 +2495,7 @@
   "nombre": "Remera Hello Gris",
   "cat": "Remeras",
   "precio": 8500,
-  "stock": 5,
+  "stock": 4,
   "desc": "Remera Hello Gris.",
   "talles": [
    "2",
@@ -2506,7 +2506,7 @@
   ],
   "img": "assets/products/remera-hello-gris.webp",
   "stockVar": {
-   "|2": 1,
+   "|2": 0,
    "|3": 1,
    "|4": 1,
    "|5": 1,
