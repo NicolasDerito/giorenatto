@@ -2665,7 +2665,7 @@
   "nombre": "Body vestido Tokio celeste",
   "cat": "Vestidos",
   "precio": 13000,
-  "stock": 4,
+  "stock": 3,
   "desc": "Body vestido Tokio celeste.",
   "talles": [
    "2",
@@ -2673,7 +2673,7 @@
   ],
   "img": "assets/products/body-vestido-tokio-celeste.webp",
   "stockVar": {
-   "|2": 1,
+   "|2": 0,
    "|4": 3
   },
   "talle": "2, 4"
