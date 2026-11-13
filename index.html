@@ -336,16 +336,20 @@ button{font:inherit;color:inherit}
 /* ---------- cómo comprar ---------- */
 .pasos-tira{background:var(--papel-2);border-block:1px solid var(--linea)}
 .pasos-tira .envoltura{max-width:var(--cont);margin-inline:auto;padding-inline:var(--gutter)}
-.pasos{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,2.4vw,34px)}
-.paso{position:relative;padding-top:22px;border-top:2px solid var(--oso)}
-.paso .num{font-family:var(--display);font-style:italic;font-size:1.05rem;color:var(--oso-deep);font-weight:600}
-.paso .ico{font-size:1.5rem;margin:10px 0 4px;position:relative;display:inline-block;transition:transform .3s var(--spring)}
+.pasos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2vw,24px);counter-reset:paso;position:relative}
+.paso{position:relative;isolation:isolate;overflow:hidden;min-height:210px;padding:22px 20px 20px;border:1px solid rgba(103,136,154,.18);border-radius:24px;background:linear-gradient(155deg,rgba(255,255,255,.94),rgba(241,247,249,.88));box-shadow:0 10px 28px rgba(68,99,117,.07);transition:transform .35s var(--ease),box-shadow .35s,border-color .35s}
+.paso::before{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(230px circle at var(--mx,50%) var(--my,0%),rgba(212,230,237,.72),transparent 70%);opacity:.72;transition:opacity .3s}
+.paso::after{content:"";position:absolute;left:20px;right:20px;top:0;height:3px;border-radius:0 0 4px 4px;background:linear-gradient(90deg,#b7d2dd,#d7bea0,#e5b5ba);opacity:.8}
+.paso:hover{transform:translateY(-6px);border-color:rgba(103,136,154,.38);box-shadow:0 18px 38px rgba(68,99,117,.14)}
+.paso .num{font-family:var(--display);font-style:italic;font-size:.9rem;color:#68899a;font-weight:700;letter-spacing:.12em}
+.paso .ico{width:52px;height:52px;display:grid;place-items:center;font-size:1.5rem;margin:18px 0 12px;position:relative;border:1px solid rgba(103,136,154,.18);border-radius:17px;background:linear-gradient(145deg,#fff,#e9f2f5);box-shadow:0 5px 14px rgba(68,99,117,.09);transition:transform .35s var(--spring),box-shadow .35s}
 .paso .ico::after,.item .ico::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(165deg,rgba(255,255,255,.75) 0%,rgba(255,255,255,.15) 45%,rgba(255,255,255,0) 60%);pointer-events:none}
 .paso:hover .ico{transform:translateY(-4px) scale(1.08) rotate(-3deg)}
 .paso .ico.wiggle,.item .ico.wiggle,.talles-float.wiggle .talles-icon{animation:iosWiggle .55s ease-in-out}
 @keyframes iosWiggle{0%{transform:rotate(0deg)}15%{transform:rotate(-8deg)}30%{transform:rotate(7deg)}45%{transform:rotate(-6deg)}60%{transform:rotate(5deg)}75%{transform:rotate(-3deg)}100%{transform:rotate(0deg)}}
-.paso h4{font-family:var(--display);font-variation-settings:'opsz' 40;font-size:1.16rem;font-weight:500;margin:8px 0 8px}
-.paso p{font-size:.9rem;color:var(--tinta-2)}
+.paso:hover .ico{transform:translateY(-3px) scale(1.08) rotate(-4deg);box-shadow:0 10px 22px rgba(68,99,117,.15)}
+.paso h4{font-family:var(--display);font-variation-settings:'opsz' 40;font-size:1.16rem;font-weight:600;margin:8px 0;color:#3e5c6c}
+.paso p{font-size:.88rem;line-height:1.6;color:var(--tinta-2)}
 .faq{margin-top:clamp(34px,4.4vw,58px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px;max-width:1080px}
 .faq details{border:1px solid var(--linea);border-radius:var(--r-sm);background:var(--sup);overflow:hidden}
 .faq summary{cursor:pointer;list-style:none;padding:16px 20px;font-weight:700;font-size:.95rem;display:flex;justify-content:space-between;gap:14px;align-items:center}
@@ -588,6 +592,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
   .talles-ov,.modal-ov{backdrop-filter:none;-webkit-backdrop-filter:none}
 }
 @media(max-width:760px){
+  .pasos{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .paso{min-height:200px;padding:19px 17px}
   .topbar .envoltura{font-size:.74rem}
   .search{display:none}
   .brand .nom{font-size:1.2rem}
