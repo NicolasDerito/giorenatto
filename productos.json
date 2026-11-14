@@ -1281,14 +1281,14 @@
   "nombre": "Campera Rústica",
   "cat": "Camperas",
   "precio": 20500,
-  "stock": 1,
+  "stock": 0,
   "desc": "Campera rústica, bien abrigada.",
   "talles": [
    "24M"
   ],
   "img": "assets/products/campera-rustica.webp",
   "stockVar": {
-   "|24M": 1
+   "|24M": 0
   },
   "talle": "24M"
  },
