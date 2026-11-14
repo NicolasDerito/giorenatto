@@ -1835,7 +1835,7 @@
   "nombre": "Legging Verde",
   "cat": "Pantalones",
   "precio": 7000,
-  "stock": 1,
+  "stock": 0,
   "desc": "Legging color verde, talle 0 a 5.",
   "talles": [
    "0",
@@ -1849,7 +1849,7 @@
   "stockVar": {
    "|0": 0,
    "|1": 0,
-   "|2": 1,
+   "|2": 0,
    "|3": 0,
    "|4": 0,
    "|5": 0
