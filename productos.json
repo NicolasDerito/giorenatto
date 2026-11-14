@@ -1496,14 +1496,14 @@
   "nombre": "Enterito Happy Amarillo",
   "cat": "Enteritos",
   "precio": 15000,
-  "stock": 1,
+  "stock": 0,
   "desc": "Enterito amarillo con estampa Happy.",
   "talles": [
    "5"
   ],
   "img": "assets/products/enterito-happy-amarillo.webp",
   "stockVar": {
-   "|5": 1
+   "|5": 0
   },
   "talle": "5"
  },
