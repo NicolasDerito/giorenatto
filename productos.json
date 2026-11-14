@@ -121,14 +121,14 @@
   "nombre": "Body Mameluco",
   "cat": "Bodies",
   "precio": 14900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Body tipo mameluco, práctico para el cambiado.",
   "talles": [
    "3"
   ],
   "img": "assets/products/body-mameluco.webp",
   "stockVar": {
-   "|3": 1
+   "|3": 0
   },
   "talle": "3"
  },
