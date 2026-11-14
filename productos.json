@@ -1022,7 +1022,7 @@
   "cat": "Pijamas",
   "talle": "2",
   "precio": 22500,
-  "stock": 1,
+  "stock": 0,
   "desc": "Pijama de sonrisas gris y azul. Algodón suave, talle bebé.",
   "img": "assets/products/pijama-sonrisas-gris-azul.webp"
  },
