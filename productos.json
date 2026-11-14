@@ -581,14 +581,14 @@
   "nombre": "Conjunto Flower Beige",
   "cat": "Conjuntos",
   "precio": 24900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Conjunto beige con estampa de flores, algodón suave.",
   "talles": [
    "9-12 meses"
   ],
   "img": "assets/products/conjunto-flower-beige.webp",
   "stockVar": {
-   "|9-12 meses": 1
+   "|9-12 meses": 0
   },
   "talle": "9-12 meses"
  },
