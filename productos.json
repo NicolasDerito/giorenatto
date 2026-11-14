@@ -513,7 +513,7 @@
   "nombre": "Body Short Musculosa Beige",
   "cat": "Bodies",
   "precio": 19900,
-  "stock": 3,
+  "stock": 2,
   "desc": "Body short musculosa beige, algodón suave.",
   "talles": [
    "RN",
@@ -524,7 +524,7 @@
   "stockVar": {
    "|RN": 1,
    "|6-9 meses": 1,
-   "|9-12 meses": 1
+   "|9-12 meses": 0
   },
   "talle": "RN, 6-9 meses, 9-12 meses"
  },
