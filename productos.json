@@ -1101,14 +1101,14 @@
   "nombre": "Conjunto Rústico Flores",
   "cat": "Conjuntos",
   "precio": 32900,
-  "stock": 1,
+  "stock": 0,
   "desc": "Conjunto rústico beige con estampa de flores y botones en el pantalón, algodón suave.",
   "talles": [
    "12-18 meses"
   ],
   "img": "assets/products/conjunto-rustico-flores.webp",
   "stockVar": {
-   "|12-18 meses": 1
+   "|12-18 meses": 0
   },
   "talle": "12-18 meses"
  },
