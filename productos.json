@@ -1360,14 +1360,14 @@
   "nombre": "Pantalón Cargo Verde",
   "cat": "Pantalones",
   "precio": 12000,
-  "stock": 1,
+  "stock": 0,
   "desc": "Pantalón cargo verde, cómodo y resistente.",
   "talles": [
    "12M"
   ],
   "img": "assets/products/pantalon-cargo-verde.webp",
   "stockVar": {
-   "|12M": 1
+   "|12M": 0
   }
  },
  {
