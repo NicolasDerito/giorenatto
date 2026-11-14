@@ -4,7 +4,7 @@
   "nombre": "Ajuar Algodón Pima",
   "cat": "Ajuar",
   "precio": 24900,
-  "stock": 2,
+  "stock": 1,
   "desc": "Ajuar de algodón pima hipoalergénico con estampa de monitos: remera, pantalón y gorro. Elegí el color.",
   "talles": [
    "0-3"
@@ -25,7 +25,7 @@
   ],
   "stockVar": {
    "Blanco|0-3": 1,
-   "Celeste|0-3": 1,
+   "Celeste|0-3": 0,
    "Rosa|0-3": 0
   },
   "talle": "0-3"
