@@ -2201,7 +2201,7 @@
   "nombre": "Conjunto Oversized Beige",
   "cat": "Conjuntos",
   "precio": 22000,
-  "stock": 3,
+  "stock": 2,
   "desc": "Conjunto de remera y short manga corta, beige.",
   "talles": [
    "1",
@@ -2212,7 +2212,7 @@
   "stockVar": {
    "|1": 1,
    "|2": 1,
-   "|4": 1
+   "|4": 0
   },
   "talle": "1, 2, 4"
  },
