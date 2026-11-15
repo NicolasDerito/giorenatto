@@ -2381,7 +2381,7 @@
   "nombre": "Body Gamise",
   "cat": "Bodies",
   "precio": 13500,
-  "stock": 16,
+  "stock": 15,
   "desc": "Body Gamise. Elegí el color.",
   "talles": [
    "0",
@@ -2415,7 +2415,7 @@
    "Celeste pastel|2": 1,
    "Celeste pastel|3": 1,
    "Celeste pastel|4": 2,
-   "Beige|2": 2,
+   "Beige|2": 1,
    "Beige|3": 1,
    "Beige|4": 2
   },
