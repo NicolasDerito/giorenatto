@@ -2033,14 +2033,14 @@
   "nombre": "Body Verde Selva",
   "cat": "Bodies",
   "precio": 12000,
-  "stock": 1,
+  "stock": 0,
   "desc": "Body verde con estampa de animales.",
   "talles": [
    "12-18 meses"
   ],
   "img": "assets/products/body-verde-selva.webp",
   "stockVar": {
-   "|12-18 meses": 1
+   "|12-18 meses": 0
   },
   "talle": "12-18 meses"
  },
