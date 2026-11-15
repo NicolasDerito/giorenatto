@@ -421,7 +421,7 @@
   "nombre": "Enterito Good Vibes Verde",
   "cat": "Enteritos",
   "precio": 22000,
-  "stock": 2,
+  "stock": 1,
   "desc": "Enterito verde con estampa Good Vibes, algodón suave.",
   "talles": [
    "3-6 meses",
@@ -429,7 +429,7 @@
   ],
   "img": "assets/products/enterito-good-vibes-verde.webp",
   "stockVar": {
-   "|3-6 meses": 1,
+   "|3-6 meses": 0,
    "|6-9 meses": 1
   },
   "talle": "3-6 meses, 6-9 meses"
